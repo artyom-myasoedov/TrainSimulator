@@ -32,7 +32,7 @@ public abstract class Locomotive extends Wagon {
 
     public abstract void stopEngine();
 
-    public void moveNext() {
+    public void moveForward() {
         if (engine == Conditions.DISABLED) {
             startEngine();
         }

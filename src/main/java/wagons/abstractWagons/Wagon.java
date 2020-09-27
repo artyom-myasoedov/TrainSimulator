@@ -7,24 +7,6 @@ public abstract class Wagon {
     protected final int weight;
     protected BigDecimal age;
     protected BigDecimal condition;
-    protected Wagon neighborNext;
-    protected Wagon neighborBehind;
-
-    public Wagon getNeighborNext() {
-        return neighborNext;
-    }
-
-    public void setNeighborNext(Wagon neighborNext) {
-        this.neighborNext = neighborNext;
-    }
-
-    public Wagon getNeighborBehind() {
-        return neighborBehind;
-    }
-
-    public void setNeighborBehind(Wagon neighborBehind) {
-        this.neighborBehind = neighborBehind;
-    }
 
     public int getWeight() {
         return weight;
