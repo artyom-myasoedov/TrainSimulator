@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 public class ElectricLocomotive extends Locomotive {
     private Conditions powerGridConnection;
 
-    public ElectricLocomotive(int weight, BigDecimal age, BigDecimal condition, BigDecimal maxSpeed, int power, Conditions powerGridConnection) {
-        super(weight, age, condition, power, maxSpeed);
+    public ElectricLocomotive(BigDecimal age, BigDecimal condition, Conditions powerGridConnection) {
+        super(7000, age, condition, 100000, new BigDecimal("100.00"));
         this.powerGridConnection = powerGridConnection;
     }
 
@@ -26,7 +26,7 @@ public class ElectricLocomotive extends Locomotive {
         if (powerGridConnection == Conditions.ENABLED) {
             System.out.println("Start electric engine");
         } else {
-            System.out.println("Locomotive is not connected to the power grid!");
+            throw new IllegalArgumentException();
         }
     }
 

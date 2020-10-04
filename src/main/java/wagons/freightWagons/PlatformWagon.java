@@ -3,8 +3,8 @@ package wagons.freightWagons;
 import java.math.BigDecimal;
 
 public class PlatformWagon extends wagons.abstractWagons.FreightWagon {
-    public PlatformWagon(int weight, BigDecimal age, BigDecimal condition, int maxCarrying) {
-        super(weight, age, condition, maxCarrying);
+    public PlatformWagon(BigDecimal age, BigDecimal condition) {
+        super(1500, age, condition, 4000);
     }
 
     @Override
@@ -13,7 +13,7 @@ public class PlatformWagon extends wagons.abstractWagons.FreightWagon {
             currentCargoWeight += weight;
             System.out.println("Cargo is loaded to platform wagon");
         } else {
-            System.out.println("Overload!");
+            throw new IllegalArgumentException();
         }
     }
 

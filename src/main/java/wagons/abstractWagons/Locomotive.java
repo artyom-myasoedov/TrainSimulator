@@ -33,14 +33,14 @@ public abstract class Locomotive extends Wagon {
     public abstract void stopEngine();
 
     public void moveForward() {
-        if (engine == Conditions.DISABLED) {
+        if (!isEngineWork()) {
             startEngine();
         }
         System.out.println("This locomotive start moving next");
     }
 
     public void moveBehind() {
-        if (engine == Conditions.DISABLED) {
+        if (!isEngineWork()) {
             startEngine();
         }
         System.out.println("This locomotive start moving behind");

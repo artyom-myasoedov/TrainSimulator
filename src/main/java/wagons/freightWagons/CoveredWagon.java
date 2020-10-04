@@ -5,8 +5,8 @@ import wagons.Conditions;
 import java.math.BigDecimal;
 
 public class CoveredWagon extends OpeningWagons {
-    public CoveredWagon(int weight, BigDecimal age, BigDecimal condition, int maxCarrying) {
-        super(weight, age, condition, maxCarrying);
+    public CoveredWagon(BigDecimal age, BigDecimal condition) {
+        super(2500, age, condition, 2000);
     }
 
     @Override
@@ -18,7 +18,7 @@ public class CoveredWagon extends OpeningWagons {
             currentCargoWeight += weight;
             System.out.println("Cargo is loaded to covered wagon");
         } else {
-            System.out.println("Overload!");
+            throw new IllegalArgumentException();
         }
 
     }

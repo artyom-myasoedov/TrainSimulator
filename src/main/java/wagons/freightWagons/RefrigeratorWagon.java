@@ -9,10 +9,10 @@ public class RefrigeratorWagon extends OpeningWagons {
     private final BigDecimal maxTemperature;
     private final BigDecimal minTemperature;
 
-    public RefrigeratorWagon(int weight, BigDecimal age, BigDecimal condition, int maxCarrying, BigDecimal maxTemperature, BigDecimal minTemperature) {
-        super(weight, age, condition, maxCarrying);
-        this.maxTemperature = maxTemperature;
-        this.minTemperature = minTemperature;
+    public RefrigeratorWagon(BigDecimal age, BigDecimal condition) {
+        super(3000, age, condition, 1500);
+        this.maxTemperature = new BigDecimal("25.00");
+        this.minTemperature = new BigDecimal("-25.00");
         currentTemperature = new BigDecimal("0.00");
     }
 

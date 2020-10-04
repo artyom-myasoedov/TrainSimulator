@@ -1,38 +1,31 @@
 package trains;
 
 import wagons.abstractWagons.FreightWagon;
-import wagons.abstractWagons.PassengerWagon;
-import wagons.abstractWagons.Wagon;
+import wagons.abstractWagons.Locomotive;
 
-import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.List;
 
-public class FreightTrain extends Train {
+public class FreightTrain<T extends FreightWagon> extends Train<T> {
     private int totalMaxCarrying;
     private int totalCurrentCargoWeight;
 
     public FreightTrain() {
+        super();
         totalMaxCarrying = 0;
         totalCurrentCargoWeight = 0;
     }
 
-    public FreightTrain(LinkedList<Wagon> wagons) {
+    public FreightTrain(List<T> wagons, List<Locomotive> locomotives) {
+        super(wagons, locomotives);
+        countTotalMaxCarrying();
+        countTotalCurrentCargoWeight();
+    }
+
+    public FreightTrain(List<T> wagons) {
         super(wagons);
-        if (locomotiveCount == 0) {
-            totalMaxCarrying = 0;
-            totalCurrentCargoWeight = 0;
-        } else {
-            if (checkToCorrectFreightTrain(wagons)) {
-                countTotalMaxCarryingAndCargoWeight();
-            } else {
-                System.out.println("List of wagons contains freight wagons!");
-                this.wagons = new LinkedList<>();
-                locomotiveCount = 0;
-                totalPower = 0;
-                totalWagonsWeight = 0;
-                totalMaxCarrying = 0;
-                totalCurrentCargoWeight = 0;
-            }
-        }
+        countTotalMaxCarrying();
+        countTotalCurrentCargoWeight();
     }
 
     public int getTotalMaxCarrying() {
@@ -43,46 +36,46 @@ public class FreightTrain extends Train {
         return totalCurrentCargoWeight;
     }
 
-    public void addWagon(Wagon wagon) {
-        if (!(wagon instanceof PassengerWagon)) {
-            super.addWagon(wagon);
-            if (wagon instanceof FreightWagon) {
-                FreightWagon freightWagon = ((FreightWagon) wagon);
-                totalMaxCarrying += freightWagon.getMaxCarrying();
-                totalCurrentCargoWeight += freightWagon.getCurrentCargoWeight();
-            }
-        } else {
-            System.out.println(" You can't add passenger wagon!");
-        }
+    public int getTotalWeight() {
+        return getTotalWagonsWeight() + getTotalCurrentCargoWeight();
     }
 
-    public Wagon unhookWagon() {
-        FreightWagon freightWagon;
-        Wagon wagon;
-        if ((wagon = super.unhookWagon()) instanceof FreightWagon) {
-            freightWagon = (FreightWagon) wagon;
-            totalCurrentCargoWeight -= freightWagon.getCurrentCargoWeight();
-            totalMaxCarrying -= freightWagon.getMaxCarrying();
-        }
+    public void addHeadWagon(T wagon) {
+        super.addHeadWagon(wagon);
+        totalCurrentCargoWeight += wagon.getCurrentCargoWeight();
+        totalMaxCarrying += wagon.getMaxCarrying();
+    }
+
+    public void addTailWagon(T wagon) {
+        super.addTailWagon(wagon);
+        totalCurrentCargoWeight += wagon.getCurrentCargoWeight();
+        totalMaxCarrying += wagon.getMaxCarrying();
+    }
+
+    public T unhookHeadWagon() {
+        T wagon = super.unhookHeadWagon();
+        totalMaxCarrying -= wagon.getMaxCarrying();
+        totalCurrentCargoWeight -= wagon.getCurrentCargoWeight();
         return wagon;
     }
 
-    private boolean checkToCorrectFreightTrain(LinkedList<Wagon> wagons) {
-        for (Wagon wagon :
-                wagons) {
-            if (wagon instanceof PassengerWagon) {
-                return false;
-            }
-        }
-        return true;
+    public T unhookTailWagon() {
+        T wagon = super.unhookTailWagon();
+        totalMaxCarrying -= wagon.getMaxCarrying();
+        totalCurrentCargoWeight -= wagon.getCurrentCargoWeight();
+        return wagon;
     }
 
-    private void countTotalMaxCarryingAndCargoWeight() {
-        int i = locomotiveCount;
-        while (i < wagons.size()) {
-            FreightWagon freightWagon = (FreightWagon) wagons.get(i);
-            totalCurrentCargoWeight += freightWagon.getCurrentCargoWeight();
-            totalMaxCarrying += freightWagon.getMaxCarrying();
-        }
+    private void countTotalMaxCarrying() {
+        totalMaxCarrying = wagons.stream().reduce(0, (x ,y) -> x + y.getMaxCarrying(), Integer::sum);
+    }
+
+    private void countTotalCurrentCargoWeight() {
+        totalCurrentCargoWeight = wagons.stream().reduce(0, (x ,y) -> x + y.getCurrentCargoWeight(), Integer::sum);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return wagons.iterator();
     }
 }

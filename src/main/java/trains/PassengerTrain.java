@@ -1,12 +1,12 @@
 package trains;
 
-import wagons.abstractWagons.FreightWagon;
+import wagons.abstractWagons.Locomotive;
 import wagons.abstractWagons.PassengerWagon;
-import wagons.abstractWagons.Wagon;
 
-import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.List;
 
-public class PassengerTrain extends Train {
+public class PassengerTrain<T extends PassengerWagon> extends Train<T> {
     private int totalNumberOfSeats;
     private int totalNumberOfPassengers;
 
@@ -16,24 +16,16 @@ public class PassengerTrain extends Train {
         totalNumberOfPassengers = 0;
     }
 
-    public PassengerTrain(LinkedList<Wagon> wagons) {
+    public PassengerTrain(List<T> wagons, List<Locomotive> locomotives) {
+        super(wagons, locomotives);
+        countTotalNumberOfSeats();
+        countTotalNumberOfPassengers();
+    }
+
+    public PassengerTrain(List<T> wagons) {
         super(wagons);
-        if (locomotiveCount == 0) {
-            totalNumberOfSeats = 0;
-            totalNumberOfPassengers = 0;
-        } else {
-            if (checkToCorrectPassengerTrain(wagons)) {
-                countTotalNumberOfSeatsAndPassengers();
-            } else {
-                System.out.println("List of wagons contains freight wagons!");
-                this.wagons = new LinkedList<>();
-                locomotiveCount = 0;
-                totalPower = 0;
-                totalWagonsWeight = 0;
-                totalNumberOfSeats = 0;
-                totalNumberOfPassengers = 0;
-            }
-        }
+        countTotalNumberOfSeats();
+        countTotalNumberOfPassengers();
     }
 
     public int getTotalNumberOfSeats() {
@@ -44,46 +36,41 @@ public class PassengerTrain extends Train {
         return totalNumberOfPassengers;
     }
 
-    public void addWagon(Wagon wagon) {
-        if (!(wagon instanceof FreightWagon)) {
-            super.addWagon(wagon);
-            if (wagon instanceof PassengerWagon) {
-                PassengerWagon passengerWagon = ((PassengerWagon) wagon);
-                totalNumberOfSeats += passengerWagon.getNumberOfSeats();
-                totalNumberOfPassengers += passengerWagon.getNumberOfPassengers();
-            }
-        } else {
-            System.out.println(" You can't add freight wagon!");
-        }
+    public void addHeadWagon(T wagon) {
+            super.addHeadWagon(wagon);
+            totalNumberOfSeats += wagon.getNumberOfSeats();
+            totalNumberOfPassengers += wagon.getNumberOfPassengers();
+    }
+    public void addTailWagon(T wagon) {
+        super.addTailWagon(wagon);
+        totalNumberOfSeats += wagon.getNumberOfSeats();
+        totalNumberOfPassengers += wagon.getNumberOfPassengers();
     }
 
-    public Wagon unhookWagon() {
-        PassengerWagon passengerWagon;
-        Wagon wagon;
-        if ((wagon = super.unhookWagon()) instanceof PassengerWagon) {
-            passengerWagon = (PassengerWagon) wagon;
-            totalNumberOfPassengers -= passengerWagon.getNumberOfPassengers();
-            totalNumberOfSeats -= passengerWagon.getNumberOfSeats();
-        }
+    public T unhookHeadWagon() {
+        T wagon = super.unhookHeadWagon();
+        totalNumberOfSeats -= wagon.getNumberOfSeats();
+        totalNumberOfPassengers -= wagon.getNumberOfPassengers();
         return wagon;
     }
 
-    private void countTotalNumberOfSeatsAndPassengers() {
-        int i = locomotiveCount;
-        while (i < wagons.size()) {
-            PassengerWagon passengerWagon = (PassengerWagon) wagons.get(i);
-            totalNumberOfPassengers += passengerWagon.getNumberOfPassengers();
-            totalNumberOfSeats += passengerWagon.getNumberOfSeats();
-        }
+    public T unhookTailWagon() {
+        T wagon = super.unhookTailWagon();
+        totalNumberOfSeats -= wagon.getNumberOfSeats();
+        totalNumberOfPassengers -= wagon.getNumberOfPassengers();
+        return wagon;
     }
 
-    private boolean checkToCorrectPassengerTrain(LinkedList<Wagon> wagons) {
-        for (Wagon wagon :
-                wagons) {
-            if (wagon instanceof FreightWagon) {
-                return false;
-            }
-        }
-        return true;
+    private void countTotalNumberOfSeats() {
+        totalNumberOfSeats = wagons.stream().reduce(0, (x, y) -> x + y.getNumberOfSeats(), Integer::sum);
+    }
+
+    private void countTotalNumberOfPassengers() {
+        totalNumberOfSeats = wagons.stream().reduce(0, (x, y) -> x + y.getNumberOfPassengers(), Integer::sum);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return wagons.iterator();
     }
 }

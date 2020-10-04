@@ -24,7 +24,7 @@ public abstract class PassengerWagon extends Wagon {
         if (numberOfPassengers + this.numberOfPassengers < numberOfSeats) {
             this.numberOfPassengers += numberOfPassengers;
         } else {
-            System.out.println("Overload!");
+            throw new IllegalArgumentException();
         }
     }
 
@@ -32,7 +32,7 @@ public abstract class PassengerWagon extends Wagon {
         if (this.numberOfPassengers - numberOfPassengers >= 0) {
             this.numberOfPassengers -= numberOfPassengers;
         } else {
-            System.out.println("Not enough passengers!");
+            throw new IllegalArgumentException();
         }
     }
 }
