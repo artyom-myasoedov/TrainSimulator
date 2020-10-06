@@ -20,9 +20,17 @@ public abstract class FreightWagon extends Wagon {
         return currentCargoWeight;
     }
 
-    public abstract void loadCargo(int weight);
+    public  void loadCargo(int weight) {
+        if (weight + currentCargoWeight < maxCarrying) {
+            currentCargoWeight += weight;
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
 
-    public abstract void unloadCargo();
+    public void unloadCargo() {
+        currentCargoWeight = 0;
+    }
 
     public int getTotalWeight() {
         return weight + currentCargoWeight;

@@ -19,7 +19,7 @@ public class SteamLocomotive extends Locomotive {
     }
 
     public void setVolumeFuel(BigDecimal volumeFuel) {
-        if (volumeFuel.compareTo(new BigDecimal("0")) < 0 || volumeFuel.compareTo(consumption) > 0) {
+        if (volumeFuel.compareTo(new BigDecimal("0")) < 0 || volumeFuel.compareTo(maxVolumeFuel) > 0) {
             throw new IllegalArgumentException();
         }
         this.volumeFuel = volumeFuel;

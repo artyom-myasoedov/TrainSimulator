@@ -11,21 +11,12 @@ public class CoveredWagon extends OpeningWagons {
 
     @Override
     public void loadCargo(int weight) {
-        if (isOpened == Conditions.DISABLED) {
-            openWagon();
-        }
-        if (weight + currentCargoWeight < maxCarrying) {
-            currentCargoWeight += weight;
-            System.out.println("Cargo is loaded to covered wagon");
-        } else {
-            throw new IllegalArgumentException();
-        }
-
+        super.loadCargo(weight);
+        System.out.println("Cargo is loaded to covered wagon");
     }
 
     @Override
     public void unloadCargo() {
-        currentCargoWeight = 0;
         System.out.println("Cargo is unloaded from covered wagon");
     }
 }

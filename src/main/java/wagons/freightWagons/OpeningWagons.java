@@ -16,6 +16,13 @@ public abstract class OpeningWagons extends wagons.abstractWagons.FreightWagon {
         return isOpened != Conditions.DISABLED;
     }
 
+    public void loadCargo(int weight) {
+        if (isOpened == Conditions.DISABLED) {
+            openWagon();
+        }
+        super.loadCargo(weight);
+    }
+
     protected void openWagon() {
         System.out.println("Wagon is opened");
         isOpened = Conditions.ENABLED;

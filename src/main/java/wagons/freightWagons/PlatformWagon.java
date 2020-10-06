@@ -9,17 +9,12 @@ public class PlatformWagon extends wagons.abstractWagons.FreightWagon {
 
     @Override
     public void loadCargo(int weight) {
-        if (weight + currentCargoWeight < maxCarrying) {
-            currentCargoWeight += weight;
-            System.out.println("Cargo is loaded to platform wagon");
-        } else {
-            throw new IllegalArgumentException();
-        }
+        super.loadCargo(weight);
+        System.out.println("Cargo is loaded to platform wagon");
     }
 
     @Override
     public void unloadCargo() {
-        currentCargoWeight = 0;
         System.out.println("Cargo is unloaded from platform wagon");
     }
 }

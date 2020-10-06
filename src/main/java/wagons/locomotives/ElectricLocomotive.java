@@ -14,7 +14,7 @@ public class ElectricLocomotive extends Locomotive {
     }
 
     public boolean isPowerGridConnect() {
-        return powerGridConnection != Conditions.DISABLED;
+        return powerGridConnection == Conditions.ENABLED;
     }
 
     public void setPowerGridConnection(Conditions powerGridConnection) {
