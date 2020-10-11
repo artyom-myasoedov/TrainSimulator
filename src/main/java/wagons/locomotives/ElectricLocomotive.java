@@ -25,6 +25,7 @@ public class ElectricLocomotive extends Locomotive {
     public void startEngine() {
         if (powerGridConnection == Conditions.ENABLED) {
             System.out.println("Start electric engine");
+            engine = Conditions.ENABLED;
         } else {
             throw new IllegalArgumentException();
         }
@@ -32,6 +33,7 @@ public class ElectricLocomotive extends Locomotive {
 
     @Override
     public void stopEngine() {
+        super.stopEngine();
         System.out.println("Stop electric engine");
     }
 }

@@ -1,24 +1,14 @@
 package wagons.freightWagons;
 
+import factories.WagonFactory;
 import junit.framework.TestCase;
+
+import java.math.BigDecimal;
 
 public class RefrigeratorWagonTest extends TestCase {
 
-    public void testGetCurrentTemperature() {
-    }
-
     public void testSetCurrentTemperature() {
-    }
-
-    public void testGetMaxTemperature() {
-    }
-
-    public void testGetMinTemperature() {
-    }
-
-    public void testLoadCargo() {
-    }
-
-    public void testUnloadCargo() {
+        RefrigeratorWagon wagon = WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(50));
+        wagon.setCurrentTemperature(BigDecimal.valueOf(30));
     }
 }

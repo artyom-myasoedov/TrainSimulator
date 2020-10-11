@@ -3,7 +3,6 @@ package factories;
 import junit.framework.TestCase;
 import wagons.Conditions;
 import wagons.abstractWagons.Locomotive;
-import wagons.abstractWagons.Wagon;
 import wagons.freightWagons.CoveredWagon;
 import wagons.freightWagons.PlatformWagon;
 import wagons.freightWagons.RefrigeratorWagon;

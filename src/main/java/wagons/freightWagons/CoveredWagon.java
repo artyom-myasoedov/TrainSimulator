@@ -17,6 +17,7 @@ public class CoveredWagon extends OpeningWagons {
 
     @Override
     public void unloadCargo() {
+        super.unloadCargo();
         System.out.println("Cargo is unloaded from covered wagon");
     }
 }

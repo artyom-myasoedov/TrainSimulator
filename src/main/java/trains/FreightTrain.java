@@ -33,6 +33,7 @@ public class FreightTrain<T extends FreightWagon> extends Train<T> {
     }
 
     public int getTotalCurrentCargoWeight() {
+        countTotalCurrentCargoWeight();
         return totalCurrentCargoWeight;
     }
 
@@ -52,6 +53,10 @@ public class FreightTrain<T extends FreightWagon> extends Train<T> {
         totalMaxCarrying += wagon.getMaxCarrying();
     }
 
+    public T getWagon(int index) {
+        return wagons.get(index);
+    }
+
     public T unhookHeadWagon() {
         T wagon = super.unhookHeadWagon();
         totalMaxCarrying -= wagon.getMaxCarrying();
@@ -67,15 +72,10 @@ public class FreightTrain<T extends FreightWagon> extends Train<T> {
     }
 
     private void countTotalMaxCarrying() {
-        totalMaxCarrying = wagons.stream().reduce(0, (x ,y) -> x + y.getMaxCarrying(), Integer::sum);
+        totalMaxCarrying = wagons.stream().reduce(0, (x, y) -> x + y.getMaxCarrying(), Integer::sum);
     }
 
     private void countTotalCurrentCargoWeight() {
-        totalCurrentCargoWeight = wagons.stream().reduce(0, (x ,y) -> x + y.getCurrentCargoWeight(), Integer::sum);
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return wagons.iterator();
+        totalCurrentCargoWeight = wagons.stream().reduce(0, (x, y) -> x + y.getCurrentCargoWeight(), Integer::sum);
     }
 }

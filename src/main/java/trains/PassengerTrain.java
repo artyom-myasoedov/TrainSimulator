@@ -28,11 +28,16 @@ public class PassengerTrain<T extends PassengerWagon> extends Train<T> {
         countTotalNumberOfPassengers();
     }
 
+    public int getTotalWeight() {
+        return getTotalWagonsWeight();
+    }
+
     public int getTotalNumberOfSeats() {
         return totalNumberOfSeats;
     }
 
     public int getTotalNumberOfPassengers() {
+        countTotalNumberOfPassengers();
         return totalNumberOfPassengers;
     }
 
@@ -45,6 +50,10 @@ public class PassengerTrain<T extends PassengerWagon> extends Train<T> {
         super.addTailWagon(wagon);
         totalNumberOfSeats += wagon.getNumberOfSeats();
         totalNumberOfPassengers += wagon.getNumberOfPassengers();
+    }
+
+    public T getWagon(int index) {
+        return wagons.get(index);
     }
 
     public T unhookHeadWagon() {
@@ -66,11 +75,6 @@ public class PassengerTrain<T extends PassengerWagon> extends Train<T> {
     }
 
     private void countTotalNumberOfPassengers() {
-        totalNumberOfSeats = wagons.stream().reduce(0, (x, y) -> x + y.getNumberOfPassengers(), Integer::sum);
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return wagons.iterator();
+        totalNumberOfPassengers = wagons.stream().reduce(0, (x, y) -> x + y.getNumberOfPassengers(), Integer::sum);
     }
 }

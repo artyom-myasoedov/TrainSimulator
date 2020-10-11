@@ -11,9 +11,9 @@ public class RefrigeratorWagon extends OpeningWagons {
 
     public RefrigeratorWagon(BigDecimal age, BigDecimal condition) {
         super(3000, age, condition, 1500);
-        this.maxTemperature = new BigDecimal("25.00");
-        this.minTemperature = new BigDecimal("-25.00");
-        currentTemperature = new BigDecimal("0.00");
+        this.maxTemperature = BigDecimal.valueOf(25);
+        this.minTemperature = BigDecimal.valueOf(-25);
+        currentTemperature = BigDecimal.valueOf(0);
     }
 
     public BigDecimal getCurrentTemperature() {
@@ -21,8 +21,11 @@ public class RefrigeratorWagon extends OpeningWagons {
     }
 
     public void setCurrentTemperature(BigDecimal currentTemperature) {
-        if (maxTemperature.compareTo(currentTemperature) >= 0 && minTemperature.compareTo(currentTemperature) <= 0)
+        if (maxTemperature.compareTo(currentTemperature) >= 0 && minTemperature.compareTo(currentTemperature) <= 0) {
             this.currentTemperature = currentTemperature;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     public BigDecimal getMaxTemperature() {
@@ -41,6 +44,7 @@ public class RefrigeratorWagon extends OpeningWagons {
 
     @Override
     public void unloadCargo() {
+        super.unloadCargo();
         System.out.println("Cargo is unloaded from refrigerator wagon");
     }
 }

@@ -17,6 +17,9 @@ public abstract class Wagon {
     }
 
     public void setAge(BigDecimal age) {
+        if(age.compareTo(BigDecimal.valueOf(0)) < 0) {
+            throw new IllegalArgumentException();
+        }
         this.age = age;
     }
 
@@ -31,13 +34,13 @@ public abstract class Wagon {
     }
 
     public void repair(double condition) {
-        this.condition = this.condition.add(new BigDecimal(condition));
-        if (this.condition.compareTo(new BigDecimal("100.00")) > 0) {
-            this.condition = new BigDecimal("100.00");
+        this.condition = this.condition.add(BigDecimal.valueOf(condition));
+        if (this.condition.compareTo(BigDecimal.valueOf(100)) > 0) {
+            this.condition = BigDecimal.valueOf(100);
         }
     }
 
     public void fullRepair() {
-        condition = new BigDecimal("100.00");
+        condition = BigDecimal.valueOf(100);
     }
 }

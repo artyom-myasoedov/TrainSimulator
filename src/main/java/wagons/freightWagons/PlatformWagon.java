@@ -15,6 +15,7 @@ public class PlatformWagon extends wagons.abstractWagons.FreightWagon {
 
     @Override
     public void unloadCargo() {
+        super.unloadCargo();
         System.out.println("Cargo is unloaded from platform wagon");
     }
 }
