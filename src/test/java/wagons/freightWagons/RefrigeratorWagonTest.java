@@ -1,14 +1,24 @@
 package wagons.freightWagons;
 
 import factories.WagonFactory;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 
-public class RefrigeratorWagonTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class RefrigeratorWagonTest {
+
+    @Test
     public void testSetCurrentTemperature() {
         RefrigeratorWagon wagon = WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(50));
-        wagon.setCurrentTemperature(BigDecimal.valueOf(30));
+        wagon.setCurrentTemperature(BigDecimal.valueOf(20));
+        assertEquals(wagon.getCurrentTemperature(), BigDecimal.valueOf(20));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetCurrentTemperatureException() {
+        RefrigeratorWagon wagon = WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(50));
+        wagon.setCurrentTemperature(BigDecimal.valueOf(50));
     }
 }

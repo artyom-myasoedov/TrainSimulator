@@ -4,8 +4,11 @@ package wagons.freightWagons;
 import java.math.BigDecimal;
 
 public class TankWagon extends OpeningWagons {
+    private final static int WEIGHT = 2500;
+    private final static int MAX_CARRYING = 3000;
+
     public TankWagon(BigDecimal age, BigDecimal condition) {
-        super(2500, age, condition, 3000);
+        super(WEIGHT, age, condition, MAX_CARRYING);
     }
 
     @Override

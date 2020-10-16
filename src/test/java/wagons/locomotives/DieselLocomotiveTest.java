@@ -1,47 +1,63 @@
 package wagons.locomotives;
 
 import factories.WagonFactory;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 
-public class DieselLocomotiveTest extends TestCase {
+import static org.junit.Assert.*;
 
+public class DieselLocomotiveTest {
+
+    static DieselLocomotive locomotive;
+
+    @Before
+    public void createLocomotive() {
+         locomotive = WagonFactory.createDieselLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(90), BigDecimal.valueOf(80));
+    }
+
+    @Test
     public void testIsEngineWork() {
-        DieselLocomotive locomotive = WagonFactory.createDieselLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(90), BigDecimal.valueOf(80));
         assertFalse(locomotive.isEngineWork());
         locomotive.startEngine();
         assertTrue(locomotive.isEngineWork());
     }
 
+    @Test
     public void testMoveForward() {
-        DieselLocomotive locomotive = WagonFactory.createDieselLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(90), BigDecimal.valueOf(80));
         locomotive.moveForward();
     }
 
+    @Test
     public void testMoveBehind() {
-        DieselLocomotive locomotive = WagonFactory.createDieselLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(90), BigDecimal.valueOf(80));
         locomotive.moveBehind();
     }
 
+    @Test
     public void testStopMoving() {
-        DieselLocomotive locomotive = WagonFactory.createDieselLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(90), BigDecimal.valueOf(80));
         locomotive.stopMoving();
     }
 
+    @Test
     public void testSetVolumeFuel() {
-        DieselLocomotive locomotive = WagonFactory.createDieselLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(90), BigDecimal.valueOf(80));
         locomotive.setVolumeFuel(BigDecimal.valueOf(10));
-        locomotive.setVolumeFuel(BigDecimal.valueOf(1000));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetVolumeFuelException() {
+        locomotive.setVolumeFuel(BigDecimal.valueOf(910));
+    }
+
+    @Test
     public void testStartEngine() {
-        DieselLocomotive locomotive = WagonFactory.createDieselLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(90), BigDecimal.valueOf(80));
         locomotive.startEngine();
+        assertTrue(locomotive.isEngineWork());
     }
 
+    @Test
     public void testStopEngine() {
-        DieselLocomotive locomotive = WagonFactory.createDieselLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(90), BigDecimal.valueOf(80));
         locomotive.stopEngine();
+        assertFalse(locomotive.isEngineWork());
     }
 }

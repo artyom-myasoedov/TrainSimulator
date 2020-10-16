@@ -1,17 +1,20 @@
 package wagons.locomotives;
 
-import wagons.Conditions;
 import wagons.abstractWagons.Locomotive;
 
 import java.math.BigDecimal;
 
 public class SteamLocomotive extends Locomotive {
     private BigDecimal volumeFuel;
-    private static final BigDecimal maxVolumeFuel = BigDecimal.valueOf(120);
-    private static final BigDecimal consumption = BigDecimal.valueOf(2);
+    private static final BigDecimal MAX_VOLUME_FUEL = BigDecimal.valueOf(120);
+    private static final BigDecimal CONSUMPTION = BigDecimal.valueOf(2);
+    private final static int WEIGHT = 9000;
+    private final static int POWER = 60000;
+    private final static BigDecimal MAX_SPEED = BigDecimal.valueOf(60);
+
 
     public SteamLocomotive(BigDecimal age, BigDecimal condition, BigDecimal volumeFuel) {
-        super(9000, age, condition, 60000, BigDecimal.valueOf(60));
+        super(WEIGHT, age, condition, POWER, MAX_SPEED);
         this.volumeFuel = volumeFuel;
     }
 
@@ -20,7 +23,7 @@ public class SteamLocomotive extends Locomotive {
     }
 
     public void setVolumeFuel(BigDecimal volumeFuel) {
-        if (volumeFuel.compareTo(BigDecimal.valueOf(0)) < 0 || volumeFuel.compareTo(maxVolumeFuel) > 0) {
+        if (volumeFuel.compareTo(BigDecimal.valueOf(0)) < 0 || volumeFuel.compareTo(MAX_VOLUME_FUEL) > 0) {
             throw new IllegalArgumentException();
         }
         this.volumeFuel = volumeFuel;
@@ -30,8 +33,8 @@ public class SteamLocomotive extends Locomotive {
     public void startEngine() {
         if (volumeFuel.compareTo(BigDecimal.valueOf(2)) >= 0) {
             System.out.println("Start steam engine");
-            volumeFuel = volumeFuel.subtract(consumption);
-            engine = Conditions.ENABLED;
+            volumeFuel = volumeFuel.subtract(CONSUMPTION);
+            engine = LocomotiveEngineConditions.ENABLED;
             if (volumeFuel.compareTo(BigDecimal.valueOf(0)) < 0) {
                 volumeFuel = BigDecimal.valueOf(0);
                 stopEngine();
@@ -49,6 +52,6 @@ public class SteamLocomotive extends Locomotive {
 
     public void moveForward() {
         super.moveForward();
-        volumeFuel = volumeFuel.subtract(consumption);
+        volumeFuel = volumeFuel.subtract(CONSUMPTION);
     }
 }

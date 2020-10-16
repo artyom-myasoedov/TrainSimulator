@@ -29,10 +29,6 @@ public abstract class PassengerWagon extends Wagon {
     }
 
     public void removePassengers(int numberOfPassengers) {
-        if (this.numberOfPassengers - numberOfPassengers >= 0) {
-            this.numberOfPassengers -= numberOfPassengers;
-        } else {
-            throw new IllegalArgumentException();
-        }
+        this.numberOfPassengers = Math.max(this.numberOfPassengers - numberOfPassengers, 0);
     }
 }

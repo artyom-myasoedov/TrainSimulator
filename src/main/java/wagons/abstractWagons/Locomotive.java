@@ -1,19 +1,19 @@
 package wagons.abstractWagons;
 
-import wagons.Conditions;
+import wagons.locomotives.LocomotiveEngineConditions;
 
 import java.math.BigDecimal;
 
 public abstract class Locomotive extends Wagon {
     protected final int power;
     protected final BigDecimal maxSpeed;
-    protected Conditions engine;
+    protected LocomotiveEngineConditions engine;
 
     public Locomotive(int weight, BigDecimal age, BigDecimal condition, int power, BigDecimal maxSpeed) {
         super(weight, age, condition);
         this.power = power;
         this.maxSpeed = maxSpeed;
-        engine = Conditions.DISABLED;
+        engine = LocomotiveEngineConditions.DISABLED;
     }
 
     public int getPower() {
@@ -25,13 +25,13 @@ public abstract class Locomotive extends Wagon {
     }
 
     public boolean isEngineWork() {
-        return engine != Conditions.DISABLED;
+        return engine != LocomotiveEngineConditions.DISABLED;
     }
 
     public abstract void startEngine();
 
     public void stopEngine() {
-        engine = Conditions.DISABLED;
+        engine = LocomotiveEngineConditions.DISABLED;
     }
 
     public void moveForward() {

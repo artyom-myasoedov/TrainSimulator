@@ -1,26 +1,40 @@
 package wagons.passengerWagons;
 
 import factories.WagonFactory;
-import junit.framework.TestCase;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 
-public class CoupeWagonTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class CoupeWagonTest {
+
+    static CoupeWagon wagon;
+
+    @Before
+    public void createWagon() {
+        wagon = WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100));
+    }
+
+    @Test
     public void testGetNumberOfSeats() {
-        CoupeWagon wagon = WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100));
         assertEquals(wagon.getNumberOfSeats(), 40);
     }
 
+    @Test
     public void testGetNumberOfPassengers() {
-        CoupeWagon wagon = WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100));
         wagon.addPassengers(10);
         assertEquals(wagon.getNumberOfPassengers(), 10);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddPassengersException() {
+        wagon.addPassengers(120);
+    }
+
+    @Test
     public void testRemovePassengers() {
-        CoupeWagon wagon = WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100));
         wagon.addPassengers(10);
         wagon.removePassengers(3);
         assertEquals(wagon.getNumberOfPassengers(), 7);

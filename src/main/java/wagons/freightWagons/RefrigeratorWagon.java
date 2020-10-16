@@ -1,18 +1,17 @@
 package wagons.freightWagons;
 
-import wagons.Conditions;
-
 import java.math.BigDecimal;
 
 public class RefrigeratorWagon extends OpeningWagons {
     private BigDecimal currentTemperature;
-    private final BigDecimal maxTemperature;
-    private final BigDecimal minTemperature;
+    private final BigDecimal MAX_TEMPERATURE = BigDecimal.valueOf(25);
+    private final BigDecimal MIN_TEMPERATURE = BigDecimal.valueOf(-25);
+    private final static int WEIGHT = 3000;
+    private final static int MAX_CARRYING = 1500;
+
 
     public RefrigeratorWagon(BigDecimal age, BigDecimal condition) {
-        super(3000, age, condition, 1500);
-        this.maxTemperature = BigDecimal.valueOf(25);
-        this.minTemperature = BigDecimal.valueOf(-25);
+        super(WEIGHT, age, condition, MAX_CARRYING);
         currentTemperature = BigDecimal.valueOf(0);
     }
 
@@ -21,7 +20,7 @@ public class RefrigeratorWagon extends OpeningWagons {
     }
 
     public void setCurrentTemperature(BigDecimal currentTemperature) {
-        if (maxTemperature.compareTo(currentTemperature) >= 0 && minTemperature.compareTo(currentTemperature) <= 0) {
+        if (MAX_TEMPERATURE.compareTo(currentTemperature) >= 0 && MIN_TEMPERATURE.compareTo(currentTemperature) <= 0) {
             this.currentTemperature = currentTemperature;
         } else {
             throw new IllegalArgumentException();
@@ -29,11 +28,11 @@ public class RefrigeratorWagon extends OpeningWagons {
     }
 
     public BigDecimal getMaxTemperature() {
-        return maxTemperature;
+        return MAX_TEMPERATURE;
     }
 
     public BigDecimal getMinTemperature() {
-        return minTemperature;
+        return MIN_TEMPERATURE;
     }
 
     @Override

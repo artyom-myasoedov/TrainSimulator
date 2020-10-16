@@ -1,6 +1,6 @@
 package factories;
 
-import wagons.Conditions;
+import wagons.locomotives.LocomotiveEngineConditions;
 import wagons.freightWagons.*;
 import wagons.locomotives.*;
 import wagons.passengerWagons.*;
@@ -25,7 +25,7 @@ public class WagonFactory {
         throw new IllegalArgumentException();
     }
 
-    public static ElectricLocomotive createElectricLocomotive(BigDecimal age, BigDecimal condition, Conditions powerGridConnection) {
+    public static ElectricLocomotive createElectricLocomotive(BigDecimal age, BigDecimal condition, LocomotiveEngineConditions powerGridConnection) {
         if (checkAgeCondition(age, condition)) {
             return new ElectricLocomotive(age, condition, powerGridConnection);
         }

@@ -1,19 +1,32 @@
 package wagons.locomotives;
 
 import factories.WagonFactory;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 
-public class SteamLocomotiveTest extends TestCase {
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-    public void testStartEngine() {
-        SteamLocomotive locomotive = WagonFactory.createSteamLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(100), BigDecimal.valueOf(0));
-        locomotive.startEngine();
+public class SteamLocomotiveTest {
+
+    static SteamLocomotive locomotive;
+
+    @Before
+    public void createLocomotive() {
+        locomotive = WagonFactory.createSteamLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(100), BigDecimal.valueOf(0));
     }
 
+    @Test
+    public void testStartEngine() {
+        locomotive.startEngine();
+        assertTrue(locomotive.isEngineWork());
+    }
+
+    @Test
     public void testStopEngine() {
-        SteamLocomotive locomotive = WagonFactory.createSteamLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(100), BigDecimal.valueOf(70));
         locomotive.stopEngine();
+        assertFalse(locomotive.isEngineWork());
     }
 }

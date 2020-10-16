@@ -1,12 +1,13 @@
 package wagons.freightWagons;
 
-import wagons.Conditions;
-
 import java.math.BigDecimal;
 
 public class CoveredWagon extends OpeningWagons {
+    private final static int WEIGHT = 2500;
+    private final static int MAX_CARRYING = 2000;
+
     public CoveredWagon(BigDecimal age, BigDecimal condition) {
-        super(2500, age, condition, 2000);
+        super(WEIGHT, age, condition, MAX_CARRYING);
     }
 
     @Override

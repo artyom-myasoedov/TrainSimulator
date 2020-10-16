@@ -1,31 +1,33 @@
 package wagons.locomotives;
 
-import wagons.Conditions;
 import wagons.abstractWagons.Locomotive;
 
 import java.math.BigDecimal;
 
 public class ElectricLocomotive extends Locomotive {
-    private Conditions powerGridConnection;
+    private LocomotiveEngineConditions powerGridConnection;
+    private final static int WEIGHT = 7000;
+    private final static int POWER = 100000;
+    private final static BigDecimal MAX_SPEED = BigDecimal.valueOf(100);
 
-    public ElectricLocomotive(BigDecimal age, BigDecimal condition, Conditions powerGridConnection) {
-        super(7000, age, condition, 100000, new BigDecimal("100.00"));
+    public ElectricLocomotive(BigDecimal age, BigDecimal condition, LocomotiveEngineConditions powerGridConnection) {
+        super(WEIGHT, age, condition, POWER, MAX_SPEED);
         this.powerGridConnection = powerGridConnection;
     }
 
     public boolean isPowerGridConnect() {
-        return powerGridConnection == Conditions.ENABLED;
+        return powerGridConnection == LocomotiveEngineConditions.ENABLED;
     }
 
-    public void setPowerGridConnection(Conditions powerGridConnection) {
+    public void setPowerGridConnection(LocomotiveEngineConditions powerGridConnection) {
         this.powerGridConnection = powerGridConnection;
     }
 
     @Override
     public void startEngine() {
-        if (powerGridConnection == Conditions.ENABLED) {
+        if (powerGridConnection == LocomotiveEngineConditions.ENABLED) {
             System.out.println("Start electric engine");
-            engine = Conditions.ENABLED;
+            engine = LocomotiveEngineConditions.ENABLED;
         } else {
             throw new IllegalArgumentException();
         }

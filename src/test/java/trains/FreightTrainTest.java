@@ -1,46 +1,42 @@
 package trains;
 
 import factories.WagonFactory;
-import junit.framework.TestCase;
 import org.junit.Before;
-import wagons.abstractWagons.Wagon;
+import org.junit.Test;
+import wagons.abstractWagons.FreightWagon;
 
 import java.math.BigDecimal;
 
-public class FreightTrainTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class FreightTrainTest {
+        public static FreightTrain<FreightWagon> train;
+
+
 
     @Before
-    public static void prepareTrain() {
-        FreightTrain train = new FreightTrain<>();
+    public void prepareTrain() {
+        train = new FreightTrain<>();
         train.addHeadWagon(WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100)));
         train.addHeadWagon(WagonFactory.createCoveredWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(80)));
         train.addHeadWagon(WagonFactory.createPlatformWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
     }
 
+    @Test
     public void testGetTotalMaxCarrying() {
-        FreightTrain train = new FreightTrain<>();
-        train.addHeadWagon(WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100)));
-        train.addHeadWagon(WagonFactory.createCoveredWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(80)));
-        train.addHeadWagon(WagonFactory.createPlatformWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
         assertEquals(train.getTotalMaxCarrying(), 7500);
     }
 
+    @Test
     public void testGetTotalCurrentCargoWeight() {
-        FreightTrain train = new FreightTrain<>();
-        train.addHeadWagon(WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100)));
-        train.addHeadWagon(WagonFactory.createCoveredWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(80)));
-        train.addHeadWagon(WagonFactory.createPlatformWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
         train.getWagon(0).loadCargo(100);
         train.getWagon(1).loadCargo(1000);
         train.getWagon(2).loadCargo(1200);
         assertEquals(train.getTotalCurrentCargoWeight(), 2300);
     }
 
+    @Test
     public void testGetTotalWeight() {
-        FreightTrain train = new FreightTrain<>();
-        train.addHeadWagon(WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100)));
-        train.addHeadWagon(WagonFactory.createCoveredWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(80)));
-        train.addHeadWagon(WagonFactory.createPlatformWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
         train.getWagon(0).loadCargo(100);
         train.getWagon(1).loadCargo(1000);
         train.getWagon(2).loadCargo(1200);
@@ -48,37 +44,37 @@ public class FreightTrainTest extends TestCase {
 
     }
 
+    @Test
     public void testAddHeadWagon() {
-        FreightTrain train = new FreightTrain<>();
-        assertEquals(train.getWagonsSize(), 0);
+        assertEquals(train.getWagonsSize(), 3);
         train.addHeadWagon(WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100)));
-        assertEquals(train.getWagonsSize(), 1);
+        assertEquals(train.getWagonsSize(), 4);
     }
 
+    @Test
     public void testAddTailWagon() {
-        FreightTrain train = new FreightTrain<>();
-        assertEquals(train.getWagonsSize(), 0);
+        assertEquals(train.getWagonsSize(), 3);
         train.addTailWagon(WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100)));
-        assertEquals(train.getWagonsSize(), 1);
+        assertEquals(train.getWagonsSize(), 4);
     }
 
+    @Test
     public void testUnhookHeadWagon() {
-        FreightTrain train = new FreightTrain<>();
-        assertEquals(train.getWagonsSize(), 0);
+        assertEquals(train.getWagonsSize(), 3);
         train.addHeadWagon(WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100)));
-        assertEquals(train.getWagonsSize(), 1);
+        assertEquals(train.getWagonsSize(), 4);
         train.unhookHeadWagon();
-        assertEquals(train.getWagonsSize(), 0);
+        assertEquals(train.getWagonsSize(), 3);
 
     }
 
+    @Test
     public void testUnhookTailWagon() {
-        FreightTrain train = new FreightTrain<>();
-        assertEquals(train.getWagonsSize(), 0);
+        assertEquals(train.getWagonsSize(), 3);
         train.addTailWagon(WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100)));
-        assertEquals(train.getWagonsSize(), 1);
+        assertEquals(train.getWagonsSize(), 4);
         train.unhookTailWagon();
-        assertEquals(train.getWagonsSize(), 0);
+        assertEquals(train.getWagonsSize(), 3);
     }
 
 }

@@ -107,13 +107,11 @@ public abstract class Train<T extends Wagon> {
     public void connectLocomotivesToHead() {
         disconnectLocomotives();
         locomotivesInHead = true;
-        countingTotalPower();
     }
 
     public void connectLocomotivesToTail() {
         disconnectLocomotives();
         locomotivesInTail = true;
-        countingTotalPower();
     }
 
     public void disconnectLocomotives() {
@@ -152,6 +150,16 @@ public abstract class Train<T extends Wagon> {
         }
     }
 
+    public Locomotive unhookLocomotive() {
+        if (locomotives.size() > 0) {
+            Locomotive locomotive = locomotives.getLast();
+            locomotives.removeLast();
+            countingTotalPower();
+            return locomotive;
+        } else
+            throw new NullPointerException();
+    }
+
     public Locomotive getLocomotive(int index) {
         return locomotives.get(index);
     }
@@ -184,8 +192,6 @@ public abstract class Train<T extends Wagon> {
             setCurrentSpeed(BigDecimal.valueOf(speed));
             locomotives.forEach(Locomotive::moveForward);
             moving = Movings.FORWARD;
-        } else {
-            throw new IllegalArgumentException();
         }
     }
 

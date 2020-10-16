@@ -1,109 +1,123 @@
 package trains;
 
 import factories.WagonFactory;
-import junit.framework.TestCase;
-import wagons.Conditions;
+import org.junit.Before;
+import org.junit.Test;
+import wagons.locomotives.LocomotiveEngineConditions;
+import wagons.abstractWagons.PassengerWagon;
 
 import java.math.BigDecimal;
 
-public class PassengerTrainTest extends TestCase {
+import static org.junit.Assert.*;
 
+public class PassengerTrainTest {
+
+    public static PassengerTrain<PassengerWagon> train;
+
+    @Before
+    public void prepareTrain() {
+        train = new PassengerTrain<>();
+        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
+        train.addTailWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
+        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
+        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
+        train.addLocomotive(WagonFactory.createDieselLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
+    }
+
+    @Test
     public void testGetTotalWagonsWeight() {
-        PassengerTrain train = new PassengerTrain();
-        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        assertEquals(train.getTotalWeight(), 19000);
+        assertEquals(train.getTotalWeight(), 35500);
     }
 
+    @Test
     public void testGetTotalPower() {
-        PassengerTrain train = new PassengerTrain();
-        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        train.addLocomotive(WagonFactory.createElectricLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), Conditions.ENABLED));
-        assertEquals(train.getTotalPower(), 220000);
+        assertEquals(train.getTotalPower(), 140000);
     }
 
+    @Test
     public void testGetMoving() {
-        PassengerTrain train = new PassengerTrain();
-        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        train.addLocomotive(WagonFactory.createElectricLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), Conditions.ENABLED));
         assertEquals(train.getMoving(), Movings.STOPPED);
         train.connectLocomotivesToHead();
         train.moveForward(30);
         assertEquals(train.getMoving(), Movings.FORWARD);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetMovingException() {
+        assertEquals(train.getMoving(), Movings.STOPPED);
+        train.moveForward(30);
+        assertEquals(train.getMoving(), Movings.FORWARD);
+    }
+
+    @Test
     public void testConnectLocomotivesToHead() {
-        PassengerTrain train = new PassengerTrain();
-        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        train.addLocomotive(WagonFactory.createElectricLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), Conditions.ENABLED));
+        train.addLocomotive(WagonFactory.createElectricLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), LocomotiveEngineConditions.ENABLED));
         train.connectLocomotivesToHead();
         assertTrue(train.areLocomotivesInHead());
     }
 
+    @Test
     public void testConnectLocomotivesToTail() {
-        PassengerTrain train = new PassengerTrain();
-        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        train.addLocomotive(WagonFactory.createElectricLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), Conditions.ENABLED));
         train.connectLocomotivesToTail();
         assertTrue(train.areLocomotivesInTail());
     }
 
+    @Test
     public void testDisconnectLocomotives() {
-        PassengerTrain train = new PassengerTrain();
-        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        train.addLocomotive(WagonFactory.createElectricLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), Conditions.ENABLED));
         train.connectLocomotivesToTail();
         assertTrue(train.areLocomotivesInTail());
         train.disconnectLocomotives();
         assertFalse(train.areLocomotivesInTail());
     }
 
+    @Test
     public void testAddLocomotive() {
-        PassengerTrain train = new PassengerTrain();
         train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
-        assertEquals(train.getLocomotivesSize(), 1);
+        assertEquals(train.getLocomotivesSize(), 3);
     }
 
-    public void testMoveForward() {
-        PassengerTrain train = new PassengerTrain();
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddLocomotiveException() {
         train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
+        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
+    }
+
+    @Test
+    public void testMoveForward() {
         train.connectLocomotivesToTail();
         train.moveForward(11);
         assertEquals(train.getMoving(), Movings.FORWARD);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMoveForwardException() {
+        train.unhookLocomotive();
+        train.connectLocomotivesToTail();
+        for (int i = 0; i < 20; i++) {
+            train.addTailWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
+        }
+        train.moveForward(11);
+    }
+
+    @Test
     public void testMoveBehind() {
-        PassengerTrain train = new PassengerTrain();
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
         train.connectLocomotivesToTail();
         train.moveBehind(11);
         assertEquals(train.getMoving(), Movings.BEHIND);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMoveBehindException() {
+        train.unhookLocomotive();
+        train.connectLocomotivesToTail();
+        for (int i = 0; i < 20; i++) {
+            train.addTailWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
+        }
+        train.moveBehind(11);
+    }
+
+    @Test
     public void testStopMoving() {
-        PassengerTrain train = new PassengerTrain();
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30)));
         train.connectLocomotivesToTail();
         train.moveBehind(11);
         assertEquals(train.getMoving(), Movings.BEHIND);
@@ -111,21 +125,15 @@ public class PassengerTrainTest extends TestCase {
         assertEquals(train.getMoving(), Movings.STOPPED);
     }
 
+    @Test
     public void testGetTotalNumberOfSeats() {
-        PassengerTrain train = new PassengerTrain();
-        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
         assertEquals(train.getTotalNumberOfSeats(), 100);
     }
 
+    @Test
     public void testGetTotalNumberOfPassengers() {
-        PassengerTrain train = new PassengerTrain();
-        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
-        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90)));
         train.getWagon(0).addPassengers(20);
         train.getWagon(1).addPassengers(18);
-        assertEquals(train.getTotalNumberOfPassengers(), 20);
+        assertEquals(train.getTotalNumberOfPassengers(), 38);
     }
 }

@@ -2,26 +2,45 @@ package wagons.locomotives;
 
 import factories.WagonFactory;
 import junit.framework.TestCase;
-import wagons.Conditions;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 
-public class ElectricLocomotiveTest extends TestCase {
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+public class ElectricLocomotiveTest {
+
+    static ElectricLocomotive locomotive;
+
+    @Before
+    public void createLocomotive() {
+        locomotive = WagonFactory.createElectricLocomotive(BigDecimal.valueOf(1), BigDecimal.valueOf(70), LocomotiveEngineConditions.DISABLED);
+    }
+
+    @Test
     public void testSetPowerGridConnection() {
-        ElectricLocomotive locomotive = WagonFactory.createElectricLocomotive(BigDecimal.valueOf(1), BigDecimal.valueOf(70), Conditions.DISABLED);
         assertFalse(locomotive.isPowerGridConnect());
-        locomotive.setPowerGridConnection(Conditions.ENABLED);
+        locomotive.setPowerGridConnection(LocomotiveEngineConditions.ENABLED);
         assertTrue(locomotive.isPowerGridConnect());
     }
 
+    @Test
     public void testStartEngine() {
-        ElectricLocomotive locomotive = WagonFactory.createElectricLocomotive(BigDecimal.valueOf(1), BigDecimal.valueOf(70), Conditions.ENABLED);
+        locomotive.setPowerGridConnection(LocomotiveEngineConditions.ENABLED);
+        locomotive.startEngine();
+        assertTrue(locomotive.isEngineWork());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testStartEngineException() {
         locomotive.startEngine();
     }
 
+    @Test
     public void testStopEngine() {
-        ElectricLocomotive locomotive = WagonFactory.createElectricLocomotive(BigDecimal.valueOf(1), BigDecimal.valueOf(70), Conditions.DISABLED);
         locomotive.stopEngine();
+        assertFalse(locomotive.isEngineWork());
     }
 }

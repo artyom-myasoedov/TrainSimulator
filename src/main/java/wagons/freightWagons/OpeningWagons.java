@@ -1,23 +1,23 @@
 package wagons.freightWagons;
 
-import wagons.Conditions;
+import wagons.locomotives.LocomotiveEngineConditions;
 
 import java.math.BigDecimal;
 
 public abstract class OpeningWagons extends wagons.abstractWagons.FreightWagon {
-    protected Conditions isOpened;
+    protected LocomotiveEngineConditions isOpened;
 
     public OpeningWagons(int weight, BigDecimal age, BigDecimal condition, int maxCarrying) {
         super(weight, age, condition, maxCarrying);
-        isOpened = Conditions.DISABLED;
+        isOpened = LocomotiveEngineConditions.DISABLED;
     }
 
     public boolean getIsOpened() {
-        return isOpened != Conditions.DISABLED;
+        return isOpened != LocomotiveEngineConditions.DISABLED;
     }
 
     public void loadCargo(int weight) {
-        if (isOpened == Conditions.DISABLED) {
+        if (isOpened == LocomotiveEngineConditions.DISABLED) {
             openWagon();
         }
         super.loadCargo(weight);
@@ -25,12 +25,12 @@ public abstract class OpeningWagons extends wagons.abstractWagons.FreightWagon {
 
     protected void openWagon() {
         System.out.println("Wagon is opened");
-        isOpened = Conditions.ENABLED;
+        isOpened = LocomotiveEngineConditions.ENABLED;
     }
 
     protected void closeWagon() {
         System.out.println("Wagon is closed");
-        isOpened = Conditions.DISABLED;
+        isOpened = LocomotiveEngineConditions.DISABLED;
     }
 
 
