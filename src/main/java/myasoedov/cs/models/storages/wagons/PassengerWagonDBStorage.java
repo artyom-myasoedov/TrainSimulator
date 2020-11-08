@@ -1,17 +1,22 @@
 package myasoedov.cs.models.storages.wagons;
 
+import myasoedov.cs.factories.WagonFactory;
 import myasoedov.cs.models.Storable;
 
 import myasoedov.cs.models.abstractWagons.PassengerWagon;
-import myasoedov.cs.wagons.passengerWagons.SleepWagon;
+import myasoedov.cs.wagons.passengerWagons.RestaurantWagon;
 
+
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.List;
 
 public abstract class PassengerWagonDBStorage extends WagonDBStorage {
     private final static String TABLE = "PASSENGER_WAGONS";
+
     public PassengerWagonDBStorage(String jdbcUrl, String userName, String userParol, String type) {
         super(jdbcUrl, userName, userParol, type, TABLE);
     }
@@ -53,6 +58,34 @@ public abstract class PassengerWagonDBStorage extends WagonDBStorage {
 
     @Override
     public Storable get(Long id) {
+        List<Object> list = super.preGet(id);
+        try {
+            PassengerWagon wagon;
+                switch (getType()) {
+                    case "Coupe":
+                        wagon = WagonFactory.createCoupeWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                        break;
+                    case "Sleep":
+                        wagon = WagonFactory.createSleepWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                        break;
+                    case "Seat":
+                        wagon = WagonFactory.createSeatWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                        break;
+                    case "Restaurant":
+                        wagon = WagonFactory.createRestaurantWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                        break;
+                    default:
+                        throw new IllegalStateException();
+                }
+                if ((Long) list.get(2) != 0L) {
+                    wagon.setNumberInComposition((Long) list.get(2));
+                } else {
+                    wagon.setNumberInComposition(null);
+                }
+                return wagon;
+        } catch (IllegalStateException throwables) {
+            throwables.printStackTrace();
+        }
         return null;
     }
 }

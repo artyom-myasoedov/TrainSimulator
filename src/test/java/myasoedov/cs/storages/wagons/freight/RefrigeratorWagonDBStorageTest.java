@@ -14,7 +14,7 @@ public class RefrigeratorWagonDBStorageTest {
 
     @Test
     public void testSave() throws SQLException {
-        Wagon wagon = WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(33), 99L);
+        Wagon wagon = WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(33), 100L);
         Storage storage = new RefrigeratorWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
         storage.delete(wagon.getId());
     }

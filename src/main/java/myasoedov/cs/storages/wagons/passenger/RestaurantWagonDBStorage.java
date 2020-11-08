@@ -1,8 +1,13 @@
 package myasoedov.cs.storages.wagons.passenger;
 
+import myasoedov.cs.factories.WagonFactory;
 import myasoedov.cs.models.Storable;
 import myasoedov.cs.models.storages.wagons.PassengerWagonDBStorage;
+import myasoedov.cs.wagons.passengerWagons.CoupeWagon;
 import myasoedov.cs.wagons.passengerWagons.RestaurantWagon;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public class RestaurantWagonDBStorage extends PassengerWagonDBStorage {
     private final static String TYPE = "Restaurant";
@@ -22,4 +27,6 @@ public class RestaurantWagonDBStorage extends PassengerWagonDBStorage {
             throw new IllegalArgumentException();
         }
     }
+
+
 }

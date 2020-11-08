@@ -1,11 +1,16 @@
 package myasoedov.cs.models.storages.wagons;
 
+import myasoedov.cs.factories.WagonFactory;
 import myasoedov.cs.models.Storable;
+import myasoedov.cs.models.abstractWagons.Locomotive;
 import myasoedov.cs.wagons.locomotives.FuelLocomotive;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public abstract class FuelLocomotiveDBStorage extends LocomotiveDBStorage {
 
@@ -34,5 +39,34 @@ public abstract class FuelLocomotiveDBStorage extends LocomotiveDBStorage {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public Storable get(Long id) {
+        List<Object> list = super.preGet(id);
+        try (Connection c = getConnection()) {
+            ResultSet rs = c.prepareStatement("select VOLUME_OF_FUEL from FUEL_PARAMETERS where WAGON_ID = " + id.toString()).executeQuery();
+            rs.next();
+            Locomotive locomotive;
+            switch (getType()) {
+                case "Diesel":
+                    locomotive = WagonFactory.createDieselLocomotive((BigDecimal) list.get(0), (BigDecimal) list.get(1), rs.getBigDecimal(1), id);
+                    break;
+                case "Steam":
+                    locomotive = WagonFactory.createSteamLocomotive((BigDecimal) list.get(0), (BigDecimal) list.get(1), rs.getBigDecimal(1), id);
+                    break;
+                default:
+                    throw new IllegalStateException();
+            }
+            if ((Long) list.get(2) != 0L) {
+                locomotive.setNumberInComposition((Long) list.get(2));
+            } else {
+                locomotive.setNumberInComposition(null);
+            }
+            return locomotive;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 }

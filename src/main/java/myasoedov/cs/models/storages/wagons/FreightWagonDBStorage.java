@@ -1,12 +1,13 @@
 package myasoedov.cs.models.storages.wagons;
 
+import myasoedov.cs.factories.WagonFactory;
 import myasoedov.cs.models.Storable;
 import myasoedov.cs.models.abstractWagons.FreightWagon;
+import myasoedov.cs.models.abstractWagons.Locomotive;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.List;
 
 public abstract class FreightWagonDBStorage extends WagonDBStorage {
     private final static String TABLE = "FREIGHT_WAGONS";
@@ -49,7 +50,16 @@ public abstract class FreightWagonDBStorage extends WagonDBStorage {
     }
 
     @Override
-    public Storable get(Long id) {
+    public List<Object> preGet(Long id) {
+        List<Object> list = super.preGet(id);
+        try (Connection c = getConnection()) {
+            ResultSet rs = c.prepareStatement("select CARGO_WEIGHT from " + getTable() + " where WAGON_ID = " + id.toString()).executeQuery();
+            rs.next();
+            list.add(rs.getLong(1));
+            return list;
+    } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return null;
     }
 }

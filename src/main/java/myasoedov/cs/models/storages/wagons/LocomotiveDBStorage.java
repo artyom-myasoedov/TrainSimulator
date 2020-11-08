@@ -3,10 +3,8 @@ package myasoedov.cs.models.storages.wagons;
 import myasoedov.cs.models.Storable;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.util.List;
 
 public abstract class LocomotiveDBStorage extends WagonDBStorage {
     private final static String TABLE = "LOCOMOTIVES";
@@ -51,8 +49,4 @@ public abstract class LocomotiveDBStorage extends WagonDBStorage {
         }
     }
 
-    @Override
-    public Storable get(Long id) {
-        return null;
-    }
 }

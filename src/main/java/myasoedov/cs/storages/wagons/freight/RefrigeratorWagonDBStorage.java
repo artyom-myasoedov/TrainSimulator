@@ -1,13 +1,14 @@
 package myasoedov.cs.storages.wagons.freight;
 
+import myasoedov.cs.factories.WagonFactory;
 import myasoedov.cs.models.Storable;
 import myasoedov.cs.models.storages.wagons.OpeningWagonDBStorage;
+import myasoedov.cs.wagons.freightWagons.OpeningWagon;
 import myasoedov.cs.wagons.freightWagons.RefrigeratorWagon;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.List;
 
 public class RefrigeratorWagonDBStorage extends OpeningWagonDBStorage {
     private final static String TYPE = "Refrigerator";
@@ -47,5 +48,26 @@ public class RefrigeratorWagonDBStorage extends OpeningWagonDBStorage {
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    @Override
+    public Storable get(Long id) {
+        List<Object> list = super.preGet(id);
+        RefrigeratorWagon wagon = WagonFactory.createRefrigeratorWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+        wagon.loadCargo(Math.toIntExact((Long) list.get(5)));
+        try (Connection c = getConnection()) {
+            ResultSet rs = c.prepareStatement("select CURRENT_TEMPERATURE from WAGON_TEMPERATURE where WAGON_ID = " + id.toString()).executeQuery();
+            rs.next();
+            wagon.setCurrentTemperature(rs.getBigDecimal(1));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+        if ((Long) list.get(2) != 0L) {
+            wagon.setNumberInComposition((Long) list.get(2));
+        } else {
+            wagon.setNumberInComposition(null);
+        }
+        return wagon;
     }
 }
