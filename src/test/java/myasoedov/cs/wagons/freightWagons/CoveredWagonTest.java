@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +15,7 @@ public class CoveredWagonTest {
 
     @Before
     public  void createWagon() {
-        wagon = WagonFactory.createCoveredWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(70), 100L);
+        wagon = WagonFactory.createCoveredWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(70), UUID.randomUUID());
     }
 
     @Test

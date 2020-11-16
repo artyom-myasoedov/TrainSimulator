@@ -5,24 +5,25 @@ import myasoedov.cs.models.abstractWagons.Locomotive;
 import myasoedov.cs.models.abstractWagons.PassengerWagon;
 
 import java.util.List;
+import java.util.UUID;
 
 public class PassengerTrain<T extends PassengerWagon> extends Train<T> {
     private int totalNumberOfSeats;
     private int totalNumberOfPassengers;
 
-    public PassengerTrain(Long id) {
+    public PassengerTrain(UUID id) {
         super(id);
         totalNumberOfSeats = 0;
         totalNumberOfPassengers = 0;
     }
 
-    public PassengerTrain(List<? extends T> wagons, List<? extends Locomotive> locomotives, Long id) {
+    public PassengerTrain(List<? extends T> wagons, List<? extends Locomotive> locomotives, UUID id) {
         super(wagons, locomotives, id);
         countTotalNumberOfSeats();
         countTotalNumberOfPassengers();
     }
 
-    public PassengerTrain(List<? extends T> wagons, Long id) {
+    public PassengerTrain(List<? extends T> wagons, UUID id) {
         super(wagons, id);
         countTotalNumberOfSeats();
         countTotalNumberOfPassengers();

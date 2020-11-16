@@ -2,10 +2,9 @@ package myasoedov.cs.models.storages;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public abstract class DBStorage implements Storage {
+public abstract class DBStorage<T> implements Storage<T> {
     private String jdbcUrl;
     private String userName;
     private String userParol;
@@ -46,5 +45,4 @@ public abstract class DBStorage implements Storage {
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(getJdbcUrl(), getUserName(), getUserParol());
     }
-
 }

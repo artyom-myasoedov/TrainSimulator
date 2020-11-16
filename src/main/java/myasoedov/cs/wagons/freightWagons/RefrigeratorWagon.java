@@ -1,6 +1,7 @@
 package myasoedov.cs.wagons.freightWagons;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class RefrigeratorWagon extends OpeningWagon {
     private BigDecimal currentTemperature;
@@ -10,7 +11,7 @@ public class RefrigeratorWagon extends OpeningWagon {
     private final static int MAX_CARRYING = 1500;
 
 
-    public RefrigeratorWagon(BigDecimal age, BigDecimal condition, Long id) {
+    public RefrigeratorWagon(BigDecimal age, BigDecimal condition, UUID id) {
         super(WEIGHT, age, condition, MAX_CARRYING, id);
         currentTemperature = BigDecimal.valueOf(0);
     }

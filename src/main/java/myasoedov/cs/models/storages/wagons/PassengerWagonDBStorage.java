@@ -1,53 +1,51 @@
 package myasoedov.cs.models.storages.wagons;
 
 import myasoedov.cs.factories.WagonFactory;
-import myasoedov.cs.models.Storable;
 
 import myasoedov.cs.models.abstractWagons.PassengerWagon;
-import myasoedov.cs.wagons.passengerWagons.RestaurantWagon;
-
+import myasoedov.cs.storages.wagons.WagonType;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.List;
+import java.util.UUID;
 
-public abstract class PassengerWagonDBStorage extends WagonDBStorage {
+public abstract class PassengerWagonDBStorage<T extends PassengerWagon> extends WagonDBStorage<T> {
     private final static String TABLE = "PASSENGER_WAGONS";
 
-    public PassengerWagonDBStorage(String jdbcUrl, String userName, String userParol, String type) {
+    public PassengerWagonDBStorage(String jdbcUrl, String userName, String userParol, WagonType type) {
         super(jdbcUrl, userName, userParol, type, TABLE);
     }
 
-    public PassengerWagonDBStorage(String type) {
+    public PassengerWagonDBStorage(WagonType type) {
         super(type, TABLE);
     }
 
     @Override
-    public boolean save(Storable item) {
-        PassengerWagon wagon = (PassengerWagon) item;
+    public boolean save(T item) {
         try (Connection c = getConnection()) {
             PreparedStatement statement = c.prepareStatement(
                     "insert into " + getTable() + " (WAGON_ID, AGE, CONDITION, WEIGHT, NUMBER_IN_COMPOSITION, TRAIN_ID, NUMBER_OF_PASSENGERS, NUMBER_OF_SEATS, WAGON_TYPE) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            statement.setLong(1, wagon.getId());
-            statement.setBigDecimal(2, wagon.getAge());
-            statement.setBigDecimal(3, wagon.getCondition());
-            statement.setLong(4, wagon.getWeight());
-            if (wagon.getNumberInComposition() != null) {
-                statement.setLong(5, wagon.getNumberInComposition());
+            statement.setString(1, item.getId().toString());
+            statement.setBigDecimal(2, item.getAge());
+            statement.setBigDecimal(3, item.getCondition());
+            statement.setLong(4, item.getWeight());
+
+            if (item.getNumberInComposition() != null) {
+                statement.setLong(5, item.getNumberInComposition());
             } else {
-                statement.setLong(5, Types.NULL);
+                statement.setNull(5, Types.NULL);
             }
-            if (wagon.getTrainId() != null) {
-                statement.setLong(6, wagon.getTrainId());
+
+            if (item.getTrainId() != null) {
+                statement.setString(6, item.getTrainId().toString());
             } else {
-                statement.setLong(6, Types.NULL);
+                statement.setNull(6, Types.NULL);
             }
-            statement.setLong(7, wagon.getNumberOfPassengers());
-            statement.setLong(8, wagon.getNumberOfSeats());
-            statement.setString(9, getType());
+
+            statement.setLong(7, item.getNumberOfPassengers());
+            statement.setLong(8, item.getNumberOfSeats());
+            statement.setString(9, getType().toString());
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -57,35 +55,41 @@ public abstract class PassengerWagonDBStorage extends WagonDBStorage {
     }
 
     @Override
-    public Storable get(Long id) {
+    public T get(UUID id) {
         List<Object> list = super.preGet(id);
-        try {
-            PassengerWagon wagon;
-                switch (getType()) {
-                    case "Coupe":
-                        wagon = WagonFactory.createCoupeWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
-                        break;
-                    case "Sleep":
-                        wagon = WagonFactory.createSleepWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
-                        break;
-                    case "Seat":
-                        wagon = WagonFactory.createSeatWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
-                        break;
-                    case "Restaurant":
-                        wagon = WagonFactory.createRestaurantWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
-                        break;
-                    default:
-                        throw new IllegalStateException();
-                }
-                if ((Long) list.get(2) != 0L) {
-                    wagon.setNumberInComposition((Long) list.get(2));
-                } else {
-                    wagon.setNumberInComposition(null);
-                }
-                return wagon;
-        } catch (IllegalStateException throwables) {
+        try (Connection c = getConnection()) {
+            ResultSet rs = c.prepareStatement("select NUMBER_OF_PASSENGERS from " + getTable() + " where WAGON_ID = '" + id.toString() + "'").executeQuery();
+            rs.next();
+            list.add(rs.getInt(1));
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return null;
+        PassengerWagon wagon;
+        switch (getType()) {
+            case COUPE:
+                wagon = WagonFactory.createCoupeWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                break;
+            case SLEEP:
+                wagon = WagonFactory.createSleepWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                break;
+            case SEAT:
+                wagon = WagonFactory.createSeatWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                break;
+            case RESTAURANT:
+                wagon = WagonFactory.createRestaurantWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                break;
+            default:
+                throw new IllegalStateException();
+        }
+        wagon.addPassengers((Integer) list.get(list.size() - 1));
+        Long num = (Long) list.get(2) != 0L ? (Long) list.get(2) : null;
+        wagon.setNumberInComposition(num);
+
+        String str = (String) list.get(4);
+        wagon.setTrainId(null);
+        if (str != null) {
+            wagon.setTrainId(UUID.fromString(str));
+        }
+        return (T) wagon;
     }
 }

@@ -3,6 +3,7 @@ package myasoedov.cs.wagons.locomotives;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class ElectricLocomotive extends Locomotive {
     private LocomotiveEngineConditions powerGridConnection;
@@ -10,7 +11,7 @@ public class ElectricLocomotive extends Locomotive {
     private final static int POWER = 100000;
     private final static BigDecimal MAX_SPEED = BigDecimal.valueOf(100);
 
-    public ElectricLocomotive(BigDecimal age, BigDecimal condition, LocomotiveEngineConditions powerGridConnection, Long id) {
+    public ElectricLocomotive(BigDecimal age, BigDecimal condition, LocomotiveEngineConditions powerGridConnection, UUID id) {
         super(WEIGHT, age, condition, POWER, MAX_SPEED, id);
         this.powerGridConnection = powerGridConnection;
     }

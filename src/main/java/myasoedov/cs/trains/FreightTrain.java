@@ -5,28 +5,30 @@ import myasoedov.cs.models.abstractWagons.FreightWagon;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 
 import java.util.List;
+import java.util.UUID;
 
 public class FreightTrain<T extends FreightWagon> extends Train<T> {
     private int totalMaxCarrying;
     private int totalCurrentCargoWeight;
 
-    public FreightTrain(Long id) {
+    public FreightTrain(UUID id) {
         super(id);
         totalMaxCarrying = 0;
         totalCurrentCargoWeight = 0;
     }
 
-    public FreightTrain(List<? extends T> wagons, List<? extends Locomotive> locomotives, Long id) {
+    public FreightTrain(List<? extends T> wagons, List<? extends Locomotive> locomotives, UUID id) {
         super(wagons, locomotives, id);
         countTotalMaxCarrying();
         countTotalCurrentCargoWeight();
     }
 
-    public FreightTrain(List<? extends T> wagons, Long id) {
+    public FreightTrain(List<? extends T> wagons, UUID id) {
         super(wagons, id);
         countTotalMaxCarrying();
         countTotalCurrentCargoWeight();
     }
+
 
     public int getTotalMaxCarrying() {
         return totalMaxCarrying;

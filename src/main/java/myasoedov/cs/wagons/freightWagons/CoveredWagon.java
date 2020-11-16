@@ -1,12 +1,13 @@
 package myasoedov.cs.wagons.freightWagons;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class CoveredWagon extends OpeningWagon {
     private final static int WEIGHT = 2500;
     private final static int MAX_CARRYING = 2000;
 
-    public CoveredWagon(BigDecimal age, BigDecimal condition, Long id) {
+    public CoveredWagon(BigDecimal age, BigDecimal condition, UUID id) {
         super(WEIGHT, age, condition, MAX_CARRYING, id);
     }
 

@@ -3,6 +3,7 @@ package myasoedov.cs.wagons.locomotives;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public abstract class FuelLocomotive extends Locomotive {
     private BigDecimal volumeFuel;
@@ -10,7 +11,7 @@ public abstract class FuelLocomotive extends Locomotive {
     private final BigDecimal consumption;
 
 
-    public FuelLocomotive(int weight, BigDecimal age, BigDecimal condition, int power, BigDecimal maxSpeed, Long id, BigDecimal maxVolumeFuel, BigDecimal consumption, BigDecimal volumeFuel) {
+    public FuelLocomotive(int weight, BigDecimal age, BigDecimal condition, int power, BigDecimal maxSpeed, UUID id, BigDecimal maxVolumeFuel, BigDecimal consumption, BigDecimal volumeFuel) {
         super(weight, age, condition, power, maxSpeed, id);
         this.maxVolumeFuel = maxVolumeFuel;
         this.consumption = consumption;

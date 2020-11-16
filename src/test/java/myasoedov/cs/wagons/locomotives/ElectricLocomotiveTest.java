@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -15,7 +16,7 @@ public class ElectricLocomotiveTest {
 
     @Before
     public void createLocomotive() {
-        locomotive = WagonFactory.createElectricLocomotive(BigDecimal.valueOf(1), BigDecimal.valueOf(70), LocomotiveEngineConditions.DISABLED, 100L);
+        locomotive = WagonFactory.createElectricLocomotive(BigDecimal.valueOf(1), BigDecimal.valueOf(70), LocomotiveEngineConditions.DISABLED, UUID.randomUUID());
     }
 
     @Test

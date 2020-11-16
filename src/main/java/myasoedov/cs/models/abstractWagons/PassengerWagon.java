@@ -1,12 +1,13 @@
 package myasoedov.cs.models.abstractWagons;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public abstract class PassengerWagon extends Wagon {
     protected final int numberOfSeats;
     protected int numberOfPassengers;
 
-    public PassengerWagon(int weight, BigDecimal age, BigDecimal condition, int seats, Long id) {
+    public PassengerWagon(int weight, BigDecimal age, BigDecimal condition, int seats, UUID id) {
         super(weight, age, condition, id);
         this.numberOfSeats = seats;
         numberOfPassengers = 0;

@@ -1,25 +1,17 @@
 package myasoedov.cs.storages.wagons.passenger;
 
-import myasoedov.cs.models.Storable;
 import myasoedov.cs.models.storages.wagons.PassengerWagonDBStorage;
+import myasoedov.cs.storages.wagons.WagonType;
 import myasoedov.cs.wagons.passengerWagons.SeatWagon;
 
-public class SeatWagonDBStorage extends PassengerWagonDBStorage {
-    private final static String TYPE = "Seat";
+public class SeatWagonDBStorage<T extends SeatWagon> extends PassengerWagonDBStorage<T> {
+    private final static WagonType TYPE = WagonType.SEAT;
+
     public SeatWagonDBStorage(String jdbcUrl, String userName, String userParol) {
         super(jdbcUrl, userName, userParol, TYPE);
     }
 
     public SeatWagonDBStorage() {
         super(TYPE);
-    }
-
-    @Override
-    public boolean save(Storable item) {
-        if (item instanceof SeatWagon) {
-            return super.save(item);
-        } else {
-            throw new IllegalArgumentException();
-        }
     }
 }

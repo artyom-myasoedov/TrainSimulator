@@ -1,15 +1,15 @@
 package myasoedov.cs.models.storages;
 
-import myasoedov.cs.models.Storable;
+import myasoedov.cs.models.abstractWagons.Wagon;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
-public interface Storage {
+public interface Storage<T> {
 
-    boolean save(Storable item) throws SQLException;
+    boolean save(T item) throws SQLException;
 
-    Storable get(Long id);
+    T get(UUID id);
 
-    boolean delete(Long id);
-
+    boolean delete(UUID id);
 }

@@ -6,15 +6,12 @@ import myasoedov.cs.models.abstractWagons.Wagon;
 import myasoedov.cs.trains.Movings;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public abstract class Train<T extends Wagon> implements Storable {
     protected LinkedList<T> wagons;
     private final LinkedList<Locomotive> locomotives;
-    protected final Long id;
+    protected final UUID id;
     private int totalPower;
     private Movings moving;
     private int totalWagonsWeight;
@@ -23,7 +20,7 @@ public abstract class Train<T extends Wagon> implements Storable {
     private BigDecimal maxSpeed;
     private BigDecimal currentSpeed;
 
-    public Train(Long id) {
+    public Train(UUID id) {
         this.id = id;
         locomotives = new LinkedList<>();
         wagons = new LinkedList<>();
@@ -34,7 +31,7 @@ public abstract class Train<T extends Wagon> implements Storable {
         currentSpeed = BigDecimal.valueOf(0);
     }
 
-    public Train(List<? extends T> wagons, List< ? extends Locomotive> locomotives, Long id) {
+    public Train(List<? extends T> wagons, List<? extends Locomotive> locomotives, UUID id) {
         if (!checkForCorrectLocomotives(locomotives)) {
             throw new IllegalArgumentException();
         } else {
@@ -44,6 +41,8 @@ public abstract class Train<T extends Wagon> implements Storable {
             countingTotalPower();
             countingTotalWeight();
             countingMaxSpeed();
+            setTrainId();
+            setWagonsNumber();
             moving = Movings.STOPPED;
             locomotivesInHead = false;
             locomotivesInTail = false;
@@ -51,12 +50,13 @@ public abstract class Train<T extends Wagon> implements Storable {
         }
     }
 
-    public Train(List< ? extends T> wagons, Long id) {
+    public Train(List<? extends T> wagons, UUID id) {
         this.id = id;
         this.wagons = new LinkedList<>(wagons);
         this.locomotives = new LinkedList<>();
         countingTotalPower();
         countingTotalWeight();
+        setWagonsNumber();
         moving = Movings.STOPPED;
         locomotivesInHead = false;
         locomotivesInTail = false;
@@ -92,8 +92,16 @@ public abstract class Train<T extends Wagon> implements Storable {
         return wagons.size();
     }
 
+    public List<? extends T> getWagons() {
+        return wagons;
+    }
+
+    public List<? extends Locomotive> getLocomotives() {
+        return locomotives;
+    }
+
     @Override
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -144,7 +152,7 @@ public abstract class Train<T extends Wagon> implements Storable {
         if (!locomotivesInHead) {
             wagons.addFirst(wagon);
             totalWagonsWeight += wagon.getWeight();
-            wagon.setNumberInComposition(0L);
+            setWagonsNumber();
             wagon.setTrainId(this.id);
         } else {
             throw new IllegalArgumentException();
@@ -156,7 +164,7 @@ public abstract class Train<T extends Wagon> implements Storable {
             totalPower += locomotive.getPower();
             locomotives.addLast(locomotive);
             totalWagonsWeight += locomotive.getWeight();
-            locomotive.setNumberInComposition((long) (locomotives.size() - 1));
+            locomotive.setNumberInComposition((long) (locomotives.size()));
             locomotive.setTrainId(this.id);
             if (maxSpeed.compareTo(locomotive.getMaxSpeed()) < 0) {
                 maxSpeed = locomotive.getMaxSpeed();
@@ -234,28 +242,42 @@ public abstract class Train<T extends Wagon> implements Storable {
         moving = Movings.STOPPED;
     }
 
-    public Iterator<T> iteratorWagons() {
-        return wagons.iterator();
-    }
-
-    public Iterator<Locomotive> iteratorLocomotives() {
-        return locomotives.iterator();
-    }
-
     private boolean checkForCorrectLocomotives(List<? extends Locomotive> locomotives) {
         return locomotives.size() < 4;
     }
 
     private void countingTotalPower() {
+        if (locomotives.size() > 0)
         totalPower = locomotives.stream().reduce(0, (x, y) -> x + y.getPower(), Integer::sum);
     }
 
     private void countingTotalWeight() {
+        if (wagons.size() > 0)
         totalWagonsWeight = wagons.stream().reduce(0, (x, y) -> x + y.getWeight(), Integer::sum);
+        if (locomotives.size() > 0)
         totalWagonsWeight = locomotives.stream().reduce(totalWagonsWeight, (x, y) -> x + y.getWeight(), Integer::sum);
     }
 
     private void countingMaxSpeed() {
+        if (locomotives.size() > 0)
         maxSpeed = locomotives.stream().max(Comparator.comparing(Locomotive::getMaxSpeed)).get().getMaxSpeed();
+    }
+
+    private void setWagonsNumber() {
+        for (int i = 0; i < wagons.size(); i++) {
+            wagons.get(i).setNumberInComposition((long) i + 1);
+        }
+        for (int i = 0; i < locomotives.size(); i++) {
+            locomotives.get(i).setNumberInComposition((long) i + 1);
+        }
+    }
+
+    private void setTrainId() {
+        for (T wagon : wagons) {
+            wagon.setTrainId(getId());
+        }
+        for (Locomotive locomotive : locomotives) {
+            locomotive.setTrainId(getId());
+        }
     }
 }

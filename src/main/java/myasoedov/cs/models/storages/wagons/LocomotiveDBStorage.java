@@ -1,52 +1,75 @@
 package myasoedov.cs.models.storages.wagons;
 
-import myasoedov.cs.models.Storable;
 import myasoedov.cs.models.abstractWagons.Locomotive;
+import myasoedov.cs.storages.wagons.WagonType;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-public abstract class LocomotiveDBStorage extends WagonDBStorage {
+public abstract class LocomotiveDBStorage<T extends Locomotive> extends WagonDBStorage<T> {
     private final static String TABLE = "LOCOMOTIVES";
 
-    public LocomotiveDBStorage(String jdbcUrl, String userName, String userParol, String type) {
+    public LocomotiveDBStorage(String jdbcUrl, String userName, String userParol, WagonType type) {
         super(jdbcUrl, userName, userParol, type, TABLE);
     }
 
-    public LocomotiveDBStorage(String type) {
+    public LocomotiveDBStorage(WagonType type) {
         super(type, TABLE);
     }
 
     @Override
-    public boolean save(Storable item) throws SQLException {
-        Locomotive locomotive = (Locomotive) item;
-        try (Connection c = getConnection()) {
-            PreparedStatement statement = c.prepareStatement(
-                    "insert into " + getTable() + " (WAGON_ID, AGE, CONDITION, WEIGHT, NUMBER_IN_COMPOSITION, TRAIN_ID, POWER, MAX_SPEED, ENGINE, LOCOMOTIVE_TYPE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            statement.setLong(1, locomotive.getId());
-            statement.setBigDecimal(2, locomotive.getAge());
-            statement.setBigDecimal(3, locomotive.getCondition());
-            statement.setLong(4, locomotive.getWeight());
-            if (locomotive.getNumberInComposition() != null) {
-                statement.setLong(5, locomotive.getNumberInComposition());
-            } else {
-                statement.setLong(5, Types.NULL);
+    public boolean save(T item) throws SQLException {
+        if (super.save(item)) {
+            try (Connection c = getConnection()) {
+                PreparedStatement statement = c.prepareStatement(
+                        "insert into " + getTable() + " (WAGON_ID, AGE, CONDITION, WEIGHT, NUMBER_IN_COMPOSITION, TRAIN_ID, POWER, MAX_SPEED, ENGINE, WAGON_TYPE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                statement.setString(1, item.getId().toString());
+                statement.setBigDecimal(2, item.getAge());
+                statement.setBigDecimal(3, item.getCondition());
+                statement.setLong(4, item.getWeight());
+
+                if (item.getNumberInComposition() != null) {
+                    statement.setLong(5, item.getNumberInComposition());
+                } else {
+                    statement.setNull(5, Types.NULL);
+                }
+
+                if (item.getTrainId() != null) {
+                    statement.setString(6, item.getTrainId().toString());
+                } else {
+                    statement.setNull(6, Types.NULL);
+                }
+
+                statement.setLong(7, item.getPower());
+                statement.setBigDecimal(8, item.getMaxSpeed());
+                statement.setBoolean(9, item.isEngineWork());
+                statement.setString(10, getType().toString());
+                statement.execute();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
             }
-            if (locomotive.getTrainId() != null) {
-                statement.setLong(6, locomotive.getTrainId());
-            } else {
-                statement.setLong(6, Types.NULL);
-            }
-            statement.setLong(7, locomotive.getPower());
-            statement.setBigDecimal(8, locomotive.getMaxSpeed());
-            statement.setBoolean(9, locomotive.isEngineWork());
-            statement.setString(10, getType());
-            statement.execute();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
         }
+        return false;
+    }
+
+    public List<Object> preGet(UUID id) {
+        List<Object> list = super.preGet(id);
+        try (Connection c = getConnection()) {
+            ResultSet rs = c.prepareStatement("select ELECTRIC_GRID_CONNECTION, VOLUME_OF_FUEL from " + getTable() + " where WAGON_ID = '" + id.toString() + "'").executeQuery();
+            rs.next();
+
+            list.add(rs.getBoolean(1));
+            list.add(rs.getBigDecimal(2));
+
+            return list;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 
 }

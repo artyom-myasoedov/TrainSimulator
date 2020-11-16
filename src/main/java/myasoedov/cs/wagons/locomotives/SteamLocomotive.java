@@ -3,6 +3,7 @@ package myasoedov.cs.wagons.locomotives;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class SteamLocomotive extends FuelLocomotive {
     private static final BigDecimal MAX_VOLUME_FUEL = BigDecimal.valueOf(120);
@@ -12,7 +13,7 @@ public class SteamLocomotive extends FuelLocomotive {
     private final static BigDecimal MAX_SPEED = BigDecimal.valueOf(60);
 
 
-    public SteamLocomotive(BigDecimal age, BigDecimal condition, BigDecimal volumeFuel, Long id) {
+    public SteamLocomotive(BigDecimal age, BigDecimal condition, BigDecimal volumeFuel, UUID id) {
         super(WEIGHT, age, condition, POWER, MAX_SPEED, id, MAX_VOLUME_FUEL, CONSUMPTION, volumeFuel);
     }
 

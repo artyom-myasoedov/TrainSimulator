@@ -3,13 +3,14 @@ package myasoedov.cs.models.abstractWagons;
 import myasoedov.cs.wagons.locomotives.LocomotiveEngineConditions;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public abstract class Locomotive extends Wagon {
     protected final int power;
     protected final BigDecimal maxSpeed;
     protected LocomotiveEngineConditions engine;
 
-    public Locomotive(int weight, BigDecimal age, BigDecimal condition, int power, BigDecimal maxSpeed, Long id) {
+    public Locomotive(int weight, BigDecimal age, BigDecimal condition, int power, BigDecimal maxSpeed, UUID id) {
         super(weight, age, condition, id);
         this.power = power;
         this.maxSpeed = maxSpeed;

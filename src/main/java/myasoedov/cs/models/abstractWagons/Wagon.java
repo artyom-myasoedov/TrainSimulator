@@ -2,19 +2,23 @@ package myasoedov.cs.models.abstractWagons;
 
 
 import myasoedov.cs.models.Storable;
+import myasoedov.cs.models.storages.Storage;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.UUID;
 
 public abstract class Wagon implements Storable {
     protected final int weight;
-    protected final Long id;
+    protected final UUID id;
     protected Long numberInComposition;
+    protected Storage<? extends Wagon> storage;
 
-    protected Long trainId;
+    protected UUID trainId;
     protected BigDecimal age;
     protected BigDecimal condition;
 
-    public Wagon(int weight, BigDecimal age, BigDecimal condition, Long id) {
+    public Wagon(int weight, BigDecimal age, BigDecimal condition, UUID id) {
         this.weight = weight;
         this.age = age;
         this.condition = condition;
@@ -24,7 +28,7 @@ public abstract class Wagon implements Storable {
     }
 
     @Override
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -44,11 +48,19 @@ public abstract class Wagon implements Storable {
         return condition;
     }
 
-    public Long getTrainId() {
+    public UUID getTrainId() {
         return trainId;
     }
 
-    public void setTrainId(Long trainId) {
+    public Storage<? extends Wagon> getStorage() {
+        return storage;
+    }
+
+    public void setStorage(Storage<? extends Wagon> storage) {
+        this.storage = storage;
+    }
+
+    public void setTrainId(UUID trainId) {
         this.trainId = trainId;
     }
 
@@ -62,6 +74,10 @@ public abstract class Wagon implements Storable {
     public void setNumberInComposition(Long position) {
         numberInComposition = position;
     }
+
+//    public boolean save() throws SQLException {
+//        return storage.save(this);
+//    }
 
     public void repair(double condition) {
         this.condition = this.condition.add(BigDecimal.valueOf(condition));

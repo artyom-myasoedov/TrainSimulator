@@ -1,12 +1,13 @@
 package myasoedov.cs.wagons.freightWagons;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class PlatformWagon extends myasoedov.cs.models.abstractWagons.FreightWagon {
     private final static int WEIGHT = 1500;
     private final static int MAX_CARRYING = 4000;
 
-    public PlatformWagon(BigDecimal age, BigDecimal condition, Long id) {
+    public PlatformWagon(BigDecimal age, BigDecimal condition, UUID id) {
         super(WEIGHT, age, condition, MAX_CARRYING, id);
     }
 

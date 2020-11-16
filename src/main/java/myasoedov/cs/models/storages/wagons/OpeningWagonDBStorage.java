@@ -2,9 +2,10 @@ package myasoedov.cs.models.storages.wagons;
 
 import myasoedov.cs.factories.WagonFactory;
 import myasoedov.cs.models.Storable;
-import myasoedov.cs.models.storages.wagons.FreightWagonDBStorage;
+import myasoedov.cs.storages.wagons.WagonType;
 import myasoedov.cs.wagons.freightWagons.OpeningWagon;
-import myasoedov.cs.wagons.freightWagons.PlatformWagon;
+import myasoedov.cs.wagons.freightWagons.RefrigeratorWagon;
+
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -12,29 +13,23 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
+import java.util.UUID;
 
-public abstract class OpeningWagonDBStorage extends FreightWagonDBStorage {
-    public OpeningWagonDBStorage(String jdbcUrl, String userName, String userParol, String type) {
+public abstract class OpeningWagonDBStorage<T extends OpeningWagon> extends FreightWagonDBStorage<T> {
+    public OpeningWagonDBStorage(String jdbcUrl, String userName, String userParol, WagonType type) {
         super(jdbcUrl, userName, userParol, type);
     }
 
-    public OpeningWagonDBStorage(String type) {
+    public OpeningWagonDBStorage(WagonType type) {
         super(type);
     }
 
     @Override
-    public boolean save(Storable item) {
+    public boolean save(T item) throws SQLException {
         if (super.save(item)) {
-            OpeningWagon wagon = (OpeningWagon) item;
             try (Connection c = getConnection()) {
-                PreparedStatement statement = c.prepareStatement("insert into OPENING_WAGONS (WAGON_ID, IS_OPENED, TRAIN_ID) values (?, ?, ?)");
-                statement.setLong(1, item.getId());
-                statement.setBoolean(2, wagon.getIsOpened());
-                if (wagon.getTrainId() != null) {
-                    statement.setLong(3, wagon.getTrainId());
-                } else {
-                    statement.setLong(3, Types.NULL);
-                }
+                PreparedStatement statement = c.prepareStatement("update " + getTable() + " set IS_OPEN = ? where WAGON_ID = '" + item.getId().toString() + "'");
+                statement.setBoolean(1, item.getIsOpened());
                 statement.execute();
                 return true;
             } catch (SQLException throwables) {
@@ -46,26 +41,37 @@ public abstract class OpeningWagonDBStorage extends FreightWagonDBStorage {
     }
 
     @Override
-    public Storable get(Long id) {
+    public T get(UUID id) {
         List<Object> list = super.preGet(id);
         OpeningWagon wagon;
         switch (getType()) {
-            case "Covered":
+            case COVERED:
                 wagon = WagonFactory.createCoveredWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
                 break;
-            case "Tank":
+            case TANK:
                 wagon = WagonFactory.createTankWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                break;
+            case REFRIGERATOR:
+                wagon = WagonFactory.createRefrigeratorWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                ((RefrigeratorWagon) wagon).setCurrentTemperature((BigDecimal) list.get(7));
                 break;
             default:
                 throw new IllegalStateException();
         }
         wagon.loadCargo(Math.toIntExact((Long) list.get(5)));
-        if ((Long) list.get(2) != 0L) {
-            wagon.setNumberInComposition((Long) list.get(2));
-        } else {
-            wagon.setNumberInComposition(null);
+        if ((Boolean) list.get(6)) {
+            wagon.openWagon();
         }
-        return wagon;
+
+        Long num = (Long) list.get(2) != 0L ? (Long) list.get(2) : null;
+        wagon.setNumberInComposition(num);
+
+        String str = (String) list.get(4);
+        wagon.setTrainId(null);
+        if (str != null) {
+            wagon.setTrainId(UUID.fromString(str));
+        }
+        return (T) wagon;
     }
 }
 

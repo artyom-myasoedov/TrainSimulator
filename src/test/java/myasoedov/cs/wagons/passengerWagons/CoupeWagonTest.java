@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,7 +15,7 @@ public class CoupeWagonTest {
 
     @Before
     public void createWagon() {
-        wagon = WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100), 100L);
+        wagon = WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100), UUID.randomUUID());
     }
 
     @Test

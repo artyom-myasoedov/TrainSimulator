@@ -1,11 +1,11 @@
 package myasoedov.cs.storages.wagons.passenger;
 
-import myasoedov.cs.models.Storable;
 import myasoedov.cs.models.storages.wagons.PassengerWagonDBStorage;
+import myasoedov.cs.storages.wagons.WagonType;
 import myasoedov.cs.wagons.passengerWagons.SleepWagon;
 
-public class SleepWagonDBStorage extends PassengerWagonDBStorage {
-    private final static String TYPE = "Sleep";
+public class SleepWagonDBStorage<T extends SleepWagon> extends PassengerWagonDBStorage<T> {
+    private final static WagonType TYPE = WagonType.SLEEP;
 
     public SleepWagonDBStorage(String jdbcUrl, String userName, String userParol) {
         super(jdbcUrl, userName, userParol, TYPE);
@@ -13,14 +13,5 @@ public class SleepWagonDBStorage extends PassengerWagonDBStorage {
 
     public SleepWagonDBStorage() {
         super(TYPE);
-    }
-
-    @Override
-    public boolean save(Storable item) {
-        if (item instanceof SleepWagon) {
-            return super.save(item);
-        } else {
-            throw new IllegalArgumentException();
-        }
     }
 }
