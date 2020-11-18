@@ -2,6 +2,7 @@ package myasoedov.cs.models.storages.wagons;
 
 import myasoedov.cs.factories.WagonFactory;
 import myasoedov.cs.models.Storable;
+import myasoedov.cs.storages.train.AttributeType;
 import myasoedov.cs.storages.wagons.WagonType;
 import myasoedov.cs.wagons.freightWagons.OpeningWagon;
 import myasoedov.cs.wagons.freightWagons.RefrigeratorWagon;
@@ -13,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public abstract class OpeningWagonDBStorage<T extends OpeningWagon> extends FreightWagonDBStorage<T> {
@@ -42,31 +44,31 @@ public abstract class OpeningWagonDBStorage<T extends OpeningWagon> extends Frei
 
     @Override
     public T get(UUID id) {
-        List<Object> list = super.preGet(id);
+        Map<AttributeType, Object> map = super.preGet(id);
         OpeningWagon wagon;
         switch (getType()) {
             case COVERED:
-                wagon = WagonFactory.createCoveredWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                wagon = WagonFactory.createCoveredWagon((BigDecimal) map.get(AttributeType.AGE), (BigDecimal) map.get(AttributeType.CONDITION), id);
                 break;
             case TANK:
-                wagon = WagonFactory.createTankWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                wagon = WagonFactory.createTankWagon((BigDecimal) map.get(AttributeType.AGE), (BigDecimal) map.get(AttributeType.CONDITION), id);
                 break;
             case REFRIGERATOR:
-                wagon = WagonFactory.createRefrigeratorWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
-                ((RefrigeratorWagon) wagon).setCurrentTemperature((BigDecimal) list.get(7));
+                wagon = WagonFactory.createRefrigeratorWagon((BigDecimal) map.get(AttributeType.AGE), (BigDecimal) map.get(AttributeType.CONDITION), id);
+                ((RefrigeratorWagon) wagon).setCurrentTemperature((BigDecimal) map.get(AttributeType.CURRENT_TEMPERATURE));
                 break;
             default:
                 throw new IllegalStateException();
         }
-        wagon.loadCargo(Math.toIntExact((Long) list.get(5)));
-        if ((Boolean) list.get(6)) {
+        wagon.loadCargo(Math.toIntExact((Long) map.get(AttributeType.CARGO_WEIGHT)));
+        if ((Boolean) map.get(AttributeType.IS_OPEN)) {
             wagon.openWagon();
         }
 
-        Long num = (Long) list.get(2) != 0L ? (Long) list.get(2) : null;
+        Long num = (Long) map.get(AttributeType.NUMBER_IN_COMPOSITION) != 0L ? (Long) map.get(AttributeType.NUMBER_IN_COMPOSITION) : null;
         wagon.setNumberInComposition(num);
 
-        String str = (String) list.get(4);
+        String str = (String) map.get(AttributeType.TRAIN_ID);
         wagon.setTrainId(null);
         if (str != null) {
             wagon.setTrainId(UUID.fromString(str));

@@ -3,11 +3,13 @@ package myasoedov.cs.models.storages.wagons;
 import myasoedov.cs.factories.WagonFactory;
 
 import myasoedov.cs.models.abstractWagons.PassengerWagon;
+import myasoedov.cs.storages.train.AttributeType;
 import myasoedov.cs.storages.wagons.WagonType;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public abstract class PassengerWagonDBStorage<T extends PassengerWagon> extends WagonDBStorage<T> {
@@ -56,36 +58,36 @@ public abstract class PassengerWagonDBStorage<T extends PassengerWagon> extends 
 
     @Override
     public T get(UUID id) {
-        List<Object> list = super.preGet(id);
+        Map<AttributeType, Object> map = super.preGet(id);
         try (Connection c = getConnection()) {
             ResultSet rs = c.prepareStatement("select NUMBER_OF_PASSENGERS from " + getTable() + " where WAGON_ID = '" + id.toString() + "'").executeQuery();
             rs.next();
-            list.add(rs.getInt(1));
+            map.put(AttributeType.NUMBER_OF_PASSENGERS, rs.getInt(1));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         PassengerWagon wagon;
         switch (getType()) {
             case COUPE:
-                wagon = WagonFactory.createCoupeWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                wagon = WagonFactory.createCoupeWagon((BigDecimal) map.get(AttributeType.AGE), (BigDecimal) map.get(AttributeType.CONDITION), id);
                 break;
             case SLEEP:
-                wagon = WagonFactory.createSleepWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                wagon = WagonFactory.createSleepWagon((BigDecimal) map.get(AttributeType.AGE), (BigDecimal) map.get(AttributeType.CONDITION), id);
                 break;
             case SEAT:
-                wagon = WagonFactory.createSeatWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                wagon = WagonFactory.createSeatWagon((BigDecimal) map.get(AttributeType.AGE), (BigDecimal) map.get(AttributeType.CONDITION), id);
                 break;
             case RESTAURANT:
-                wagon = WagonFactory.createRestaurantWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
+                wagon = WagonFactory.createRestaurantWagon((BigDecimal) map.get(AttributeType.AGE), (BigDecimal) map.get(AttributeType.CONDITION), id);
                 break;
             default:
                 throw new IllegalStateException();
         }
-        wagon.addPassengers((Integer) list.get(list.size() - 1));
-        Long num = (Long) list.get(2) != 0L ? (Long) list.get(2) : null;
+        wagon.addPassengers((Integer) map.get(AttributeType.NUMBER_OF_PASSENGERS));
+        Long num = (Long) map.get(AttributeType.NUMBER_IN_COMPOSITION) != 0L ? (Long) map.get(2) : null;
         wagon.setNumberInComposition(num);
 
-        String str = (String) list.get(4);
+        String str = (String) map.get(AttributeType.TRAIN_ID);
         wagon.setTrainId(null);
         if (str != null) {
             wagon.setTrainId(UUID.fromString(str));

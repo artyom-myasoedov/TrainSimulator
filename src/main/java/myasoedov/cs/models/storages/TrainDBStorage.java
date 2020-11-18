@@ -81,10 +81,6 @@ public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends D
                 }
 
             });
-            //как сохранять?
-//            item.getWagons().forEach(wagon -> {
-//                storageMap.get(wagon.getClass()).save(wagon.getClass().cast(wagon));
-//            });
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,10 +95,6 @@ public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends D
             rs.next();
             if (rs.getString(1).equals(getType().toString())) {
                 statement = c.prepareStatement("delete from TRAINS WHERE TRAIN_ID = '" + id.toString() + "'");
-                statement.execute();
-                statement = c.prepareStatement("delete from LOCOMOTIVES WHERE TRAIN_ID = '" + id.toString() + "'");
-                statement.execute();
-                statement = c.prepareStatement("delete from " + getTable() + " WHERE TRAIN_ID = '" + id.toString() + "'");
                 statement.execute();
                 return true;
             } else {

@@ -1,10 +1,12 @@
 package myasoedov.cs.models.storages.wagons;
 
 import myasoedov.cs.models.abstractWagons.FreightWagon;
+import myasoedov.cs.storages.train.AttributeType;
 import myasoedov.cs.storages.wagons.WagonType;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public abstract class FreightWagonDBStorage<T extends FreightWagon> extends WagonDBStorage<T> {
@@ -56,15 +58,15 @@ public abstract class FreightWagonDBStorage<T extends FreightWagon> extends Wago
     }
 
     @Override
-    public List<Object> preGet(UUID id) {
-        List<Object> list = super.preGet(id);
+    public Map<AttributeType, Object> preGet(UUID id) {
+        Map<AttributeType, Object> map = super.preGet(id);
         try (Connection c = getConnection()) {
             ResultSet rs = c.prepareStatement("select CARGO_WEIGHT, IS_OPEN, CURRENT_TEMPERATURE from " + getTable() + " where WAGON_ID = '" + id.toString() + "'").executeQuery();
             rs.next();
-            list.add(rs.getLong(1));
-            list.add(rs.getBoolean(2));
-            list.add(rs.getBigDecimal(3));
-            return list;
+            map.put(AttributeType.CARGO_WEIGHT, rs.getLong(1));
+            map.put(AttributeType.IS_OPEN, rs.getBoolean(2));
+            map.put(AttributeType.CURRENT_TEMPERATURE, rs.getBigDecimal(3));
+            return map;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

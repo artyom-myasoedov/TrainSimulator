@@ -3,15 +3,14 @@ package myasoedov.cs.models.storages.wagons;
 import myasoedov.cs.models.Storable;
 import myasoedov.cs.models.abstractWagons.Wagon;
 import myasoedov.cs.models.storages.DBStorage;
+import myasoedov.cs.storages.train.AttributeType;
 import myasoedov.cs.storages.wagons.WagonType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class WagonDBStorage<T extends Wagon> extends DBStorage<T> {
 
@@ -67,20 +66,20 @@ public abstract class WagonDBStorage<T extends Wagon> extends DBStorage<T> {
         }
     }
 
-    public List<Object> preGet(UUID id) {
+    public Map<AttributeType, Object> preGet(UUID id) {
         try (Connection c = getConnection()) {
             ResultSet rs = c.prepareStatement("select AGE, CONDITION, NUMBER_IN_COMPOSITION, WAGON_TYPE, TRAIN_ID from " + getTable() + " where WAGON_ID = '" + id.toString() + "'").executeQuery();
             rs.next();
 
             if (rs.getString(4).equals(getType().toString())) {
-                List<Object> list = new ArrayList<>();
-                list.add(rs.getBigDecimal(1));
-                list.add(rs.getBigDecimal(2));
-                list.add(rs.getLong(3));
-                list.add(rs.getString(4));
-                list.add(rs.getString(5));
+                Map<AttributeType, Object> map = new HashMap<>();
+                map.put(AttributeType.AGE, rs.getBigDecimal(1));
+                map.put(AttributeType.CONDITION, rs.getBigDecimal(2));
+                map.put(AttributeType.NUMBER_IN_COMPOSITION, rs.getLong(3));
+                map.put(AttributeType.WAGON_TYPE, rs.getString(4));
+                map.put(AttributeType.TRAIN_ID, rs.getString(5));
 
-                return list;
+                return map;
             }
             throw new IllegalStateException();
         } catch (SQLException throwables) {
