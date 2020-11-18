@@ -23,22 +23,22 @@ public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends D
 
     private final TrainType type;
     private final String table;
-    private final Map<Class<? extends Wagon>, Storage<? extends Wagon>> storageMap;
     private final Map<WagonType, Storage<? extends Wagon>> storageEnumMap;
-    private final Map<Class<? extends Locomotive>, Storage<? extends Locomotive>> storageLocomotiveMap = Configs.createLocomotivesMap();
+    private final static Storage<DieselLocomotive> dieselStorage = new DieselLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<ElectricLocomotive> electricStorage = new ElectricLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<SteamLocomotive> steamStorage = new SteamLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+
 
     public TrainDBStorage(String jdbcUrl, String userName, String userParol, TrainType type, String table, Map<Class<? extends Wagon>, Storage<? extends Wagon>> map, Map<WagonType, Storage<? extends Wagon>> mapEnum) {
         super(jdbcUrl, userName, userParol);
         this.type = type;
         this.table = table;
-        storageMap = map;
         storageEnumMap = mapEnum;
     }
 
     public TrainDBStorage(TrainType type, String table, Map<Class<? extends Wagon>, Storage<? extends Wagon>> map, Map<WagonType, Storage<? extends Wagon>> mapEnum) {
         this.type = type;
         this.table = table;
-        storageMap = map;
         storageEnumMap = mapEnum;
     }
 
@@ -58,9 +58,6 @@ public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends D
             if (rs.getInt(1) != 0) {
                 return false;
             }
-            Storage<DieselLocomotive> dieselStorage = new DieselLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            Storage<ElectricLocomotive> electricStorage = new ElectricLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            Storage<SteamLocomotive> steamStorage = new SteamLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
             PreparedStatement statement = c.prepareStatement("insert into TRAINS (TRAIN_ID, NUMBER_OF_WAGONS, NUMBER_OF_LOCOMOTIVES, TRAIN_TYPE) values (?, ?, ?, ?)");
             statement.setString(1, item.getId().toString());
             statement.setLong(2, item.getWagonsSize());

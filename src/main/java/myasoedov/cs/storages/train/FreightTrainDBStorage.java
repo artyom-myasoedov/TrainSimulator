@@ -15,7 +15,6 @@ import myasoedov.cs.storages.wagons.freight.TankWagonDBStorage;
 import myasoedov.cs.trains.FreightTrain;
 import myasoedov.cs.wagons.freightWagons.*;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,30 +24,27 @@ import java.util.UUID;
 public class FreightTrainDBStorage<T extends FreightTrain<? extends FreightWagon>> extends TrainDBStorage<T> {
     private final static TrainType TYPE = TrainType.FREIGHT;
     private final static String WAGONS_TABLE = "FREIGHT_WAGONS";
-    private static List<FreightWagonDBStorage<? extends FreightWagon>> storageList;
+    private final static Storage<TankWagon> tankStorage = new TankWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<CoveredWagon> coveredStorage = new CoveredWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<PlatformWagon> platformStorage = new PlatformWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<RefrigeratorWagon> refrigeratorStorage = new RefrigeratorWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+
 
     public FreightTrainDBStorage(String jdbcUrl, String userName, String userParol) {
         super(jdbcUrl, userName, userParol, TYPE, WAGONS_TABLE, Configs.createStorageMap(), Configs.createStorageEnumMap());
-        storageList = Configs.createFreightList();
     }
 
     public FreightTrainDBStorage() {
         super(TYPE, WAGONS_TABLE, Configs.createStorageMap(), Configs.createStorageEnumMap());
-        storageList = Configs.createFreightList();
     }
 
     @Override
     public boolean save(T item) {
         if (super.save(item)) {
-            Storage<TankWagon> tankStorage = new TankWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            Storage<CoveredWagon> coveredStorage = new CoveredWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            Storage<PlatformWagon> platformStorage = new PlatformWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            Storage<RefrigeratorWagon> refrigeratorStorage = new RefrigeratorWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
             item.getWagons().forEach(wagon -> {
                 try {
                     if (wagon instanceof TankWagon) {
                         tankStorage.save((TankWagon) wagon);
-                        //storageList.get(0).save(wagon);
                     } else if (wagon instanceof CoveredWagon) {
                         coveredStorage.save((CoveredWagon) wagon);
                     } else if (wagon instanceof RefrigeratorWagon) {
