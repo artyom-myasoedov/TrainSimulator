@@ -48,21 +48,16 @@ public class PassengerTrainDBStorage<T extends PassengerTrain<? extends Passenge
     @Override
     public boolean save(T item) {
         if (super.save(item)) {
-            Storage<CoupeWagon> coupeStorage = new CoupeWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            Storage<SleepWagon> sleepStorage = new SleepWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            Storage<SeatWagon> seatStorage = new SeatWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            Storage<RestaurantWagon> restaurantStorage = new RestaurantWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            item.getWagons().forEach(wagon -> {
+           item.getWagons().forEach(wagon -> {
                 try {
                     if (wagon instanceof CoupeWagon) {
-                        coupeStorage.save((CoupeWagon) wagon);
-                        //storageList.get(0).save(wagon);
+                        CoupeWagon.save((CoupeWagon) wagon);
                     } else if (wagon instanceof SleepWagon) {
-                        sleepStorage.save((SleepWagon) wagon);
+                        SleepWagon.save((SleepWagon) wagon);
                     } else if (wagon instanceof SeatWagon) {
-                        seatStorage.save((SeatWagon) wagon);
+                        SeatWagon.save((SeatWagon) wagon);
                     } else if (wagon instanceof RestaurantWagon) {
-                        restaurantStorage.save((RestaurantWagon) wagon);
+                        RestaurantWagon.save((RestaurantWagon) wagon);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -6,9 +6,6 @@ import myasoedov.cs.models.abstractWagons.Wagon;
 import myasoedov.cs.models.trains.Train;
 import myasoedov.cs.storages.train.TrainType;
 import myasoedov.cs.storages.wagons.WagonType;
-import myasoedov.cs.storages.wagons.locomotives.DieselLocomotiveDBStorage;
-import myasoedov.cs.storages.wagons.locomotives.ElectricLocomotiveDBStorage;
-import myasoedov.cs.storages.wagons.locomotives.SteamLocomotiveDBStorage;
 import myasoedov.cs.wagons.locomotives.DieselLocomotive;
 import myasoedov.cs.wagons.locomotives.ElectricLocomotive;
 import myasoedov.cs.wagons.locomotives.SteamLocomotive;
@@ -58,9 +55,6 @@ public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends D
             if (rs.getInt(1) != 0) {
                 return false;
             }
-            Storage<DieselLocomotive> dieselStorage = new DieselLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            Storage<ElectricLocomotive> electricStorage = new ElectricLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-            Storage<SteamLocomotive> steamStorage = new SteamLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
             PreparedStatement statement = c.prepareStatement("insert into TRAINS (TRAIN_ID, NUMBER_OF_WAGONS, NUMBER_OF_LOCOMOTIVES, TRAIN_TYPE) values (?, ?, ?, ?)");
             statement.setString(1, item.getId().toString());
             statement.setLong(2, item.getWagonsSize());
@@ -70,11 +64,11 @@ public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends D
             item.getLocomotives().forEach(locomotive -> {
                 try {
                     if (locomotive instanceof DieselLocomotive) {
-                        dieselStorage.save((DieselLocomotive) locomotive);
+                        DieselLocomotive.save((DieselLocomotive) locomotive);
                     } else if (locomotive instanceof ElectricLocomotive) {
-                        electricStorage.save((ElectricLocomotive) locomotive);
+                        ElectricLocomotive.save((ElectricLocomotive) locomotive);
                     } else if (locomotive instanceof SteamLocomotive) {
-                        steamStorage.save((SteamLocomotive) locomotive);
+                        SteamLocomotive.save((SteamLocomotive) locomotive);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

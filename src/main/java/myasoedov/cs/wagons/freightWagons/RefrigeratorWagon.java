@@ -1,6 +1,12 @@
 package myasoedov.cs.wagons.freightWagons;
 
+import myasoedov.cs.models.storages.Configs;
+import myasoedov.cs.models.storages.Storage;
+import myasoedov.cs.storages.wagons.freight.RefrigeratorWagonDBStorage;
+import myasoedov.cs.storages.wagons.freight.TankWagonDBStorage;
+
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class RefrigeratorWagon extends OpeningWagon {
@@ -9,11 +15,18 @@ public class RefrigeratorWagon extends OpeningWagon {
     private final BigDecimal MIN_TEMPERATURE = BigDecimal.valueOf(-25);
     private final static int WEIGHT = 3000;
     private final static int MAX_CARRYING = 1500;
+    private final static Storage<RefrigeratorWagon> storage = new RefrigeratorWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+
 
 
     public RefrigeratorWagon(BigDecimal age, BigDecimal condition, UUID id) {
         super(WEIGHT, age, condition, MAX_CARRYING, id);
         currentTemperature = BigDecimal.valueOf(0);
+    }
+
+    public static RefrigeratorWagon save(RefrigeratorWagon wagon) throws SQLException {
+        storage.save(wagon);
+        return wagon;
     }
 
     public BigDecimal getCurrentTemperature() {
