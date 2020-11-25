@@ -20,12 +20,12 @@ public class PassengerTrainDBStorageTest extends TestCase {
     PassengerTrain<PassengerWagon> train;
     Storage<PassengerTrain<PassengerWagon>> storage;
     public void setUp() {
-        train = new PassengerTrain<>(UUID.fromString("deea44c7-a180-4898-9527-58db0ed34683"));
-        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100), UUID.randomUUID()));
-        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(80), UUID.randomUUID()));
-        train.addHeadWagon(WagonFactory.createSleepWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90), UUID.randomUUID()));
-        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30), UUID.randomUUID()));
-        train.addLocomotive(WagonFactory.createDieselLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30), UUID.randomUUID()));
+        train = new PassengerTrain<>(UUID.fromString("deea44c7-a180-4898-9527-58db0ed34583"));
+        train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34790")));
+        train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(80), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34791")));
+        train.addHeadWagon(WagonFactory.createSleepWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34792")));
+        train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34793")));
+        train.addLocomotive(WagonFactory.createDieselLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34794")));
 
         storage = new PassengerTrainDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 

@@ -17,7 +17,7 @@ public class ElectricLocomotiveDBStorageTest extends TestCase {
     ElectricLocomotive locomotive;
     Storage<ElectricLocomotive> storage;
     public void setUp() {
-        locomotive = WagonFactory.createElectricLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(100), LocomotiveEngineConditions.ENABLED, UUID.randomUUID());
+        locomotive = WagonFactory.createElectricLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(100), LocomotiveEngineConditions.ENABLED, UUID.fromString("cfabef2a-de4a-474f-b565-1dedd6a39012"));
         storage = new ElectricLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
     }

@@ -26,10 +26,10 @@ public class PassengerWagonDBStorageTest extends TestCase {
     Storage<SeatWagon> storage4;
 
     public void setUp() {
-        wagon1 = WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(90), UUID.randomUUID());
-        wagon2 = WagonFactory.createSleepWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(90), UUID.randomUUID());
-        wagon3 = WagonFactory.createRestaurantWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(90), UUID.randomUUID());
-        wagon4 = WagonFactory.createSeatWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(90), UUID.randomUUID());
+        wagon1 = WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(90), UUID.fromString("cfabef2a-de4a-474f-b565-1dedd6a39215"));
+        wagon2 = WagonFactory.createSleepWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(90), UUID.fromString("cfabef2a-de4a-474f-b565-1dedd6a31016"));
+        wagon3 = WagonFactory.createRestaurantWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(90), UUID.fromString("cfabef2a-de4a-474f-b565-1dedd6a35017"));
+        wagon4 = WagonFactory.createSeatWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(90), UUID.fromString("cfabef2a-de4a-474f-b565-1dedd6a39010"));
         storage1 = new CoupeWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
         storage2 = new SleepWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
         storage3 = new RestaurantWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);

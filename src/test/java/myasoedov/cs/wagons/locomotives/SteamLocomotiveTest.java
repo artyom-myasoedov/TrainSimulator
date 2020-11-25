@@ -19,7 +19,7 @@ public class SteamLocomotiveTest {
         locomotive = WagonFactory.createSteamLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(100), BigDecimal.valueOf(0), UUID.randomUUID());
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void testStartEngine() {
         locomotive.startEngine();
         assertTrue(locomotive.isEngineWork());

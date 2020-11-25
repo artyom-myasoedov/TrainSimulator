@@ -1,11 +1,11 @@
 package myasoedov.cs.models.storages.wagons;
 
 import myasoedov.cs.models.abstractWagons.Locomotive;
+import myasoedov.cs.storages.train.AttributeType;
 import myasoedov.cs.storages.wagons.WagonType;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public abstract class LocomotiveDBStorage<T extends Locomotive> extends WagonDBStorage<T> {
@@ -56,16 +56,16 @@ public abstract class LocomotiveDBStorage<T extends Locomotive> extends WagonDBS
         return false;
     }
 
-    public List<Object> preGet(UUID id) {
-        List<Object> list = super.preGet(id);
+    public Map<AttributeType, Object> preGet(UUID id) {
+        Map<AttributeType, Object> map = super.preGet(id);
         try (Connection c = getConnection()) {
             ResultSet rs = c.prepareStatement("select ELECTRIC_GRID_CONNECTION, VOLUME_OF_FUEL from " + getTable() + " where WAGON_ID = '" + id.toString() + "'").executeQuery();
             rs.next();
 
-            list.add(rs.getBoolean(1));
-            list.add(rs.getBigDecimal(2));
+            map.put(AttributeType.ELECTRIC_GRID_CONNECTION, rs.getBoolean(1));
+            map.put(AttributeType.VOLUME_OF_FUEL, rs.getBigDecimal(2));
 
-            return list;
+            return map;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

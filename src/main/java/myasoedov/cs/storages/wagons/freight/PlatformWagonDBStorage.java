@@ -2,11 +2,12 @@ package myasoedov.cs.storages.wagons.freight;
 
 import myasoedov.cs.factories.WagonFactory;
 import myasoedov.cs.models.storages.wagons.FreightWagonDBStorage;
+import myasoedov.cs.storages.train.AttributeType;
 import myasoedov.cs.storages.wagons.WagonType;
 import myasoedov.cs.wagons.freightWagons.PlatformWagon;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class PlatformWagonDBStorage<T extends PlatformWagon> extends FreightWagonDBStorage<T> {
@@ -22,14 +23,14 @@ public class PlatformWagonDBStorage<T extends PlatformWagon> extends FreightWago
 
     @Override
     public T get(UUID id) {
-        List<Object> list = super.preGet(id);
-        PlatformWagon wagon = WagonFactory.createPlatformWagon((BigDecimal) list.get(0), (BigDecimal) list.get(1), id);
-        wagon.loadCargo(Math.toIntExact((Long) list.get(5)));
+        Map<AttributeType, Object> map = super.preGet(id);
+        PlatformWagon wagon = WagonFactory.createPlatformWagon((BigDecimal) map.get(AttributeType.AGE), (BigDecimal) map.get(AttributeType.CONDITION), id);
+        wagon.loadCargo(Math.toIntExact((Long) map.get(AttributeType.CARGO_WEIGHT)));
 
-        Long num = (Long) list.get(2) != 0L ? (Long) list.get(2) : null;
+        Long num = (Long) map.get(AttributeType.NUMBER_IN_COMPOSITION) != 0L ? (Long) map.get(AttributeType.NUMBER_IN_COMPOSITION) : null;
         wagon.setNumberInComposition(num);
 
-        String str = (String) list.get(4);
+        String str = (String) map.get(AttributeType.TRAIN_ID);
         wagon.setTrainId(null);
         if (str != null) {
             wagon.setTrainId(UUID.fromString(str));

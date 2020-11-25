@@ -75,10 +75,6 @@ public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends D
                 }
 
             });
-            //как сохранять?
-//            item.getWagons().forEach(wagon -> {
-//                storageMap.get(wagon.getClass()).save(wagon.getClass().cast(wagon));
-//            });
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

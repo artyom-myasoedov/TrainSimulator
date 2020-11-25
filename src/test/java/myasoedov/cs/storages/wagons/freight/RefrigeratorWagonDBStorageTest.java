@@ -17,10 +17,20 @@ public class RefrigeratorWagonDBStorageTest extends TestCase {
     Storage<RefrigeratorWagon> storage;
 
     public void setUp() {
-        wagon = WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(33), UUID.randomUUID());
-        wagon.setCurrentTemperature(BigDecimal.valueOf(10));
+        wagon = WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(33), UUID.fromString("cfabef2a-de4a-474f-b565-1dedd6a39011"));
+
         storage = new RefrigeratorWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
+    }
+
+
+
+    public void testSave() throws SQLException {
+        storage.save(wagon);
+    }
+
+    public void testDelete() {
+        storage.delete(wagon.getId());
     }
 
     public void testGet() throws SQLException {
@@ -34,12 +44,5 @@ public class RefrigeratorWagonDBStorageTest extends TestCase {
         assertEquals(wagon.getCurrentTemperature(), wagon2.getCurrentTemperature());
 
     }
-
-    public void testSave() throws SQLException {
-        storage.save(wagon);
-    }
-
-    public void testDelete() {
-        storage.delete(wagon.getId());
-    }
 }
+

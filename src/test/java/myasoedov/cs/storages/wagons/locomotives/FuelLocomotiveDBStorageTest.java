@@ -19,9 +19,9 @@ public class FuelLocomotiveDBStorageTest extends TestCase {
     SteamLocomotive locomotive1;
     Storage<SteamLocomotive> storage1;
     public void setUp() {
-        locomotive = WagonFactory.createDieselLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(100), BigDecimal.valueOf(20), UUID.randomUUID());
+        locomotive = WagonFactory.createDieselLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(100), BigDecimal.valueOf(20), UUID.fromString("cfabef2a-de4a-474f-b565-1dedd6a39014"));
         storage = new DieselLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
-        locomotive1 = WagonFactory.createSteamLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(100), BigDecimal.valueOf(20), UUID.randomUUID());
+        locomotive1 = WagonFactory.createSteamLocomotive(BigDecimal.valueOf(10), BigDecimal.valueOf(100), BigDecimal.valueOf(20), UUID.fromString("cfabef2a-de4a-474f-b565-1dedd6a39013"));
         storage1 = new SteamLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
     }

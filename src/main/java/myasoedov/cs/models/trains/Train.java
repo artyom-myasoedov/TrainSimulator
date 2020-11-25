@@ -215,14 +215,12 @@ public abstract class Train<T extends Wagon> implements Storable {
     }
 
     public void moveForward(double speed) {
-        if (locomotivesInTail || locomotivesInHead) {
             if (totalPower < getTotalWeight()) {
                 throw new IllegalArgumentException();
             }
             setCurrentSpeed(BigDecimal.valueOf(speed));
             locomotives.forEach(Locomotive::moveForward);
             moving = Movings.FORWARD;
-        }
     }
 
     public void moveBehind(double speed) {

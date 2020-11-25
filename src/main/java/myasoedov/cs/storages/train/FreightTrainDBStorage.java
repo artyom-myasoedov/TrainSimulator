@@ -5,13 +5,8 @@ import myasoedov.cs.models.abstractWagons.FreightWagon;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 import myasoedov.cs.models.abstractWagons.Wagon;
 import myasoedov.cs.models.storages.Configs;
-import myasoedov.cs.models.storages.Storage;
 import myasoedov.cs.models.storages.TrainDBStorage;
 import myasoedov.cs.models.storages.wagons.FreightWagonDBStorage;
-import myasoedov.cs.storages.wagons.freight.CoveredWagonDBStorage;
-import myasoedov.cs.storages.wagons.freight.PlatformWagonDBStorage;
-import myasoedov.cs.storages.wagons.freight.RefrigeratorWagonDBStorage;
-import myasoedov.cs.storages.wagons.freight.TankWagonDBStorage;
 import myasoedov.cs.trains.FreightTrain;
 import myasoedov.cs.wagons.freightWagons.*;
 

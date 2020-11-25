@@ -46,9 +46,13 @@ public class PassengerTrainTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetMovingException() {
+        train.unhookLocomotive();
+        for (int i = 0; i <100; i++) {
+            train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90), UUID.randomUUID()));
+        }
         assertEquals(train.getMoving(), Movings.STOPPED);
         train.moveForward(30);
-        assertEquals(train.getMoving(), Movings.FORWARD);
+
     }
 
     @Test
