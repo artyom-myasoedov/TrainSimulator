@@ -2,16 +2,13 @@ package myasoedov.cs.storages.train;
 
 import junit.framework.TestCase;
 import myasoedov.cs.factories.WagonFactory;
-import myasoedov.cs.models.abstractWagons.FreightWagon;
 import myasoedov.cs.models.abstractWagons.PassengerWagon;
 import myasoedov.cs.models.storages.Configs;
 import myasoedov.cs.models.storages.Storage;
-import myasoedov.cs.trains.FreightTrain;
 import myasoedov.cs.trains.PassengerTrain;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.Random;
 import java.util.UUID;
 
 public class PassengerTrainDBStorageTest extends TestCase {
@@ -20,7 +17,7 @@ public class PassengerTrainDBStorageTest extends TestCase {
     PassengerTrain<PassengerWagon> train;
     Storage<PassengerTrain<PassengerWagon>> storage;
     public void setUp() {
-        train = new PassengerTrain<>(UUID.fromString("deea44c7-a180-4898-9527-58db0ed34583"));
+        train = new PassengerTrain<>(UUID.fromString("deea44c7-a180-4898-9527-58db0ed37583"));
         train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34790")));
         train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(80), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34791")));
         train.addHeadWagon(WagonFactory.createSleepWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34792")));

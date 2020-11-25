@@ -84,7 +84,7 @@ public abstract class PassengerWagonDBStorage<T extends PassengerWagon> extends 
                 throw new IllegalStateException();
         }
         wagon.addPassengers((Integer) map.get(AttributeType.NUMBER_OF_PASSENGERS));
-        Long num = (Long) map.get(AttributeType.NUMBER_IN_COMPOSITION) != 0L ? (Long) map.get(2) : null;
+        Long num = (Long) map.get(AttributeType.NUMBER_IN_COMPOSITION) != 0L ? (Long) map.get(AttributeType.NUMBER_IN_COMPOSITION) : null;
         wagon.setNumberInComposition(num);
 
         String str = (String) map.get(AttributeType.TRAIN_ID);

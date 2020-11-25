@@ -55,7 +55,7 @@ public abstract class WagonDBStorage<T extends Wagon> extends DBStorage<T> {
             ResultSet rs = statement.executeQuery();
             rs.next();
             if (Enum.valueOf(WagonType.class, rs.getString(1)).equals(getType())) {
-                statement = c.prepareStatement("delete from " + table + " where WAGON_ID = " + id.toString());
+                statement = c.prepareStatement("delete from " + table + " where WAGON_ID = '" + id.toString() + "'");
                 statement.execute();
                 return true;
             }
