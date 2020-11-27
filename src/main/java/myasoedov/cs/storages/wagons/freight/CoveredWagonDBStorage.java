@@ -5,14 +5,13 @@ import myasoedov.cs.storages.wagons.WagonType;
 import myasoedov.cs.wagons.freightWagons.CoveredWagon;
 
 public class CoveredWagonDBStorage<T extends CoveredWagon> extends OpeningWagonDBStorage<T> {
-    private final static WagonType TYPE = WagonType.COVERED;
 
     public CoveredWagonDBStorage(String jdbcUrl, String userName, String userParol) {
-        super(jdbcUrl, userName, userParol, TYPE);
+        super(jdbcUrl, userName, userParol, WagonType.COVERED);
     }
 
     public CoveredWagonDBStorage() {
-        super(TYPE);
+        super(WagonType.COVERED);
     }
 
 }

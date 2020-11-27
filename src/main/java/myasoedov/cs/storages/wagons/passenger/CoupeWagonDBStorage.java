@@ -5,13 +5,12 @@ import myasoedov.cs.storages.wagons.WagonType;
 import myasoedov.cs.wagons.passengerWagons.CoupeWagon;
 
 public class CoupeWagonDBStorage<T extends CoupeWagon> extends PassengerWagonDBStorage<T> {
-    private final static WagonType TYPE = WagonType.COUPE;
 
     public CoupeWagonDBStorage(String jdbcUrl, String userName, String userParol) {
-        super(jdbcUrl, userName, userParol, TYPE);
+        super(jdbcUrl, userName, userParol, WagonType.COUPE);
     }
 
     public CoupeWagonDBStorage() {
-        super(TYPE);
+        super(WagonType.COUPE);
     }
 }

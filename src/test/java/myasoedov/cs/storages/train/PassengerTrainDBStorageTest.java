@@ -3,7 +3,7 @@ package myasoedov.cs.storages.train;
 import junit.framework.TestCase;
 import myasoedov.cs.factories.WagonFactory;
 import myasoedov.cs.models.abstractWagons.PassengerWagon;
-import myasoedov.cs.models.storages.Configs;
+import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.Storage;
 import myasoedov.cs.trains.PassengerTrain;
 

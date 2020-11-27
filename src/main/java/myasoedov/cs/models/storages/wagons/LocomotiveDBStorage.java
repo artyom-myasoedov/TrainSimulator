@@ -1,5 +1,6 @@
 package myasoedov.cs.models.storages.wagons;
 
+import myasoedov.cs.Configs;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 import myasoedov.cs.storages.train.AttributeType;
 import myasoedov.cs.storages.wagons.WagonType;
@@ -9,14 +10,13 @@ import java.util.Map;
 import java.util.UUID;
 
 public abstract class LocomotiveDBStorage<T extends Locomotive> extends WagonDBStorage<T> {
-    private final static String TABLE = "LOCOMOTIVES";
 
     public LocomotiveDBStorage(String jdbcUrl, String userName, String userParol, WagonType type) {
-        super(jdbcUrl, userName, userParol, type, TABLE);
+        super(jdbcUrl, userName, userParol, type, Configs.DBProperties.getProperty("locomotives.table"));
     }
 
     public LocomotiveDBStorage(WagonType type) {
-        super(type, TABLE);
+        super(type, Configs.DBProperties.getProperty("locomotives.table"));
     }
 
     @Override

@@ -75,10 +75,6 @@ public abstract class Wagon implements Storable {
         numberInComposition = position;
     }
 
-//    public boolean save() throws SQLException {
-//        return storage.save(this);
-//    }
-
     public void repair(double condition) {
         this.condition = this.condition.add(BigDecimal.valueOf(condition));
         if (this.condition.compareTo(BigDecimal.valueOf(100)) > 0) {

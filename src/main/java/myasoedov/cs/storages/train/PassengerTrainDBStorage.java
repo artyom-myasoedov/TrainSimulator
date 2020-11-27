@@ -4,7 +4,7 @@ import myasoedov.cs.DoubleContainer;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 import myasoedov.cs.models.abstractWagons.PassengerWagon;
 import myasoedov.cs.models.abstractWagons.Wagon;
-import myasoedov.cs.models.storages.Configs;
+import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.TrainDBStorage;
 import myasoedov.cs.trains.PassengerTrain;
 import myasoedov.cs.wagons.passengerWagons.CoupeWagon;
@@ -19,14 +19,13 @@ import java.util.UUID;
 
 public class PassengerTrainDBStorage<T extends PassengerTrain<? extends PassengerWagon>> extends TrainDBStorage<T> {
     private final static TrainType TYPE = TrainType.PASSENGER;
-    private final static String WAGONS_TABLE = "PASSENGER_WAGONS";
 
     public PassengerTrainDBStorage(String jdbcUrl, String userName, String userParol) {
-        super(jdbcUrl, userName, userParol, TYPE, WAGONS_TABLE, Configs.createStorageMap(), Configs.createStorageEnumMap());
+        super(jdbcUrl, userName, userParol, TYPE, Configs.DBProperties.getProperty("passengerWagons.table"), Configs.createStorageEnumMap());
     }
 
     public PassengerTrainDBStorage() {
-        super(TYPE, WAGONS_TABLE, Configs.createStorageMap(), Configs.createStorageEnumMap());
+        super(TYPE, Configs.DBProperties.getProperty("passengerWagons.table"), Configs.createStorageEnumMap());
     }
 
     @Override

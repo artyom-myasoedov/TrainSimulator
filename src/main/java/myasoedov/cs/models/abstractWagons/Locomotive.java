@@ -39,18 +39,15 @@ public abstract class Locomotive extends Wagon {
         if (!isEngineWork()) {
             startEngine();
         }
-        System.out.println("This locomotive start moving forward");
     }
 
     public void moveBehind() {
         if (!isEngineWork()) {
             startEngine();
         }
-        System.out.println("This locomotive start moving behind");
     }
 
     public void stopMoving() {
-        System.out.println("This locomotive stop moving");
     }
 
 }

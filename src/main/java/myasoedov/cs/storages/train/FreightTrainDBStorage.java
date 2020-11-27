@@ -4,9 +4,8 @@ import myasoedov.cs.DoubleContainer;
 import myasoedov.cs.models.abstractWagons.FreightWagon;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 import myasoedov.cs.models.abstractWagons.Wagon;
-import myasoedov.cs.models.storages.Configs;
+import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.TrainDBStorage;
-import myasoedov.cs.models.storages.wagons.FreightWagonDBStorage;
 import myasoedov.cs.trains.FreightTrain;
 import myasoedov.cs.wagons.freightWagons.*;
 
@@ -18,17 +17,13 @@ import java.util.UUID;
 
 public class FreightTrainDBStorage<T extends FreightTrain<? extends FreightWagon>> extends TrainDBStorage<T> {
     private final static TrainType TYPE = TrainType.FREIGHT;
-    private final static String WAGONS_TABLE = "FREIGHT_WAGONS";
-    private static List<FreightWagonDBStorage<? extends FreightWagon>> storageList;
 
     public FreightTrainDBStorage(String jdbcUrl, String userName, String userParol) {
-        super(jdbcUrl, userName, userParol, TYPE, WAGONS_TABLE, Configs.createStorageMap(), Configs.createStorageEnumMap());
-        storageList = Configs.createFreightList();
+        super(jdbcUrl, userName, userParol, TYPE, Configs.DBProperties.getProperty("freightWagons.table"), Configs.createStorageEnumMap());
     }
 
     public FreightTrainDBStorage() {
-        super(TYPE, WAGONS_TABLE, Configs.createStorageMap(), Configs.createStorageEnumMap());
-        storageList = Configs.createFreightList();
+        super(TYPE, Configs.DBProperties.getProperty("freightWagons.table"), Configs.createStorageEnumMap());
     }
 
     @Override

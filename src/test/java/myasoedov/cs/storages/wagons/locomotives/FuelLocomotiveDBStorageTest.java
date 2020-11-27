@@ -2,8 +2,7 @@ package myasoedov.cs.storages.wagons.locomotives;
 
 import junit.framework.TestCase;
 import myasoedov.cs.factories.WagonFactory;
-import myasoedov.cs.models.abstractWagons.Locomotive;
-import myasoedov.cs.models.storages.Configs;
+import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.Storage;
 import myasoedov.cs.wagons.locomotives.DieselLocomotive;
 import myasoedov.cs.wagons.locomotives.SteamLocomotive;

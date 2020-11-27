@@ -1,9 +1,8 @@
 package myasoedov.cs.wagons.freightWagons;
 
-import myasoedov.cs.models.storages.Configs;
+import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.Storage;
 import myasoedov.cs.storages.wagons.freight.RefrigeratorWagonDBStorage;
-import myasoedov.cs.storages.wagons.freight.TankWagonDBStorage;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -11,16 +10,15 @@ import java.util.UUID;
 
 public class RefrigeratorWagon extends OpeningWagon {
     private BigDecimal currentTemperature;
-    private final BigDecimal MAX_TEMPERATURE = BigDecimal.valueOf(25);
-    private final BigDecimal MIN_TEMPERATURE = BigDecimal.valueOf(-25);
-    private final static int WEIGHT = 3000;
-    private final static int MAX_CARRYING = 1500;
+    private final BigDecimal MAX_TEMPERATURE = new BigDecimal(Configs.WagonFillsProperties.getProperty("refrigeratorMaxTemp"));
+    private final BigDecimal MIN_TEMPERATURE = new BigDecimal(Configs.WagonFillsProperties.getProperty("refrigeratorMinTemp"));
     private final static Storage<RefrigeratorWagon> storage = new RefrigeratorWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
 
 
     public RefrigeratorWagon(BigDecimal age, BigDecimal condition, UUID id) {
-        super(WEIGHT, age, condition, MAX_CARRYING, id);
+        super(Integer.parseInt(Configs.WagonFillsProperties.getProperty("refrigeratorWeight")), age, condition,
+                Integer.parseInt(Configs.WagonFillsProperties.getProperty("refrigeratorMaxCarrying")), id);
         currentTemperature = BigDecimal.valueOf(0);
     }
 

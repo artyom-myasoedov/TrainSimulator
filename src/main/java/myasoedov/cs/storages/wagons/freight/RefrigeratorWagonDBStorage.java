@@ -7,14 +7,13 @@ import myasoedov.cs.wagons.freightWagons.RefrigeratorWagon;
 import java.sql.*;
 
 public class RefrigeratorWagonDBStorage<T extends RefrigeratorWagon> extends OpeningWagonDBStorage<T> {
-    private final static WagonType TYPE = WagonType.REFRIGERATOR;
 
     public RefrigeratorWagonDBStorage(String jdbcUrl, String userName, String userParol) {
-        super(jdbcUrl, userName, userParol, TYPE);
+        super(jdbcUrl, userName, userParol, WagonType.REFRIGERATOR);
     }
 
     public RefrigeratorWagonDBStorage() {
-        super(TYPE);
+        super(WagonType.REFRIGERATOR);
     }
 
     @Override

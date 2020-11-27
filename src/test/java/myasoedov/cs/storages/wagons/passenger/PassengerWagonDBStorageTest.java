@@ -2,9 +2,8 @@ package myasoedov.cs.storages.wagons.passenger;
 
 import junit.framework.TestCase;
 import myasoedov.cs.factories.WagonFactory;
-import myasoedov.cs.models.storages.Configs;
+import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.Storage;
-import myasoedov.cs.wagons.freightWagons.CoveredWagon;
 import myasoedov.cs.wagons.passengerWagons.CoupeWagon;
 import myasoedov.cs.wagons.passengerWagons.RestaurantWagon;
 import myasoedov.cs.wagons.passengerWagons.SeatWagon;

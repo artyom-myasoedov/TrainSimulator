@@ -5,13 +5,12 @@ import myasoedov.cs.storages.wagons.WagonType;
 import myasoedov.cs.wagons.locomotives.SteamLocomotive;
 
 public class SteamLocomotiveDBStorage<T extends SteamLocomotive> extends FuelLocomotiveDBStorage<T> {
-    private final static WagonType TYPE = WagonType.STEAM;
 
     public SteamLocomotiveDBStorage(String jdbcUrl, String userName, String userParol) {
-        super(jdbcUrl, userName, userParol, TYPE);
+        super(jdbcUrl, userName, userParol, WagonType.STEAM);
     }
 
     public SteamLocomotiveDBStorage() {
-        super(TYPE);
+        super(WagonType.STEAM);
     }
 }

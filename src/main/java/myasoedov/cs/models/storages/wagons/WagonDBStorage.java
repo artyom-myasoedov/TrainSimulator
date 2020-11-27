@@ -1,6 +1,5 @@
 package myasoedov.cs.models.storages.wagons;
 
-import myasoedov.cs.models.Storable;
 import myasoedov.cs.models.abstractWagons.Wagon;
 import myasoedov.cs.models.storages.DBStorage;
 import myasoedov.cs.storages.train.AttributeType;

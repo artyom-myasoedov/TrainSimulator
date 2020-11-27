@@ -20,22 +20,18 @@ public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends D
 
     private final TrainType type;
     private final String table;
-    private final Map<Class<? extends Wagon>, Storage<? extends Wagon>> storageMap;
     private final Map<WagonType, Storage<? extends Wagon>> storageEnumMap;
-    private final Map<Class<? extends Locomotive>, Storage<? extends Locomotive>> storageLocomotiveMap = Configs.createLocomotivesMap();
 
-    public TrainDBStorage(String jdbcUrl, String userName, String userParol, TrainType type, String table, Map<Class<? extends Wagon>, Storage<? extends Wagon>> map, Map<WagonType, Storage<? extends Wagon>> mapEnum) {
+    public TrainDBStorage(String jdbcUrl, String userName, String userParol, TrainType type, String table, Map<WagonType, Storage<? extends Wagon>> mapEnum) {
         super(jdbcUrl, userName, userParol);
         this.type = type;
         this.table = table;
-        storageMap = map;
         storageEnumMap = mapEnum;
     }
 
-    public TrainDBStorage(TrainType type, String table, Map<Class<? extends Wagon>, Storage<? extends Wagon>> map, Map<WagonType, Storage<? extends Wagon>> mapEnum) {
+    public TrainDBStorage(TrainType type, String table, Map<WagonType, Storage<? extends Wagon>> mapEnum) {
         this.type = type;
         this.table = table;
-        storageMap = map;
         storageEnumMap = mapEnum;
     }
 

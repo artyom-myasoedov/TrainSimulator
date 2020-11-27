@@ -11,14 +11,13 @@ import java.util.Map;
 import java.util.UUID;
 
 public class PlatformWagonDBStorage<T extends PlatformWagon> extends FreightWagonDBStorage<T> {
-    private final static WagonType TYPE = WagonType.PLATFORM;
 
     public PlatformWagonDBStorage(String jdbcUrl, String userName, String userParol) {
-        super(jdbcUrl, userName, userParol, TYPE);
+        super(jdbcUrl, userName, userParol, WagonType.PLATFORM);
     }
 
     public PlatformWagonDBStorage() {
-        super(TYPE);
+        super(WagonType.PLATFORM);
     }
 
     @Override

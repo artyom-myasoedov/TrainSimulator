@@ -3,13 +3,12 @@ package myasoedov.cs.storages.train;
 import junit.framework.TestCase;
 import myasoedov.cs.factories.WagonFactory;
 import myasoedov.cs.models.abstractWagons.FreightWagon;
-import myasoedov.cs.models.storages.Configs;
+import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.Storage;
 import myasoedov.cs.trains.FreightTrain;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.Random;
 import java.util.UUID;
 
 public class FreightTrainDBStorageTest extends TestCase {
@@ -25,7 +24,7 @@ public class FreightTrainDBStorageTest extends TestCase {
         train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34623")));
         train.addLocomotive(WagonFactory.createDieselLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34624")));
 
-        storage = new FreightTrainDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+        storage = new FreightTrainDBStorage<>(Configs.DBProperties.getProperty("db.url"), Configs.DBProperties.getProperty("db.user"), Configs.DBProperties.getProperty("db.parol"));
 
     }
 
