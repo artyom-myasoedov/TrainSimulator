@@ -21,11 +21,11 @@ public class PlatformWagonDBStorageTest extends TestCase {
     }
 
     public void testSave() throws SQLException {
-        storage.save(wagon);
+        assertTrue(storage.save(wagon));
     }
 
     public void testDelete() {
-        storage.delete(wagon.getId());
+        assertTrue(storage.delete(wagon.getId()));
     }
 
     public void testGet() throws SQLException {

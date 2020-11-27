@@ -29,11 +29,11 @@ public class FreightTrainDBStorageTest extends TestCase {
     }
 
     public void testSave() throws SQLException {
-        storage.save(train);
+        assertTrue(storage.save(train));
     }
 
     public void testDelete() {
-        storage.delete(train.getId());
+        assertTrue(storage.delete(train.getId()));
     }
 
     public void testGet() throws SQLException {

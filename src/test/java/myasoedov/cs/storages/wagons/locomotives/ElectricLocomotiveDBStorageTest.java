@@ -22,11 +22,11 @@ public class ElectricLocomotiveDBStorageTest extends TestCase {
     }
 
     public void testSave() throws SQLException {
-        storage.save(locomotive);
+        assertTrue(storage.save(locomotive));
     }
 
     public void testDelete() {
-        storage.delete(locomotive.getId());
+        assertTrue(storage.delete(locomotive.getId()));
     }
 
     public void testGet() throws SQLException {

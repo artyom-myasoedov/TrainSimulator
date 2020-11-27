@@ -38,17 +38,17 @@ public class PassengerWagonDBStorageTest extends TestCase {
     }
 
     public void testSave() throws SQLException {
-        storage1.save(wagon1);
-        storage2.save(wagon2);
-        storage3.save(wagon3);
-        storage4.save(wagon4);
+        assertTrue(storage1.save(wagon1));
+        assertTrue(storage2.save(wagon2));
+        assertTrue(storage3.save(wagon3));
+        assertTrue(storage4.save(wagon4));
     }
 
     public void testDelete() {
-        storage1.delete(wagon1.getId());
-        storage2.delete(wagon2.getId());
-        storage3.delete(wagon3.getId());
-        storage4.delete(wagon4.getId());
+        assertTrue(storage1.delete(wagon1.getId()));
+        assertTrue(storage2.delete(wagon2.getId()));
+        assertTrue(storage3.delete(wagon3.getId()));
+        assertTrue(storage4.delete(wagon4.getId());
     }
 
     public void testGet() throws SQLException {

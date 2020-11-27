@@ -26,13 +26,13 @@ public class FuelLocomotiveDBStorageTest extends TestCase {
     }
 
     public void testSave() throws SQLException {
-        storage.save(locomotive);
-        storage1.save(locomotive1);
+        assertTrue(storage.save(locomotive));
+        assertTrue(storage1.save(locomotive1));
     }
 
     public void testDelete() {
-        storage.delete(locomotive.getId());
-        storage1.delete(locomotive1.getId());
+        assertTrue(storage.delete(locomotive.getId()));
+        assertTrue(storage1.delete(locomotive1.getId()));
     }
 
     public void testGet() throws SQLException {

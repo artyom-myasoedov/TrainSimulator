@@ -29,13 +29,13 @@ public class OpeningWagonDBStorageTest extends TestCase {
 
 
     public void testSave() throws SQLException {
-        storage.save(wagon);
-        storage1.save(wagon1);
+        assertTrue(storage.save(wagon));
+        assertTrue(storage1.save(wagon1));
     }
 
     public void testDelete() {
-        storage.delete(wagon.getId());
-        storage1.delete(wagon1.getId());
+        assertTrue(storage.delete(wagon.getId()));
+        assertTrue(storage1.delete(wagon1.getId()));
     }
 
     public void testGet() throws SQLException {
