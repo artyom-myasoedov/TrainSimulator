@@ -15,14 +15,13 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ElectricLocomotiveDBStorage<T extends ElectricLocomotive> extends LocomotiveDBStorage<T> {
-    private final static WagonType TYPE = WagonType.ELECTRIC;
 
     public ElectricLocomotiveDBStorage(String jdbcUrl, String userName, String userParol) {
-        super(jdbcUrl, userName, userParol, TYPE);
+        super(jdbcUrl, userName, userParol, WagonType.ELECTRIC);
     }
 
     public ElectricLocomotiveDBStorage() {
-        super(TYPE);
+        super(WagonType.ELECTRIC);
     }
 
     @Override

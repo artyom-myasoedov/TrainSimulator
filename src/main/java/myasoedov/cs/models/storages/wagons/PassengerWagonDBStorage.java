@@ -25,6 +25,9 @@ public abstract class PassengerWagonDBStorage<T extends PassengerWagon> extends 
     @Override
     public boolean save(T item) {
         try (Connection c = getConnection()) {
+            if (!super.save(item)) {
+                delete(item.getId());
+            }
             PreparedStatement statement = c.prepareStatement(
                     "insert into " + getTable() + " (WAGON_ID, AGE, CONDITION, WEIGHT, NUMBER_IN_COMPOSITION, TRAIN_ID, NUMBER_OF_PASSENGERS, NUMBER_OF_SEATS, WAGON_TYPE) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, item.getId().toString());

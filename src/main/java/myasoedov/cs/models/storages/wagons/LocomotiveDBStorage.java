@@ -21,8 +21,10 @@ public abstract class LocomotiveDBStorage<T extends Locomotive> extends WagonDBS
 
     @Override
     public boolean save(T item) throws SQLException {
-        if (super.save(item)) {
             try (Connection c = getConnection()) {
+                if (!super.save(item)) {
+                    delete(item.getId());
+                }
                 PreparedStatement statement = c.prepareStatement(
                         "insert into " + getTable() + " (WAGON_ID, AGE, CONDITION, WEIGHT, NUMBER_IN_COMPOSITION, TRAIN_ID, POWER, MAX_SPEED, ENGINE, WAGON_TYPE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 statement.setString(1, item.getId().toString());
@@ -50,9 +52,7 @@ public abstract class LocomotiveDBStorage<T extends Locomotive> extends WagonDBS
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false;
             }
-        }
         return false;
     }
 

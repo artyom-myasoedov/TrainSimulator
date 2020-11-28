@@ -49,7 +49,7 @@ public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends D
             ResultSet rs = c.prepareStatement("select count(*) from TRAINS where TRAIN_ID = '" + item.getId().toString() + "'").executeQuery();
             rs.next();
             if (rs.getInt(1) != 0) {
-                return false;
+                delete(item.getId());
             }
             PreparedStatement statement = c.prepareStatement("insert into TRAINS (TRAIN_ID, NUMBER_OF_WAGONS, NUMBER_OF_LOCOMOTIVES, TRAIN_TYPE) values (?, ?, ?, ?)");
             statement.setString(1, item.getId().toString());
@@ -80,8 +80,14 @@ public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends D
 
     public boolean delete(UUID id) {
         try (Connection c = getConnection()) {
-            PreparedStatement statement = c.prepareStatement("select  TRAIN_TYPE from TRAINS where TRAIN_ID = '" + id.toString() + "'");
+            PreparedStatement statement = c.prepareStatement("select count(*) from TRAINS where TRAIN_ID = '" + id.toString() + "'");
             ResultSet rs = statement.executeQuery();
+            rs.next();
+            if (rs.getInt(1) == 0) {
+                return true;
+            }
+            statement = c.prepareStatement("select  TRAIN_TYPE from TRAINS where TRAIN_ID = '" + id.toString() + "'");
+            rs = statement.executeQuery();
             rs.next();
             if (rs.getString(1).equals(getType().toString())) {
                 statement = c.prepareStatement("delete from TRAINS WHERE TRAIN_ID = '" + id.toString() + "'");

@@ -21,8 +21,10 @@ public abstract class FreightWagonDBStorage<T extends FreightWagon> extends Wago
 
     @Override
     public boolean save(T item) throws SQLException {
-        if (super.save(item)) {
             try (Connection c = getConnection()) {
+                if(!super.save(item)) {
+                    delete(item.getId());
+                }
                 PreparedStatement statement = c.prepareStatement("insert into " + getTable() + " (WAGON_ID, TRAIN_ID, WEIGHT, AGE, CONDITION, NUMBER_IN_COMPOSITION, CARGO_WEIGHT, MAX_CARRYING, WAGON_TYPE) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 statement.setString(1, item.getId().toString());
 
@@ -49,11 +51,8 @@ public abstract class FreightWagonDBStorage<T extends FreightWagon> extends Wago
                 return true;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-                return false;
             }
-        }
         return false;
-
     }
 
     @Override

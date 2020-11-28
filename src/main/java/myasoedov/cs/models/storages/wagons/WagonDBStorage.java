@@ -50,8 +50,14 @@ public abstract class WagonDBStorage<T extends Wagon> extends DBStorage<T> {
     @Override
     public boolean delete(UUID id) {
         try (Connection c = getConnection()) {
-            PreparedStatement statement = c.prepareStatement("select WAGON_TYPE from " + getTable() + " where WAGON_ID = '" + id.toString() + "'");
+            PreparedStatement statement = c.prepareStatement("select count(*) from " + getTable() + " where WAGON_ID = '" + id.toString() + "'");
             ResultSet rs = statement.executeQuery();
+            rs.next();
+            if (rs.getInt(1) == 0) {
+                return true;
+            }
+            statement = c.prepareStatement("select WAGON_TYPE from " + getTable() + " where WAGON_ID = '" + id.toString() + "'");
+            rs = statement.executeQuery();
             rs.next();
             if (Enum.valueOf(WagonType.class, rs.getString(1)).equals(getType())) {
                 statement = c.prepareStatement("delete from " + table + " where WAGON_ID = '" + id.toString() + "'");
