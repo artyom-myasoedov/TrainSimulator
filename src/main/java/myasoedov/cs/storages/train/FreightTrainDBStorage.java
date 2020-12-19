@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class FreightTrainDBStorage<T extends FreightTrain<? extends FreightWagon>> extends TrainDBStorage<T> {
+public class FreightTrainDBStorage extends TrainDBStorage<FreightTrain> {
     private final static TrainType TYPE = TrainType.FREIGHT;
 
     public FreightTrainDBStorage(String jdbcUrl, String userName, String userParol) {
@@ -27,7 +27,7 @@ public class FreightTrainDBStorage<T extends FreightTrain<? extends FreightWagon
     }
 
     @Override
-    public boolean save(T item) {
+    public boolean save(FreightTrain item) {
         if (super.save(item)) {
               item.getWagons().forEach(wagon -> {
                 try {
@@ -51,11 +51,11 @@ public class FreightTrainDBStorage<T extends FreightTrain<? extends FreightWagon
     }
 
     @Override
-    public T get(UUID id) {
+    public FreightTrain get(UUID id) {
         DoubleContainer<List<Wagon>, List<Locomotive>> container = super.preGet(id);
         List<FreightWagon> list = new ArrayList<>();
         container.getFirst().forEach(wagon -> list.add((FreightWagon) wagon));
         list.sort(Comparator.comparing(Wagon::getNumberInComposition));
-        return (T) new FreightTrain<>(list, container.getSecond(), id);
+        return new FreightTrain(list, container.getSecond(), id);
     }
 }

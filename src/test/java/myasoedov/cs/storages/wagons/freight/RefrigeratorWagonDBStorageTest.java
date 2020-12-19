@@ -18,7 +18,7 @@ public class RefrigeratorWagonDBStorageTest extends TestCase {
     public void setUp() {
         wagon = WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(33), UUID.fromString("cfabef2a-de4a-474f-b565-1dedd6a39011"));
 
-        storage = new RefrigeratorWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+        storage = new RefrigeratorWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
     }
 

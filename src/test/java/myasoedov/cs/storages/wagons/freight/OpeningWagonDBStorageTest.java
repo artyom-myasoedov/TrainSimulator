@@ -20,9 +20,9 @@ public class OpeningWagonDBStorageTest extends TestCase {
     public void setUp() {
         wagon = WagonFactory.createCoveredWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(10), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34683"));
         wagon.openWagon();
-        storage = new CoveredWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+        storage = new CoveredWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
         wagon1 = WagonFactory.createTankWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(10), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34684"));
-        storage1 = new TankWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+        storage1 = new TankWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
     }
 

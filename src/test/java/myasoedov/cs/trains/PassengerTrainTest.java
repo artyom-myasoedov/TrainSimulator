@@ -14,11 +14,11 @@ import static org.junit.Assert.*;
 
 public class PassengerTrainTest {
 
-    public static PassengerTrain<PassengerWagon> train;
+    public static PassengerTrain train;
 
     @Before
     public void prepareTrain() {
-        train = new PassengerTrain<>(UUID.randomUUID());
+        train = new PassengerTrain(UUID.randomUUID());
         train.addHeadWagon(WagonFactory.createCoupeWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90), UUID.randomUUID()));
         train.addTailWagon(WagonFactory.createRestaurantWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90), UUID.randomUUID()));
         train.addHeadWagon(WagonFactory.createSeatWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90), UUID.randomUUID()));

@@ -12,7 +12,7 @@ import java.util.UUID;
 public class ElectricLocomotive extends Locomotive {
 
     private LocomotiveEngineConditions powerGridConnection;
-    private final static Storage<ElectricLocomotive> storage = new ElectricLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<ElectricLocomotive> storage = new ElectricLocomotiveDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
 
     public ElectricLocomotive(BigDecimal age, BigDecimal condition, LocomotiveEngineConditions powerGridConnection, UUID id) {

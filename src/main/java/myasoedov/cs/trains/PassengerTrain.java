@@ -7,7 +7,7 @@ import myasoedov.cs.models.abstractWagons.PassengerWagon;
 import java.util.List;
 import java.util.UUID;
 
-public class PassengerTrain<T extends PassengerWagon> extends Train<T> {
+public class PassengerTrain extends Train<PassengerWagon> {
     private int totalNumberOfSeats;
     private int totalNumberOfPassengers;
 
@@ -17,13 +17,13 @@ public class PassengerTrain<T extends PassengerWagon> extends Train<T> {
         totalNumberOfPassengers = 0;
     }
 
-    public PassengerTrain(List<? extends T> wagons, List<? extends Locomotive> locomotives, UUID id) {
+    public PassengerTrain(List<? extends PassengerWagon> wagons, List<? extends Locomotive> locomotives, UUID id) {
         super(wagons, locomotives, id);
         countTotalNumberOfSeats();
         countTotalNumberOfPassengers();
     }
 
-    public PassengerTrain(List<? extends T> wagons, UUID id) {
+    public PassengerTrain(List<? extends PassengerWagon> wagons, UUID id) {
         super(wagons, id);
         countTotalNumberOfSeats();
         countTotalNumberOfPassengers();
@@ -42,30 +42,30 @@ public class PassengerTrain<T extends PassengerWagon> extends Train<T> {
         return totalNumberOfPassengers;
     }
 
-    public void addHeadWagon(T wagon) {
+    public void addHeadWagon(PassengerWagon wagon) {
             super.addHeadWagon(wagon);
             totalNumberOfSeats += wagon.getNumberOfSeats();
             totalNumberOfPassengers += wagon.getNumberOfPassengers();
     }
-    public void addTailWagon(T wagon) {
+    public void addTailWagon(PassengerWagon wagon) {
         super.addTailWagon(wagon);
         totalNumberOfSeats += wagon.getNumberOfSeats();
         totalNumberOfPassengers += wagon.getNumberOfPassengers();
     }
 
-    public T getWagon(int index) {
+    public PassengerWagon getWagon(int index) {
         return wagons.get(index);
     }
 
-    public T unhookHeadWagon() {
-        T wagon = super.unhookHeadWagon();
+    public PassengerWagon unhookHeadWagon() {
+        PassengerWagon wagon = super.unhookHeadWagon();
         totalNumberOfSeats -= wagon.getNumberOfSeats();
         totalNumberOfPassengers -= wagon.getNumberOfPassengers();
         return wagon;
     }
 
-    public T unhookTailWagon() {
-        T wagon = super.unhookTailWagon();
+    public PassengerWagon unhookTailWagon() {
+        PassengerWagon wagon = super.unhookTailWagon();
         totalNumberOfSeats -= wagon.getNumberOfSeats();
         totalNumberOfPassengers -= wagon.getNumberOfPassengers();
         return wagon;

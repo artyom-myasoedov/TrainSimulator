@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class DieselLocomotive extends FuelLocomotive {
 
-    private final static Storage<DieselLocomotive> storage = new DieselLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<DieselLocomotive> storage = new DieselLocomotiveDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
     public DieselLocomotive(BigDecimal age, BigDecimal condition, BigDecimal volumeFuel, UUID id) {
         super(Integer.parseInt(Configs.WagonFillsProperties.getProperty("dieselWeight")),

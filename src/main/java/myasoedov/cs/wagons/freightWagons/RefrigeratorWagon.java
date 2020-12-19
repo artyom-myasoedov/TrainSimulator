@@ -12,7 +12,7 @@ public class RefrigeratorWagon extends OpeningWagon {
     private BigDecimal currentTemperature;
     private final BigDecimal MAX_TEMPERATURE = new BigDecimal(Configs.WagonFillsProperties.getProperty("refrigeratorMaxTemp"));
     private final BigDecimal MIN_TEMPERATURE = new BigDecimal(Configs.WagonFillsProperties.getProperty("refrigeratorMinTemp"));
-    private final static Storage<RefrigeratorWagon> storage = new RefrigeratorWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<RefrigeratorWagon> storage = new RefrigeratorWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
 
 

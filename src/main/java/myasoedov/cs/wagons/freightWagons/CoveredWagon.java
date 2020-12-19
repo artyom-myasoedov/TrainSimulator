@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class CoveredWagon extends OpeningWagon {
-    private final static Storage<CoveredWagon> storage = new CoveredWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<CoveredWagon> storage = new CoveredWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
 
     public CoveredWagon(BigDecimal age, BigDecimal condition, UUID id) {

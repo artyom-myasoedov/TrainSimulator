@@ -17,7 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
-public class PassengerTrainDBStorage<T extends PassengerTrain<? extends PassengerWagon>> extends TrainDBStorage<T> {
+public class PassengerTrainDBStorage extends TrainDBStorage<PassengerTrain> {
     private final static TrainType TYPE = TrainType.PASSENGER;
 
     public PassengerTrainDBStorage(String jdbcUrl, String userName, String userParol) {
@@ -29,7 +29,7 @@ public class PassengerTrainDBStorage<T extends PassengerTrain<? extends Passenge
     }
 
     @Override
-    public boolean save(T item) {
+    public boolean save(PassengerTrain item) {
         if (super.save(item)) {
            item.getWagons().forEach(wagon -> {
                 try {
@@ -53,11 +53,11 @@ public class PassengerTrainDBStorage<T extends PassengerTrain<? extends Passenge
     }
 
     @Override
-    public T get(UUID id) {
+    public PassengerTrain get(UUID id) {
         DoubleContainer<List<Wagon>, List<Locomotive>> container = super.preGet(id);
         List<PassengerWagon> list = new ArrayList<>();
         container.getFirst().forEach(wagon -> list.add((PassengerWagon) wagon));
         list.sort(Comparator.comparing(Wagon::getNumberInComposition));
-        return (T) new PassengerTrain<>(list, container.getSecond(), id);
+        return new PassengerTrain(list, container.getSecond(), id);
     }
 }

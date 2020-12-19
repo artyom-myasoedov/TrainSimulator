@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class SteamLocomotive extends FuelLocomotive {
 
-    private final static Storage<SteamLocomotive> storage = new SteamLocomotiveDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<SteamLocomotive> storage = new SteamLocomotiveDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
     public SteamLocomotive(BigDecimal age, BigDecimal condition, BigDecimal volumeFuel, UUID id) {
         super(Integer.parseInt(Configs.WagonFillsProperties.getProperty("steamWeight")),

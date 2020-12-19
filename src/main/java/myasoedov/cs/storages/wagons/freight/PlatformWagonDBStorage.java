@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.UUID;
 
-public class PlatformWagonDBStorage<T extends PlatformWagon> extends FreightWagonDBStorage<T> {
+public class PlatformWagonDBStorage extends FreightWagonDBStorage<PlatformWagon> {
 
     public PlatformWagonDBStorage(String jdbcUrl, String userName, String userParol) {
         super(jdbcUrl, userName, userParol, WagonType.PLATFORM);
@@ -21,7 +21,7 @@ public class PlatformWagonDBStorage<T extends PlatformWagon> extends FreightWago
     }
 
     @Override
-    public T get(UUID id) {
+    public PlatformWagon get(UUID id) {
         Map<AttributeType, Object> map = super.preGet(id);
         PlatformWagon wagon = WagonFactory.createPlatformWagon((BigDecimal) map.get(AttributeType.AGE), (BigDecimal) map.get(AttributeType.CONDITION), id);
         wagon.loadCargo(Math.toIntExact((Long) map.get(AttributeType.CARGO_WEIGHT)));
@@ -34,6 +34,6 @@ public class PlatformWagonDBStorage<T extends PlatformWagon> extends FreightWago
         if (str != null) {
             wagon.setTrainId(UUID.fromString(str));
         }
-        return (T) wagon;
+        return wagon;
     }
 }

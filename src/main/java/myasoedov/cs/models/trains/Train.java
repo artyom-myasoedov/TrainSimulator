@@ -141,7 +141,7 @@ public abstract class Train<T extends Wagon> implements Storable {
         if (!locomotivesInTail) {
             wagons.addLast(wagon);
             totalWagonsWeight += wagon.getWeight();
-            wagon.setNumberInComposition((long) (wagons.size() - 1));
+            wagon.setNumberInComposition((long) wagons.size());
             wagon.setTrainId(this.id);
         } else {
             throw new IllegalArgumentException();

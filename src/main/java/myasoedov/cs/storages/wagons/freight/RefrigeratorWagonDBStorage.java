@@ -6,7 +6,7 @@ import myasoedov.cs.wagons.freightWagons.RefrigeratorWagon;
 
 import java.sql.*;
 
-public class RefrigeratorWagonDBStorage<T extends RefrigeratorWagon> extends OpeningWagonDBStorage<T> {
+public class RefrigeratorWagonDBStorage extends OpeningWagonDBStorage<RefrigeratorWagon> {
 
     public RefrigeratorWagonDBStorage(String jdbcUrl, String userName, String userParol) {
         super(jdbcUrl, userName, userParol, WagonType.REFRIGERATOR);
@@ -17,7 +17,7 @@ public class RefrigeratorWagonDBStorage<T extends RefrigeratorWagon> extends Ope
     }
 
     @Override
-    public boolean save(T item) throws SQLException {
+    public boolean save(RefrigeratorWagon item) throws SQLException {
         if (super.save(item)) {
             try (Connection c = getConnection()) {
                 PreparedStatement statement = c.prepareStatement("update " + getTable() + " set MIN_TEMPERATURE = ?, MAX_TEMPERATURE = ?, CURRENT_TEMPERATURE = ? where WAGON_ID = '" + item.getId().toString() + "'");

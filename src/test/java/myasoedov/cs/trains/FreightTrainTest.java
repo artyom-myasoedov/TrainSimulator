@@ -12,13 +12,13 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 
 public class FreightTrainTest {
-        public static FreightTrain<FreightWagon> train;
+        public static FreightTrain train;
 
 
 
     @Before
     public void prepareTrain() {
-        train = new FreightTrain<>(UUID.fromString("deea44c7-a180-4898-9527-58db0ed34670"));
+        train = new FreightTrain(UUID.fromString("deea44c7-a180-4898-9527-58db0ed34670"));
         train.addHeadWagon(WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34690")));
         train.addHeadWagon(WagonFactory.createCoveredWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(80), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34691")));
         train.addHeadWagon(WagonFactory.createPlatformWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34692")));

@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class TankWagon extends OpeningWagon {
 
-    private final static Storage<TankWagon> storage = new TankWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<TankWagon> storage = new TankWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
     public TankWagon(BigDecimal age, BigDecimal condition, UUID id) {
         super(Integer.parseInt(Configs.WagonFillsProperties.getProperty("tankWeight")), age, condition,

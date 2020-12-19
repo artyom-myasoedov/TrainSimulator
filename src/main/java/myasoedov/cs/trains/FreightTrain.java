@@ -7,7 +7,7 @@ import myasoedov.cs.models.abstractWagons.Locomotive;
 import java.util.List;
 import java.util.UUID;
 
-public class FreightTrain<T extends FreightWagon> extends Train<T> {
+public class FreightTrain extends Train<FreightWagon> {
     private int totalMaxCarrying;
     private int totalCurrentCargoWeight;
 
@@ -17,13 +17,13 @@ public class FreightTrain<T extends FreightWagon> extends Train<T> {
         totalCurrentCargoWeight = 0;
     }
 
-    public FreightTrain(List<? extends T> wagons, List<? extends Locomotive> locomotives, UUID id) {
+    public FreightTrain(List<? extends FreightWagon> wagons, List<? extends Locomotive> locomotives, UUID id) {
         super(wagons, locomotives, id);
         countTotalMaxCarrying();
         countTotalCurrentCargoWeight();
     }
 
-    public FreightTrain(List<? extends T> wagons, UUID id) {
+    public FreightTrain(List<? extends FreightWagon> wagons, UUID id) {
         super(wagons, id);
         countTotalMaxCarrying();
         countTotalCurrentCargoWeight();
@@ -43,31 +43,31 @@ public class FreightTrain<T extends FreightWagon> extends Train<T> {
         return getTotalWagonsWeight() + getTotalCurrentCargoWeight();
     }
 
-    public void addHeadWagon(T wagon) {
+    public void addHeadWagon(FreightWagon wagon) {
         super.addHeadWagon(wagon);
         totalCurrentCargoWeight += wagon.getCurrentCargoWeight();
         totalMaxCarrying += wagon.getMaxCarrying();
     }
 
-    public void addTailWagon(T wagon) {
+    public void addTailWagon(FreightWagon wagon) {
         super.addTailWagon(wagon);
         totalCurrentCargoWeight += wagon.getCurrentCargoWeight();
         totalMaxCarrying += wagon.getMaxCarrying();
     }
 
-    public T getWagon(int index) {
+    public FreightWagon getWagon(int index) {
         return wagons.get(index);
     }
 
-    public T unhookHeadWagon() {
-        T wagon = super.unhookHeadWagon();
+    public FreightWagon unhookHeadWagon() {
+        FreightWagon wagon = super.unhookHeadWagon();
         totalMaxCarrying -= wagon.getMaxCarrying();
         totalCurrentCargoWeight -= wagon.getCurrentCargoWeight();
         return wagon;
     }
 
-    public T unhookTailWagon() {
-        T wagon = super.unhookTailWagon();
+    public FreightWagon unhookTailWagon() {
+        FreightWagon wagon = super.unhookTailWagon();
         totalMaxCarrying -= wagon.getMaxCarrying();
         totalCurrentCargoWeight -= wagon.getCurrentCargoWeight();
         return wagon;

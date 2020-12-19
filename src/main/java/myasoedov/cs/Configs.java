@@ -42,17 +42,17 @@ public class Configs {
 
     public static Map<WagonType, Storage<? extends Wagon>> createStorageEnumMap() {
         Map<WagonType, Storage<? extends Wagon>> map = new HashMap<>();
-        map.put(WagonType.COVERED, new CoveredWagonDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
-        map.put(WagonType.PLATFORM, new PlatformWagonDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
-        map.put(WagonType.REFRIGERATOR, new RefrigeratorWagonDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
-        map.put(WagonType.TANK, new TankWagonDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
-        map.put(WagonType.SLEEP, new SleepWagonDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
-        map.put(WagonType.COUPE, new CoupeWagonDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
-        map.put(WagonType.SEAT, new SeatWagonDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
-        map.put(WagonType.RESTAURANT, new RestaurantWagonDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
-        map.put(WagonType.DIESEL, new DieselLocomotiveDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
-        map.put(WagonType.ELECTRIC, new ElectricLocomotiveDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
-        map.put(WagonType.STEAM, new SteamLocomotiveDBStorage<>(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.COVERED, new CoveredWagonDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.PLATFORM, new PlatformWagonDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.REFRIGERATOR, new RefrigeratorWagonDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.TANK, new TankWagonDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.SLEEP, new SleepWagonDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.COUPE, new CoupeWagonDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.SEAT, new SeatWagonDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.RESTAURANT, new RestaurantWagonDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.DIESEL, new DieselLocomotiveDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.ELECTRIC, new ElectricLocomotiveDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
+        map.put(WagonType.STEAM, new SteamLocomotiveDBStorage(JDBC_URL, USER_NAME, USER_PAROL));
 
         return map;
     }

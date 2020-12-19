@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class RestaurantWagon extends myasoedov.cs.models.abstractWagons.PassengerWagon {
-    private final static Storage<RestaurantWagon> storage = new RestaurantWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<RestaurantWagon> storage = new RestaurantWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
 
     public RestaurantWagon(BigDecimal age, BigDecimal condition, UUID id) {

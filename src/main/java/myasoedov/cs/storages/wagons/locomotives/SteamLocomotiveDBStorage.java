@@ -4,7 +4,7 @@ import myasoedov.cs.models.storages.wagons.FuelLocomotiveDBStorage;
 import myasoedov.cs.storages.wagons.WagonType;
 import myasoedov.cs.wagons.locomotives.SteamLocomotive;
 
-public class SteamLocomotiveDBStorage<T extends SteamLocomotive> extends FuelLocomotiveDBStorage<T> {
+public class SteamLocomotiveDBStorage extends FuelLocomotiveDBStorage<SteamLocomotive> {
 
     public SteamLocomotiveDBStorage(String jdbcUrl, String userName, String userParol) {
         super(jdbcUrl, userName, userParol, WagonType.STEAM);

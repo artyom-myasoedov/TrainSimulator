@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
 
-public class ElectricLocomotiveDBStorage<T extends ElectricLocomotive> extends LocomotiveDBStorage<T> {
+public class ElectricLocomotiveDBStorage extends LocomotiveDBStorage<ElectricLocomotive> {
 
     public ElectricLocomotiveDBStorage(String jdbcUrl, String userName, String userParol) {
         super(jdbcUrl, userName, userParol, WagonType.ELECTRIC);
@@ -25,7 +25,7 @@ public class ElectricLocomotiveDBStorage<T extends ElectricLocomotive> extends L
     }
 
     @Override
-    public boolean save(T item) throws SQLException {
+    public boolean save(ElectricLocomotive item) throws SQLException {
         if (super.save(item)) {
             try (Connection c = getConnection()) {
                 PreparedStatement statement = c.prepareStatement("update " + getTable() + " set ELECTRIC_GRID_CONNECTION = ? where WAGON_ID = '" + item.getId().toString() + "'");
@@ -41,7 +41,7 @@ public class ElectricLocomotiveDBStorage<T extends ElectricLocomotive> extends L
     }
 
     @Override
-    public T get(UUID id) {
+    public ElectricLocomotive get(UUID id) {
         Map<AttributeType, Object> map = super.preGet(id);
         ElectricLocomotive locomotive = WagonFactory.createElectricLocomotive((BigDecimal) map.get(AttributeType.AGE), (BigDecimal) map.get(AttributeType.CONDITION), LocomotiveEngineConditions.DISABLED, id);
         if ((Boolean) map.get(AttributeType.ELECTRIC_GRID_CONNECTION)) {
@@ -55,6 +55,6 @@ public class ElectricLocomotiveDBStorage<T extends ElectricLocomotive> extends L
         if (str != null) {
             locomotive.setTrainId(UUID.fromString(str));
         }
-        return (T) locomotive;
+        return locomotive;
     }
 }

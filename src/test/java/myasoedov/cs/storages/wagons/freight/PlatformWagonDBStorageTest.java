@@ -17,7 +17,7 @@ public class PlatformWagonDBStorageTest extends TestCase {
 
     public void setUp() {
         wagon = WagonFactory.createPlatformWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(10), UUID.fromString("cfabef2a-de4a-474f-b565-1dedd6a39010"));
-        storage = new PlatformWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+        storage = new PlatformWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
     }
 
     public void testSave() throws SQLException {

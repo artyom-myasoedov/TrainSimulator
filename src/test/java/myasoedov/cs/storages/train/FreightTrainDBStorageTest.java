@@ -13,18 +13,18 @@ import java.util.UUID;
 
 public class FreightTrainDBStorageTest extends TestCase {
 
-    FreightTrain<FreightWagon> train;
-    Storage<FreightTrain<FreightWagon>> storage;
+    FreightTrain train;
+    Storage<FreightTrain> storage;
 
     public void setUp() {
-        train = new FreightTrain<>(UUID.fromString("deea44c7-a180-4898-9527-58db0ed34674"));
+        train = new FreightTrain(UUID.fromString("deea44c7-a180-4898-9527-58db0ed34674"));
         train.addHeadWagon(WagonFactory.createRefrigeratorWagon(BigDecimal.valueOf(10), BigDecimal.valueOf(100), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34621")));
         train.addHeadWagon(WagonFactory.createCoveredWagon(BigDecimal.valueOf(12), BigDecimal.valueOf(80), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34620")));
         train.addHeadWagon(WagonFactory.createPlatformWagon(BigDecimal.valueOf(2), BigDecimal.valueOf(90), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34622")));
         train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34623")));
         train.addLocomotive(WagonFactory.createDieselLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30), UUID.fromString("deea44c7-a180-4898-9527-58db0ed34624")));
 
-        storage = new FreightTrainDBStorage<>(Configs.DBProperties.getProperty("db.url"), Configs.DBProperties.getProperty("db.user"), Configs.DBProperties.getProperty("db.parol"));
+        storage = new FreightTrainDBStorage(Configs.DBProperties.getProperty("db.url"), Configs.DBProperties.getProperty("db.user"), Configs.DBProperties.getProperty("db.parol"));
 
     }
 
@@ -38,7 +38,7 @@ public class FreightTrainDBStorageTest extends TestCase {
 
     public void testGet() throws SQLException {
         storage.save(train);
-        FreightTrain<FreightWagon> train1 = storage.get(train.getId());
+        FreightTrain train1 = storage.get(train.getId());
         assertEquals(train.getLocomotivesSize(), train1.getLocomotivesSize());
         assertEquals(train.getTotalWeight(), train1.getTotalWeight());
         assertEquals(train.getWagonsSize(), train1.getWagonsSize());

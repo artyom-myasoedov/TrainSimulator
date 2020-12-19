@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class SeatWagon extends myasoedov.cs.models.abstractWagons.PassengerWagon {
-    private final static Storage<SeatWagon> storage = new SeatWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<SeatWagon> storage = new SeatWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
 
     public SeatWagon(BigDecimal age, BigDecimal condition, UUID id) {

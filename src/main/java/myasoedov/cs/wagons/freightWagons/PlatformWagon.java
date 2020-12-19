@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class PlatformWagon extends myasoedov.cs.models.abstractWagons.FreightWagon {
-    private final static Storage<PlatformWagon> storage = new PlatformWagonDBStorage<>(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
+    private final static Storage<PlatformWagon> storage = new PlatformWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
 
     public PlatformWagon(BigDecimal age, BigDecimal condition, UUID id) {
