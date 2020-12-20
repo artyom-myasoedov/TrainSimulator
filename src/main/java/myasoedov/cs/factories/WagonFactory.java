@@ -14,6 +14,9 @@ public class WagonFactory {
     private final static BigDecimal MAX_CONDITION = new BigDecimal("100.00");
     private static final BigDecimal MAX_FUEl_DIESEL = new BigDecimal("100.00");
     private static final BigDecimal MAX_FUEL_STEAM = new BigDecimal("120.00");
+    public final static BigDecimal DEFAULT_AGE = BigDecimal.ONE;
+    public final static BigDecimal DEFAULT_CONDITION = BigDecimal.valueOf(99);
+    public final static BigDecimal DEFAULT_VOLUME_OF_FUEL = BigDecimal.valueOf(50);
 
     public WagonFactory() {
     }
@@ -95,6 +98,50 @@ public class WagonFactory {
             return new SleepWagon(age, condition, id);
         }
         throw new IllegalArgumentException();
+    }
+
+    public static SleepWagon createDefaultSleepWagon() {
+        return createSleepWagon(DEFAULT_AGE, DEFAULT_CONDITION, UUID.randomUUID());
+    }
+
+    public static CoupeWagon createDefaultCoupeWagon() {
+        return createCoupeWagon(DEFAULT_AGE, DEFAULT_CONDITION, UUID.randomUUID());
+    }
+
+    public static RestaurantWagon createDefaultRestaurantWagon() {
+        return createRestaurantWagon(DEFAULT_AGE, DEFAULT_CONDITION, UUID.randomUUID());
+    }
+
+    public static SeatWagon createDefaultSeatWagon() {
+        return createSeatWagon(DEFAULT_AGE, DEFAULT_CONDITION, UUID.randomUUID());
+    }
+
+    public static CoveredWagon createDefaultCoveredWagon() {
+        return createCoveredWagon(DEFAULT_AGE, DEFAULT_CONDITION, UUID.randomUUID());
+    }
+
+    public static RefrigeratorWagon createDefaultRefrigeratorWagon() {
+        return createRefrigeratorWagon(DEFAULT_AGE, DEFAULT_CONDITION, UUID.randomUUID());
+    }
+
+    public static PlatformWagon createDefaultPlatformWagon() {
+        return createPlatformWagon(DEFAULT_AGE, DEFAULT_CONDITION, UUID.randomUUID());
+    }
+
+    public static TankWagon createDefaultTankWagon() {
+        return createTankWagon(DEFAULT_AGE, DEFAULT_CONDITION, UUID.randomUUID());
+    }
+
+    public static DieselLocomotive createDefaultDieselLocomotive() {
+        return createDieselLocomotive(DEFAULT_AGE, DEFAULT_CONDITION, DEFAULT_VOLUME_OF_FUEL, UUID.randomUUID());
+    }
+
+    public static SteamLocomotive createDefaultSteamLocomotive() {
+        return createSteamLocomotive(DEFAULT_AGE, DEFAULT_CONDITION, DEFAULT_VOLUME_OF_FUEL, UUID.randomUUID());
+    }
+
+    public static ElectricLocomotive createDefaultElectricLocomotive() {
+        return createElectricLocomotive(DEFAULT_AGE, DEFAULT_CONDITION, LocomotiveEngineConditions.DISABLED, UUID.randomUUID());
     }
 
     private static boolean checkAgeCondition(BigDecimal age, BigDecimal condition) {
