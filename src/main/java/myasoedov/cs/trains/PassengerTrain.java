@@ -1,5 +1,6 @@
 package myasoedov.cs.trains;
 
+import myasoedov.cs.models.abstractWagons.FreightWagon;
 import myasoedov.cs.models.trains.Train;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 import myasoedov.cs.models.abstractWagons.PassengerWagon;
@@ -7,7 +8,7 @@ import myasoedov.cs.models.abstractWagons.PassengerWagon;
 import java.util.List;
 import java.util.UUID;
 
-public class PassengerTrain extends Train<PassengerWagon> {
+public class PassengerTrain extends Train {
     private int totalNumberOfSeats;
     private int totalNumberOfPassengers;
 
@@ -54,28 +55,28 @@ public class PassengerTrain extends Train<PassengerWagon> {
     }
 
     public PassengerWagon getWagon(int index) {
-        return wagons.get(index);
+        return (PassengerWagon) wagons.get(index);
     }
 
     public PassengerWagon unhookHeadWagon() {
-        PassengerWagon wagon = super.unhookHeadWagon();
+        PassengerWagon wagon = (PassengerWagon) super.unhookHeadWagon();
         totalNumberOfSeats -= wagon.getNumberOfSeats();
         totalNumberOfPassengers -= wagon.getNumberOfPassengers();
         return wagon;
     }
 
     public PassengerWagon unhookTailWagon() {
-        PassengerWagon wagon = super.unhookTailWagon();
+        PassengerWagon wagon = (PassengerWagon) super.unhookTailWagon();
         totalNumberOfSeats -= wagon.getNumberOfSeats();
         totalNumberOfPassengers -= wagon.getNumberOfPassengers();
         return wagon;
     }
 
     private void countTotalNumberOfSeats() {
-        totalNumberOfSeats = wagons.stream().reduce(0, (x, y) -> x + y.getNumberOfSeats(), Integer::sum);
+        totalNumberOfSeats = wagons.stream().reduce(0, (x, y) -> x + ((PassengerWagon) y).getNumberOfSeats(), Integer::sum);
     }
 
     private void countTotalNumberOfPassengers() {
-        totalNumberOfPassengers = wagons.stream().reduce(0, (x, y) -> x + y.getNumberOfPassengers(), Integer::sum);
+        totalNumberOfPassengers = wagons.stream().reduce(0, (x, y) -> x + ((PassengerWagon) y).getNumberOfPassengers(), Integer::sum);
     }
 }

@@ -8,8 +8,8 @@ import myasoedov.cs.trains.Movings;
 import java.math.BigDecimal;
 import java.util.*;
 
-public abstract class Train<T extends Wagon> implements Storable {
-    protected LinkedList<T> wagons;
+public abstract class Train implements Storable {
+    protected LinkedList<Wagon> wagons;
     private final LinkedList<Locomotive> locomotives;
     protected final UUID id;
     private int totalPower;
@@ -31,7 +31,7 @@ public abstract class Train<T extends Wagon> implements Storable {
         currentSpeed = BigDecimal.valueOf(0);
     }
 
-    public Train(List<? extends T> wagons, List<? extends Locomotive> locomotives, UUID id) {
+    public Train(List<? extends Wagon> wagons, List<? extends Locomotive> locomotives, UUID id) {
         if (!checkForCorrectLocomotives(locomotives)) {
             throw new IllegalArgumentException();
         } else {
@@ -50,7 +50,7 @@ public abstract class Train<T extends Wagon> implements Storable {
         }
     }
 
-    public Train(List<? extends T> wagons, UUID id) {
+    public Train(List<? extends Wagon> wagons, UUID id) {
         this.id = id;
         this.wagons = new LinkedList<>(wagons);
         this.locomotives = new LinkedList<>();
@@ -92,7 +92,7 @@ public abstract class Train<T extends Wagon> implements Storable {
         return wagons.size();
     }
 
-    public List<? extends T> getWagons() {
+    public List<? extends Wagon> getWagons() {
         return wagons;
     }
 
@@ -137,7 +137,7 @@ public abstract class Train<T extends Wagon> implements Storable {
         locomotivesInTail = false;
     }
 
-    public void addTailWagon(T wagon) {
+    public void addTailWagon(Wagon wagon) {
         if (!locomotivesInTail) {
             wagons.addLast(wagon);
             totalWagonsWeight += wagon.getWeight();
@@ -148,7 +148,7 @@ public abstract class Train<T extends Wagon> implements Storable {
         }
     }
 
-    public void addHeadWagon(T wagon) {
+    public void addHeadWagon(Wagon wagon) {
         if (!locomotivesInHead) {
             wagons.addFirst(wagon);
             totalWagonsWeight += wagon.getWeight();
@@ -190,9 +190,9 @@ public abstract class Train<T extends Wagon> implements Storable {
         return locomotives.get(index);
     }
 
-    public T unhookHeadWagon() {
+    public Wagon unhookHeadWagon() {
         if (!wagons.isEmpty()) {
-            T wagon = wagons.pollFirst();
+            Wagon wagon = wagons.pollFirst();
             totalWagonsWeight -= wagon.getWeight();
             wagon.setNumberInComposition(null);
             wagon.setTrainId(null);
@@ -202,9 +202,9 @@ public abstract class Train<T extends Wagon> implements Storable {
         }
     }
 
-    public T unhookTailWagon() {
+    public Wagon unhookTailWagon() {
         if (!wagons.isEmpty()) {
-            T wagon = wagons.pollLast();
+            Wagon wagon = wagons.pollLast();
             totalWagonsWeight -= wagon.getWeight();
             wagon.setNumberInComposition(null);
             wagon.setTrainId(null);
@@ -271,7 +271,7 @@ public abstract class Train<T extends Wagon> implements Storable {
     }
 
     private void setTrainId() {
-        for (T wagon : wagons) {
+        for (Wagon wagon : wagons) {
             wagon.setTrainId(getId());
         }
         for (Locomotive locomotive : locomotives) {

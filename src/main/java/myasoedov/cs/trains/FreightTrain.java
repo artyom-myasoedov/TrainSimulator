@@ -7,7 +7,7 @@ import myasoedov.cs.models.abstractWagons.Locomotive;
 import java.util.List;
 import java.util.UUID;
 
-public class FreightTrain extends Train<FreightWagon> {
+public class FreightTrain extends Train {
     private int totalMaxCarrying;
     private int totalCurrentCargoWeight;
 
@@ -56,28 +56,28 @@ public class FreightTrain extends Train<FreightWagon> {
     }
 
     public FreightWagon getWagon(int index) {
-        return wagons.get(index);
+        return (FreightWagon) wagons.get(index);
     }
 
     public FreightWagon unhookHeadWagon() {
-        FreightWagon wagon = super.unhookHeadWagon();
+        FreightWagon wagon = (FreightWagon) super.unhookHeadWagon();
         totalMaxCarrying -= wagon.getMaxCarrying();
         totalCurrentCargoWeight -= wagon.getCurrentCargoWeight();
         return wagon;
     }
 
     public FreightWagon unhookTailWagon() {
-        FreightWagon wagon = super.unhookTailWagon();
+        FreightWagon wagon = (FreightWagon) super.unhookTailWagon();
         totalMaxCarrying -= wagon.getMaxCarrying();
         totalCurrentCargoWeight -= wagon.getCurrentCargoWeight();
         return wagon;
     }
 
     private void countTotalMaxCarrying() {
-        totalMaxCarrying = wagons.stream().reduce(0, (x, y) -> x + y.getMaxCarrying(), Integer::sum);
+        totalMaxCarrying = wagons.stream().reduce(0, (x, y) -> x + ((FreightWagon) y).getMaxCarrying(), Integer::sum);
     }
 
     private void countTotalCurrentCargoWeight() {
-        totalCurrentCargoWeight = wagons.stream().reduce(0, (x, y) -> x + y.getCurrentCargoWeight(), Integer::sum);
+        totalCurrentCargoWeight = wagons.stream().reduce(0, (x, y) -> x + ((FreightWagon) y).getCurrentCargoWeight(), Integer::sum);
     }
 }

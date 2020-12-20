@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public abstract class TrainDBStorage<T extends Train<? extends Wagon>> extends DBStorage<T> {
+public abstract class TrainDBStorage<T extends Train> extends DBStorage<T> {
 
     private final TrainType type;
     private final String table;
