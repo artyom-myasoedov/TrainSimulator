@@ -195,6 +195,7 @@ public abstract class Train implements Storable {
             Wagon wagon = wagons.pollFirst();
             totalWagonsWeight -= wagon.getWeight();
             wagon.setNumberInComposition(null);
+            setWagonsNumber();
             wagon.setTrainId(null);
             return wagon;
         } else {
