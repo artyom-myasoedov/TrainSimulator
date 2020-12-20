@@ -25,7 +25,7 @@ public abstract class FreightWagon extends Wagon {
         if (weight + currentCargoWeight < maxCarrying) {
             currentCargoWeight += weight;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Недопустимый вес груза!");
         }
     }
 

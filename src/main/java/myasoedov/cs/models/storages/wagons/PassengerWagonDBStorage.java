@@ -23,7 +23,7 @@ public abstract class PassengerWagonDBStorage<T extends PassengerWagon> extends 
     }
 
     @Override
-    public boolean save(T item) {
+    public boolean save(T item) throws SQLException {
         try (Connection c = getConnection()) {
             if (!super.save(item)) {
                 delete(item.getId());
@@ -53,8 +53,7 @@ public abstract class PassengerWagonDBStorage<T extends PassengerWagon> extends 
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new SQLException("Ошибка записи в базу данных!", e);
         }
     }
 

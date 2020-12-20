@@ -32,8 +32,7 @@ public abstract class OpeningWagonDBStorage<T extends OpeningWagon> extends Frei
                 statement.execute();
                 return true;
             } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                return false;
+                throw new SQLException("Ошибка записи в базу данных!", throwables);
             }
         }
         return false;

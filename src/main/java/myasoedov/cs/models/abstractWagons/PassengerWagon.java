@@ -25,7 +25,7 @@ public abstract class PassengerWagon extends Wagon {
         if (numberOfPassengers + this.numberOfPassengers < numberOfSeats) {
             this.numberOfPassengers += numberOfPassengers;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Недопустимое количество пассажиров!");
         }
     }
 

@@ -21,38 +21,37 @@ public abstract class FreightWagonDBStorage<T extends FreightWagon> extends Wago
 
     @Override
     public boolean save(T item) throws SQLException {
-            try (Connection c = getConnection()) {
-                if(!super.save(item)) {
-                    delete(item.getId());
-                }
-                PreparedStatement statement = c.prepareStatement("insert into " + getTable() + " (WAGON_ID, TRAIN_ID, WEIGHT, AGE, CONDITION, NUMBER_IN_COMPOSITION, CARGO_WEIGHT, MAX_CARRYING, WAGON_TYPE) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                statement.setString(1, item.getId().toString());
-
-                if (item.getTrainId() != null) {
-                    statement.setString(2, item.getTrainId().toString());
-                } else {
-                    statement.setNull(2, Types.NULL);
-                }
-
-                statement.setLong(3, item.getWeight());
-                statement.setBigDecimal(4, item.getAge());
-                statement.setBigDecimal(5, item.getCondition());
-
-                if (item.getNumberInComposition() != null) {
-                    statement.setLong(6, item.getNumberInComposition());
-                } else {
-                    statement.setNull(6, Types.NULL);
-                }
-
-                statement.setLong(7, item.getCurrentCargoWeight());
-                statement.setLong(8, item.getMaxCarrying());
-                statement.setString(9, getType().toString());
-                statement.execute();
-                return true;
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+        try (Connection c = getConnection()) {
+            if (!super.save(item)) {
+                delete(item.getId());
             }
-        return false;
+            PreparedStatement statement = c.prepareStatement("insert into " + getTable() + " (WAGON_ID, TRAIN_ID, WEIGHT, AGE, CONDITION, NUMBER_IN_COMPOSITION, CARGO_WEIGHT, MAX_CARRYING, WAGON_TYPE) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            statement.setString(1, item.getId().toString());
+
+            if (item.getTrainId() != null) {
+                statement.setString(2, item.getTrainId().toString());
+            } else {
+                statement.setNull(2, Types.NULL);
+            }
+
+            statement.setLong(3, item.getWeight());
+            statement.setBigDecimal(4, item.getAge());
+            statement.setBigDecimal(5, item.getCondition());
+
+            if (item.getNumberInComposition() != null) {
+                statement.setLong(6, item.getNumberInComposition());
+            } else {
+                statement.setNull(6, Types.NULL);
+            }
+
+            statement.setLong(7, item.getCurrentCargoWeight());
+            statement.setLong(8, item.getMaxCarrying());
+            statement.setString(9, getType().toString());
+            statement.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throw new SQLException("Ошибка записи в базу данных!", throwables);
+        }
     }
 
     @Override

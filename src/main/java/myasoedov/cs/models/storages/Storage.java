@@ -9,7 +9,7 @@ public interface Storage<T> {
 
     boolean save(T item) throws SQLException;
 
-    T get(UUID id);
+    T get(UUID id) throws SQLException;
 
-    boolean delete(UUID id);
+    boolean delete(UUID id) throws SQLException;
 }

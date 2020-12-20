@@ -34,8 +34,16 @@ public class OpeningWagonDBStorageTest extends TestCase {
     }
 
     public void testDelete() {
-        assertTrue(storage1.delete(wagon1.getId()));
-        assertTrue(storage.delete(wagon.getId()));
+        try {
+            assertTrue(storage1.delete(wagon1.getId()));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+            assertTrue(storage.delete(wagon.getId()));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void testGet() throws SQLException {

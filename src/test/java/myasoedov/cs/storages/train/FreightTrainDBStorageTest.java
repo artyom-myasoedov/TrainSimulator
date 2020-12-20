@@ -33,7 +33,11 @@ public class FreightTrainDBStorageTest extends TestCase {
     }
 
     public void testDelete() {
-        assertTrue(storage.delete(train.getId()));
+        try {
+            assertTrue(storage.delete(train.getId()));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void testGet() throws SQLException {

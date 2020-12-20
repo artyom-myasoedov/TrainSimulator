@@ -42,8 +42,7 @@ public abstract class WagonDBStorage<T extends Wagon> extends DBStorage<T> {
             rs.next();
             return rs.getInt(1) == 0;
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
+            throw new SQLException("Ошибка записи в базу данных!", throwables);
         }
     }
 

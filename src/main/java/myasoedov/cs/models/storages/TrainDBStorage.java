@@ -44,7 +44,7 @@ public abstract class TrainDBStorage<T extends Train> extends DBStorage<T> {
     }
 
     @Override
-    public boolean save(T item) {
+    public boolean save(T item) throws SQLException {
         try (Connection c = getConnection()) {
             ResultSet rs = c.prepareStatement("select count(*) from TRAINS where TRAIN_ID = '" + item.getId().toString() + "'").executeQuery();
             rs.next();
@@ -73,12 +73,11 @@ public abstract class TrainDBStorage<T extends Train> extends DBStorage<T> {
             });
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new SQLException("Ошибка записи в базу данных!", e);
         }
     }
 
-    public boolean delete(UUID id) {
+    public boolean delete(UUID id) throws SQLException {
         try (Connection c = getConnection()) {
             PreparedStatement statement = c.prepareStatement("select count(*) from TRAINS where TRAIN_ID = '" + id.toString() + "'");
             ResultSet rs = statement.executeQuery();
@@ -101,12 +100,11 @@ public abstract class TrainDBStorage<T extends Train> extends DBStorage<T> {
                 throw new IllegalStateException();
             }
         } catch (SQLException | RuntimeException throwables) {
-            throwables.printStackTrace();
-            return false;
+            throw new SQLException("Ошибка записи в базу данных!", throwables);
         }
     }
 
-    public DoubleContainer<List<Wagon>, List<Locomotive>> preGet(UUID id) {
+    public DoubleContainer<List<Wagon>, List<Locomotive>> preGet(UUID id) throws SQLException {
         DoubleContainer<List<Wagon>, List<Locomotive>> container = new DoubleContainer<>();
         container.setFirst(new ArrayList<>());
         container.setSecond(new ArrayList<>());
@@ -122,7 +120,7 @@ public abstract class TrainDBStorage<T extends Train> extends DBStorage<T> {
             }
             container.getSecond().sort(Comparator.comparing(Wagon::getNumberInComposition));
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            throw new SQLException("Ошибка записи в базу данных!", throwables);
         }
         return container;
     }

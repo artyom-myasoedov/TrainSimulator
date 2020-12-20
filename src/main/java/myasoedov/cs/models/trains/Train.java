@@ -109,7 +109,7 @@ public abstract class Train implements Storable {
 
     public void setCurrentSpeed(BigDecimal currentSpeed) {
         if (currentSpeed.compareTo(BigDecimal.valueOf(0)) < 0 || currentSpeed.compareTo(maxSpeed) > 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Недопустимая скорость!");
         }
         this.currentSpeed = currentSpeed;
     }
@@ -144,7 +144,7 @@ public abstract class Train implements Storable {
             wagon.setNumberInComposition((long) wagons.size());
             wagon.setTrainId(this.id);
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalStateException("Присоединению вагона с этой стороны мешают локомотивы!");
         }
     }
 
@@ -155,7 +155,7 @@ public abstract class Train implements Storable {
             setWagonsNumber();
             wagon.setTrainId(this.id);
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalStateException("Присоединению вагона с этой стороны мешают локомотивы!");
         }
     }
 
@@ -170,7 +170,7 @@ public abstract class Train implements Storable {
                 maxSpeed = locomotive.getMaxSpeed();
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalStateException("Достигнуто максимальное число локомотивов!");
         }
     }
 
@@ -183,7 +183,7 @@ public abstract class Train implements Storable {
             locomotive.setTrainId(null);
             return locomotive;
         } else
-            throw new NullPointerException();
+            throw new NullPointerException("Состав локомотивов пуст!");
     }
 
     public Locomotive getLocomotive(int index) {
@@ -198,7 +198,7 @@ public abstract class Train implements Storable {
             wagon.setTrainId(null);
             return wagon;
         } else {
-            throw new NullPointerException();
+            throw new NullPointerException("Поезд пуст!");
         }
     }
 
@@ -210,13 +210,13 @@ public abstract class Train implements Storable {
             wagon.setTrainId(null);
             return wagon;
         } else {
-            throw new NullPointerException();
+            throw new NullPointerException("Поезд пуст!");
         }
     }
 
     public void moveForward(double speed) {
             if (totalPower < getTotalWeight()) {
-                throw new IllegalArgumentException();
+                throw new IllegalStateException("Перегруз!");
             }
             setCurrentSpeed(BigDecimal.valueOf(speed));
             locomotives.forEach(Locomotive::moveForward);
@@ -226,7 +226,7 @@ public abstract class Train implements Storable {
     public void moveBehind(double speed) {
         if (locomotivesInTail || locomotivesInHead) {
             if (totalPower < getTotalWeight()) {
-                throw new IllegalArgumentException();
+                throw new IllegalStateException("Перегруз!");
             }
             setCurrentSpeed(BigDecimal.valueOf(speed));
             locomotives.forEach(Locomotive::moveBehind);

@@ -29,7 +29,11 @@ public class RefrigeratorWagonDBStorageTest extends TestCase {
     }
 
     public void testDelete() {
-        assertTrue(storage.delete(wagon.getId()));
+        try {
+            assertTrue(storage.delete(wagon.getId()));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void testGet() throws SQLException {

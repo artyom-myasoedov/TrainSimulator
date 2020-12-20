@@ -51,9 +51,7 @@ public abstract class LocomotiveDBStorage<T extends Locomotive> extends WagonDBS
                 statement.execute();
                 return true;
             } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        return false;
+                throw new SQLException("Ошибка записи в базу данных!", e);            }
     }
 
     public Map<AttributeType, Object> preGet(UUID id) {

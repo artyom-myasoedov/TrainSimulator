@@ -66,7 +66,7 @@ public abstract class Wagon implements Storable {
 
     public void setAge(BigDecimal age) {
         if (age.compareTo(BigDecimal.valueOf(0)) < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Недопустимый возраст вагона!");
         }
         this.age = age;
     }

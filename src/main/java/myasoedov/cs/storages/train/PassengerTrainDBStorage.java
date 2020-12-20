@@ -12,6 +12,7 @@ import myasoedov.cs.wagons.passengerWagons.RestaurantWagon;
 import myasoedov.cs.wagons.passengerWagons.SeatWagon;
 import myasoedov.cs.wagons.passengerWagons.SleepWagon;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -29,7 +30,7 @@ public class PassengerTrainDBStorage extends TrainDBStorage<PassengerTrain> {
     }
 
     @Override
-    public boolean save(PassengerTrain item) {
+    public boolean save(PassengerTrain item) throws SQLException {
         if (super.save(item)) {
            item.getWagons().forEach(wagon -> {
                 try {
@@ -53,7 +54,7 @@ public class PassengerTrainDBStorage extends TrainDBStorage<PassengerTrain> {
     }
 
     @Override
-    public PassengerTrain get(UUID id) {
+    public PassengerTrain get(UUID id) throws SQLException {
         DoubleContainer<List<Wagon>, List<Locomotive>> container = super.preGet(id);
         List<PassengerWagon> list = new ArrayList<>();
         container.getFirst().forEach(wagon -> list.add((PassengerWagon) wagon));

@@ -44,7 +44,7 @@ public class PassengerWagonDBStorageTest extends TestCase {
         assertTrue(storage4.save(wagon4));
     }
 
-    public void testDelete() {
+    public void testDelete() throws SQLException {
         assertTrue(storage1.delete(wagon1.getId()));
         assertTrue(storage2.delete(wagon2.getId()));
         assertTrue(storage3.delete(wagon3.getId()));

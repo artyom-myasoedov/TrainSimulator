@@ -26,7 +26,11 @@ public class ElectricLocomotiveDBStorageTest extends TestCase {
     }
 
     public void testDelete() {
-        assertTrue(storage.delete(locomotive.getId()));
+        try {
+            assertTrue(storage.delete(locomotive.getId()));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void testGet() throws SQLException {

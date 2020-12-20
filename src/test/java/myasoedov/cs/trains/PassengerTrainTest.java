@@ -44,7 +44,7 @@ public class PassengerTrainTest {
         assertEquals(train.getMoving(), Movings.FORWARD);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalStateException.class)
     public void testGetMovingException() {
         train.unhookLocomotive();
         for (int i = 0; i <100; i++) {
@@ -82,7 +82,7 @@ public class PassengerTrainTest {
         assertEquals(train.getLocomotivesSize(), 3);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalStateException.class)
     public void testAddLocomotiveException() {
         train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30), UUID.randomUUID()));
         train.addLocomotive(WagonFactory.createSteamLocomotive(BigDecimal.valueOf(2), BigDecimal.valueOf(90), BigDecimal.valueOf(30), UUID.randomUUID()));
@@ -95,7 +95,7 @@ public class PassengerTrainTest {
         assertEquals(train.getMoving(), Movings.FORWARD);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalStateException.class)
     public void testMoveForwardException() {
         train.unhookLocomotive();
         train.connectLocomotivesToTail();
@@ -112,7 +112,7 @@ public class PassengerTrainTest {
         assertEquals(train.getMoving(), Movings.BEHIND);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalStateException.class)
     public void testMoveBehindException() {
         train.unhookLocomotive();
         train.connectLocomotivesToTail();
