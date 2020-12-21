@@ -4,10 +4,11 @@ import myasoedov.cs.models.trains.Train;
 import myasoedov.cs.models.abstractWagons.FreightWagon;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-public class FreightTrain extends Train {
+public class FreightTrain extends Train implements Serializable {
     private int totalMaxCarrying;
     private int totalCurrentCargoWeight;
 

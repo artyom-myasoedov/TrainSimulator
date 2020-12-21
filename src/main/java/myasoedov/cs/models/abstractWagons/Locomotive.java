@@ -2,10 +2,11 @@ package myasoedov.cs.models.abstractWagons;
 
 import myasoedov.cs.wagons.locomotives.LocomotiveEngineConditions;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public abstract class Locomotive extends Wagon {
+public abstract class Locomotive extends Wagon implements Serializable {
     protected final int power;
     protected final BigDecimal maxSpeed;
     protected LocomotiveEngineConditions engine;

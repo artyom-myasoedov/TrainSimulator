@@ -5,11 +5,12 @@ import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.Storage;
 import myasoedov.cs.storages.wagons.locomotives.ElectricLocomotiveDBStorage;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class ElectricLocomotive extends Locomotive {
+public class ElectricLocomotive extends Locomotive implements Serializable {
 
     private LocomotiveEngineConditions powerGridConnection;
     private final static Storage<ElectricLocomotive> storage = new ElectricLocomotiveDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);

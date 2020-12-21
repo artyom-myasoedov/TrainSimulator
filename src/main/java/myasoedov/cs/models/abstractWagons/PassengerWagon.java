@@ -1,9 +1,10 @@
 package myasoedov.cs.models.abstractWagons;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public abstract class PassengerWagon extends Wagon {
+public abstract class PassengerWagon extends Wagon implements Serializable {
     protected final int numberOfSeats;
     protected int numberOfPassengers;
 

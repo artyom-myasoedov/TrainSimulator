@@ -1,10 +1,17 @@
 package myasoedov.cs;
 
-public class DoubleContainer<A, B> {
+import java.io.Serializable;
+
+public class DoubleContainer<A, B>  implements Serializable {
     private A first;
     private B second;
 
     public DoubleContainer() {
+    }
+
+    public DoubleContainer(A first, B second) {
+        this.first = first;
+        this.second = second;
     }
 
     public A getFirst() {

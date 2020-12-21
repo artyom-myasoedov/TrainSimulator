@@ -4,11 +4,12 @@ import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.Storage;
 import myasoedov.cs.storages.wagons.freight.CoveredWagonDBStorage;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class CoveredWagon extends OpeningWagon {
+public class CoveredWagon extends OpeningWagon implements Serializable {
     private final static Storage<CoveredWagon> storage = new CoveredWagonDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 
 

@@ -1,5 +1,7 @@
 package myasoedov.cs.storages.train;
 
-public enum TrainType {
+import java.io.Serializable;
+
+public enum TrainType implements Serializable {
     FREIGHT, PASSENGER
 }

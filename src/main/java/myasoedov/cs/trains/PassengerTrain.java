@@ -5,10 +5,11 @@ import myasoedov.cs.models.trains.Train;
 import myasoedov.cs.models.abstractWagons.Locomotive;
 import myasoedov.cs.models.abstractWagons.PassengerWagon;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-public class PassengerTrain extends Train {
+public class PassengerTrain extends Train implements Serializable {
     private int totalNumberOfSeats;
     private int totalNumberOfPassengers;
 

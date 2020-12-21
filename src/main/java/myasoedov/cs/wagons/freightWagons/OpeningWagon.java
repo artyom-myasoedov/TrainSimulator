@@ -2,10 +2,11 @@ package myasoedov.cs.wagons.freightWagons;
 
 import myasoedov.cs.wagons.locomotives.LocomotiveEngineConditions;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public abstract class OpeningWagon extends myasoedov.cs.models.abstractWagons.FreightWagon {
+public abstract class OpeningWagon extends myasoedov.cs.models.abstractWagons.FreightWagon implements Serializable {
     protected boolean isOpened;
 
     public OpeningWagon(int weight, BigDecimal age, BigDecimal condition, int maxCarrying, UUID id) {

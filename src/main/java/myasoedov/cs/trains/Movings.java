@@ -1,5 +1,7 @@
 package myasoedov.cs.trains;
 
-public enum Movings {
+import java.io.Serializable;
+
+public enum Movings implements Serializable {
     FORWARD, BEHIND, STOPPED
 }

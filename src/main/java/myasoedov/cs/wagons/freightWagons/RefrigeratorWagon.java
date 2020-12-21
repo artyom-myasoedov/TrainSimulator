@@ -4,11 +4,12 @@ import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.Storage;
 import myasoedov.cs.storages.wagons.freight.RefrigeratorWagonDBStorage;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class RefrigeratorWagon extends OpeningWagon {
+public class RefrigeratorWagon extends OpeningWagon implements Serializable {
     private BigDecimal currentTemperature;
     private final BigDecimal MAX_TEMPERATURE = new BigDecimal(Configs.WagonFillsProperties.getProperty("refrigeratorMaxTemp"));
     private final BigDecimal MIN_TEMPERATURE = new BigDecimal(Configs.WagonFillsProperties.getProperty("refrigeratorMinTemp"));

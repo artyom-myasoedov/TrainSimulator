@@ -4,11 +4,12 @@ package myasoedov.cs.models.abstractWagons;
 import myasoedov.cs.models.Storable;
 import myasoedov.cs.models.storages.Storage;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public abstract class Wagon implements Storable {
+public abstract class Wagon implements Storable, Serializable {
     protected final int weight;
     protected final UUID id;
     protected Long numberInComposition;

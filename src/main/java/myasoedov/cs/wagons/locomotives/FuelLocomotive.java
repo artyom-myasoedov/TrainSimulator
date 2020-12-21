@@ -2,10 +2,11 @@ package myasoedov.cs.wagons.locomotives;
 
 import myasoedov.cs.models.abstractWagons.Locomotive;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public abstract class FuelLocomotive extends Locomotive {
+public abstract class FuelLocomotive extends Locomotive implements Serializable {
     private BigDecimal volumeFuel;
     private final BigDecimal maxVolumeFuel;
     private final BigDecimal consumption;

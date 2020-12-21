@@ -1,5 +1,7 @@
 package myasoedov.cs.wagons.locomotives;
 
-public enum LocomotiveEngineConditions {
+import java.io.Serializable;
+
+public enum LocomotiveEngineConditions implements Serializable {
     ENABLED, DISABLED
 }

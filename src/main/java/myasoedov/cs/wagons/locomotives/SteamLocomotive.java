@@ -4,11 +4,12 @@ import myasoedov.cs.Configs;
 import myasoedov.cs.models.storages.Storage;
 import myasoedov.cs.storages.wagons.locomotives.SteamLocomotiveDBStorage;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class SteamLocomotive extends FuelLocomotive {
+public class SteamLocomotive extends FuelLocomotive implements Serializable {
 
     private final static Storage<SteamLocomotive> storage = new SteamLocomotiveDBStorage(Configs.JDBC_URL, Configs.USER_NAME, Configs.USER_PAROL);
 

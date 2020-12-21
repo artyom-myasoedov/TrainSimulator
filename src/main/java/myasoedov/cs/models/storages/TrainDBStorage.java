@@ -109,16 +109,24 @@ public abstract class TrainDBStorage<T extends Train> extends DBStorage<T> {
         container.setFirst(new ArrayList<>());
         container.setSecond(new ArrayList<>());
         try (Connection c = getConnection()) {
-            PreparedStatement statement = c.prepareStatement("select WAGON_ID, WAGON_TYPE from " + getTable() + " where TRAIN_ID = '" + id.toString() + "'");
+            PreparedStatement statement = c.prepareStatement("select TRAIN_TYPE from TRAINS where TRAIN_ID = '" + id.toString() + "'");
             ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                container.getFirst().add(storageEnumMap.get(Enum.valueOf(WagonType.class, rs.getString(2))).get(UUID.fromString(rs.getString(1))));
+            rs.next();
+            if (Enum.valueOf(TrainType.class, rs.getString(1)).equals(getType())) {
+                statement = c.prepareStatement("select WAGON_ID, WAGON_TYPE from " + getTable() + " where TRAIN_ID = '" + id.toString() + "'");
+                rs = statement.executeQuery();
+                while (rs.next()) {
+                    container.getFirst().add(storageEnumMap.get(Enum.valueOf(WagonType.class, rs.getString(2))).get(UUID.fromString(rs.getString(1))));
+                }
+                rs = c.prepareStatement("select WAGON_ID, WAGON_TYPE from LOCOMOTIVES where TRAIN_ID = '" + id.toString() + "'").executeQuery();
+                while (rs.next()) {
+                    container.getSecond().add((Locomotive) storageEnumMap.get(Enum.valueOf(WagonType.class, rs.getString(2))).get(UUID.fromString(rs.getString(1))));
+                }
+                container.getSecond().sort(Comparator.comparing(Wagon::getNumberInComposition));
+            } else {
+                throw new SQLException("Некорректный тип поезда");
             }
-            rs = c.prepareStatement("select WAGON_ID, WAGON_TYPE from LOCOMOTIVES where TRAIN_ID = '" + id.toString() + "'").executeQuery();
-            while (rs.next()) {
-                container.getSecond().add((Locomotive) storageEnumMap.get(Enum.valueOf(WagonType.class, rs.getString(2))).get(UUID.fromString(rs.getString(1))));
-            }
-            container.getSecond().sort(Comparator.comparing(Wagon::getNumberInComposition));
+
         } catch (SQLException throwables) {
             throw new SQLException("Ошибка записи в базу данных!", throwables);
         }

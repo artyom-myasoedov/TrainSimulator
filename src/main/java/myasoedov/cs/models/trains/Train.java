@@ -5,10 +5,11 @@ import myasoedov.cs.models.abstractWagons.Locomotive;
 import myasoedov.cs.models.abstractWagons.Wagon;
 import myasoedov.cs.trains.Movings;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
 
-public abstract class Train implements Storable {
+public abstract class Train implements Storable, Serializable {
     protected LinkedList<Wagon> wagons;
     private final LinkedList<Locomotive> locomotives;
     protected final UUID id;
