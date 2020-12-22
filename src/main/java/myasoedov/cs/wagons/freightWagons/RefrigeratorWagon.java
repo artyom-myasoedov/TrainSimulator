@@ -7,6 +7,7 @@ import myasoedov.cs.storages.wagons.freight.RefrigeratorWagonDBStorage;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.UUID;
 
 public class RefrigeratorWagon extends OpeningWagon implements Serializable {
@@ -49,14 +50,16 @@ public class RefrigeratorWagon extends OpeningWagon implements Serializable {
     }
 
     @Override
-    public void loadCargo(int weight) {
-        super.loadCargo(weight);
-        System.out.println("Cargo is loaded to refrigerator wagon");
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        RefrigeratorWagon that = (RefrigeratorWagon) o;
+        return Objects.equals(currentTemperature, that.currentTemperature) && Objects.equals(MAX_TEMPERATURE, that.MAX_TEMPERATURE) && Objects.equals(MIN_TEMPERATURE, that.MIN_TEMPERATURE);
     }
 
     @Override
-    public void unloadCargo() {
-        super.unloadCargo();
-        System.out.println("Cargo is unloaded from refrigerator wagon");
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), currentTemperature, MAX_TEMPERATURE, MIN_TEMPERATURE);
     }
 }

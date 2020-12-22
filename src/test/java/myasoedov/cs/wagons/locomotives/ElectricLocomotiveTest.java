@@ -33,7 +33,7 @@ public class ElectricLocomotiveTest {
         assertTrue(locomotive.isEngineWork());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalStateException.class)
     public void testStartEngineException() {
         locomotive.startEngine();
     }

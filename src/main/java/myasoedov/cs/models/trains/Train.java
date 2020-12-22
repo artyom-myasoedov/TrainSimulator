@@ -281,4 +281,17 @@ public abstract class Train implements Storable, Serializable {
             locomotive.setTrainId(getId());
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Train train = (Train) o;
+        return totalPower == train.totalPower && totalWagonsWeight == train.totalWagonsWeight && locomotivesInHead == train.locomotivesInHead && locomotivesInTail == train.locomotivesInTail && Objects.equals(wagons, train.wagons) && Objects.equals(locomotives, train.locomotives) && id.equals(train.id) && moving == train.moving && Objects.equals(maxSpeed, train.maxSpeed) && Objects.equals(currentSpeed, train.currentSpeed);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(wagons, locomotives, id, totalPower, moving, totalWagonsWeight, locomotivesInHead, locomotivesInTail, maxSpeed, currentSpeed);
+    }
 }

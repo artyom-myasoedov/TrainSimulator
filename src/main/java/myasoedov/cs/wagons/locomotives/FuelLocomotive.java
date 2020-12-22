@@ -4,6 +4,7 @@ import myasoedov.cs.models.abstractWagons.Locomotive;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class FuelLocomotive extends Locomotive implements Serializable {
@@ -73,5 +74,19 @@ public abstract class FuelLocomotive extends Locomotive implements Serializable 
 
     private boolean checkEnoughFuel() {
         return volumeFuel.compareTo(consumption) >= 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        FuelLocomotive that = (FuelLocomotive) o;
+        return Objects.equals(volumeFuel, that.volumeFuel) && Objects.equals(maxVolumeFuel, that.maxVolumeFuel) && Objects.equals(consumption, that.consumption);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), volumeFuel, maxVolumeFuel, consumption);
     }
 }

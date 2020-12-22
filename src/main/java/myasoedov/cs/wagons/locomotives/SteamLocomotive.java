@@ -25,4 +25,5 @@ public class SteamLocomotive extends FuelLocomotive implements Serializable {
         storage.save(wagon);
         return wagon;
     }
+
 }

@@ -6,6 +6,7 @@ import myasoedov.cs.models.abstractWagons.Locomotive;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class FreightTrain extends Train implements Serializable {
@@ -80,5 +81,19 @@ public class FreightTrain extends Train implements Serializable {
 
     private void countTotalCurrentCargoWeight() {
         totalCurrentCargoWeight = wagons.stream().reduce(0, (x, y) -> x + ((FreightWagon) y).getCurrentCargoWeight(), Integer::sum);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        FreightTrain that = (FreightTrain) o;
+        return totalMaxCarrying == that.totalMaxCarrying && totalCurrentCargoWeight == that.totalCurrentCargoWeight;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), totalMaxCarrying, totalCurrentCargoWeight);
     }
 }

@@ -7,6 +7,7 @@ import myasoedov.cs.models.storages.Storage;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Wagon implements Storable, Serializable {
@@ -86,4 +87,19 @@ public abstract class Wagon implements Storable, Serializable {
     public void fullRepair() {
         condition = BigDecimal.valueOf(100);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Wagon wagon = (Wagon) o;
+        return weight == wagon.weight && id.equals(wagon.id) && Objects.equals(numberInComposition, wagon.numberInComposition) && storage.equals(wagon.storage) && Objects.equals(trainId, wagon.trainId) && age.equals(wagon.age) && condition.equals(wagon.condition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(weight, id, numberInComposition, storage, trainId, age, condition);
+    }
 }
+
+

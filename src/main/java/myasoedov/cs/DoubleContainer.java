@@ -1,6 +1,7 @@
 package myasoedov.cs;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class DoubleContainer<A, B>  implements Serializable {
     private A first;
@@ -28,5 +29,18 @@ public class DoubleContainer<A, B>  implements Serializable {
 
     public void setSecond(B second) {
         this.second = second;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DoubleContainer<?, ?> that = (DoubleContainer<?, ?>) o;
+        return Objects.equals(first, that.first) && Objects.equals(second, that.second);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(first, second);
     }
 }

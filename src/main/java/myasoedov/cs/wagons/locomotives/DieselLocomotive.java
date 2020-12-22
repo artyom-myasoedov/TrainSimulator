@@ -25,4 +25,5 @@ public class DieselLocomotive extends FuelLocomotive implements Serializable {
         storage.save(wagon);
         return wagon;
     }
+
 }

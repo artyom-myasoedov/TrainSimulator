@@ -7,6 +7,7 @@ import myasoedov.cs.models.abstractWagons.PassengerWagon;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PassengerTrain extends Train implements Serializable {
@@ -79,5 +80,19 @@ public class PassengerTrain extends Train implements Serializable {
 
     private void countTotalNumberOfPassengers() {
         totalNumberOfPassengers = wagons.stream().reduce(0, (x, y) -> x + ((PassengerWagon) y).getNumberOfPassengers(), Integer::sum);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PassengerTrain that = (PassengerTrain) o;
+        return totalNumberOfSeats == that.totalNumberOfSeats && totalNumberOfPassengers == that.totalNumberOfPassengers;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), totalNumberOfSeats, totalNumberOfPassengers);
     }
 }

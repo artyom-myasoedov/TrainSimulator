@@ -24,13 +24,4 @@ public class TankWagon extends OpeningWagon implements Serializable {
         return wagon;
     }
 
-    @Override
-    public void loadCargo(int weight) {
-        super.loadCargo(weight);
-    }
-
-    @Override
-    public void unloadCargo() {
-        super.unloadCargo();
-    }
 }

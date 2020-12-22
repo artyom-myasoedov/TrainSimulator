@@ -23,15 +23,4 @@ public class PlatformWagon extends myasoedov.cs.models.abstractWagons.FreightWag
         return wagon;
     }
 
-    @Override
-    public void loadCargo(int weight) {
-        super.loadCargo(weight);
-        System.out.println("Cargo is loaded to platform wagon");
-    }
-
-    @Override
-    public void unloadCargo() {
-        super.unloadCargo();
-        System.out.println("Cargo is unloaded from platform wagon");
-    }
 }

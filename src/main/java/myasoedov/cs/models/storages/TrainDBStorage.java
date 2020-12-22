@@ -124,7 +124,7 @@ public abstract class TrainDBStorage<T extends Train> extends DBStorage<T> {
                 }
                 container.getSecond().sort(Comparator.comparing(Wagon::getNumberInComposition));
             } else {
-                throw new SQLException("Некорректный тип поезда");
+                throw new SQLException("Некорректный тип извлекаемого поезда");
             }
 
         } catch (SQLException throwables) {

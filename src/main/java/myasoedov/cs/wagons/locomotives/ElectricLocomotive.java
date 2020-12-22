@@ -8,6 +8,7 @@ import myasoedov.cs.storages.wagons.locomotives.ElectricLocomotiveDBStorage;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ElectricLocomotive extends Locomotive implements Serializable {
@@ -39,16 +40,23 @@ public class ElectricLocomotive extends Locomotive implements Serializable {
     @Override
     public void startEngine() {
         if (powerGridConnection == LocomotiveEngineConditions.ENABLED) {
-            System.out.println("Start electric engine");
             engine = LocomotiveEngineConditions.ENABLED;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalStateException();
         }
     }
 
     @Override
-    public void stopEngine() {
-        super.stopEngine();
-        System.out.println("Stop electric engine");
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ElectricLocomotive that = (ElectricLocomotive) o;
+        return powerGridConnection == that.powerGridConnection;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), powerGridConnection);
     }
 }
